@@ -1,4 +1,4 @@
-![OpenAPI Logo](http://ar-logistics-hk-prod.oss-cn-hongkong.aliyuncs.com/logistics-parent/openapi/DJYClogo.png) GIGALogistics OpenAPI Definition
+![OpenAPI Logo](http://ar-logistics-hk-prod.oss-cn-hongkong.aliyuncs.com/logistics-parent/openapi/DJYClogo.png?x-oss-process=image/resize,p_8) GIGALogistics OpenAPI Definition
 ==============================================
 
 This repo contains the official [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md) definitions for the [GIGALogistics API](https://heyoushan66.github.io/onepiece).  You can use these definitions with any of countless [OpenAPI tools](https://openapi.tools/) to generate sample code, tests, mock servers, etc.
