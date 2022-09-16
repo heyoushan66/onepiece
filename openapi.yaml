@@ -53,8 +53,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CarrierResp'
-        '400':
-          $ref: '#/components/responses/Problem'
+        '401':
+          description: Unauthorized
   /carrier/v1/{carrierId}:
     get:
       tags:
@@ -81,8 +81,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Carrier'
-        '400':
-          $ref: '#/components/responses/Problem'
+        '401':
+          description: Unauthorized
   /carrier/v1/{carrierId}/options:
     get:
       tags:
@@ -112,8 +112,8 @@ paths:
                 description: AN array of carrier options
                 items:
                   $ref: '#/components/schemas/Option'
-        '400':
-          $ref: '#/components/responses/Problem'
+        '401':
+          description: Unauthorized
   /carrier/v1/{carrierId}/packages:
     get:
       tags:
@@ -143,8 +143,8 @@ paths:
                 description: AN array of carrier options
                 items:
                   $ref: '#/components/schemas/Package'
-        '400':
-          $ref: '#/components/responses/Problem'
+        '401':
+          description: Unauthorized
   /carrier/v1/{carrierId}/services:
     get:
       tags:
@@ -174,8 +174,8 @@ paths:
                 description: AN array of carrier options
                 items:
                   $ref: '#/components/schemas/Service'
-        '400':
-          $ref: '#/components/responses/Problem'
+        '401':
+          description: Unauthorized
   /shipment/v1:
     post:
       tags:
@@ -454,7 +454,6 @@ components:
         description:
           description: Provides a helpful description for the custom package.
           type: string
-          x-nullable: true
           example: remark
       required:
         - packageCode
@@ -539,17 +538,20 @@ components:
           description: A list of services that are offered by the carrier
           type: array
           items:
-            $ref: '#/components/schemas/Service'
+            allOf:
+              - $ref: '#/components/schemas/Service'
         packages:
           description: A list of package types that are supported by the carrier
           type: array
           items:
-            $ref: '#/components/schemas/Package'
+            allOf:
+              - $ref: '#/components/schemas/Package'
         options:
           description: A list of options that are available to that carrier
           type: array
           items:
-            $ref: '#/components/schemas/Option'
+            allOf:
+              - $ref: '#/components/schemas/Option'
     CarrierError:
       type: object
       properties:
@@ -573,7 +575,8 @@ components:
           description: The carrier response body
           type: array
           items:
-            $ref: '#/components/schemas/Carrier'
+            allOf:
+              - $ref: '#/components/schemas/Carrier'
         requestId:
           description: >-
             A UUID that uniquely identifies the request id. This can be given to
@@ -585,49 +588,12 @@ components:
           description: The errors associated with the failed API call
           type: array
           items:
-            $ref: '#/components/schemas/CarrierError'
+            allOf:
+              - $ref: '#/components/schemas/CarrierError'
       required:
         - carriers
         - requestId
         - errors
-    Problem:
-      type: object
-      additionalProperties: true
-      minProperties: 1
-      description: >-
-        The Problem Details JSON Object
-        [[RFC7807](https://tools.ietf.org/html/rfc7807)].
-      properties:
-        type:
-          type: string
-          description: >-
-            A URI reference [[RFC3986](https://tools.ietf.org/html/rfc3986)]
-            that identifies the problem type. It should provide human-readable
-            documentation for the problem type. When this member is not present,
-            its value is assumed to be "about:blank".
-          format: uri
-        title:
-          type: string
-          description: >-
-            A short, human-readable summary of the problem type. It SHOULD NOT
-            change from occurrence to occurrence of the problem, except for
-            purposes of localization.
-        status:
-          type: integer
-          description: The HTTP status code.
-          minimum: 400
-          maximum: 599
-        detail:
-          type: string
-          description: >-
-            A human-readable explanation specific to this occurrence of the
-            problem.
-        instance:
-          type: string
-          description: >-
-            A URI reference that identifies the specific occurrence of the
-            problem.  It may or may not yield further information if
-            dereferenced.
     contact:
       type: object
       properties:
@@ -1345,7 +1311,6 @@ components:
         - success
     CustomerAddress:
       type: object
-      title: customer address info
       description: customer address info
       properties:
         id:
@@ -1471,13 +1436,13 @@ components:
           maxLength: 25
           example: CA1
         originAddress:
-          type: object
           description: The origin address of the warehouse
-          $ref: '#/components/schemas/CustomerAddress'
+          allOf:
+            - $ref: '#/components/schemas/CustomerAddress'
         returnAddress:
-          type: object
           description: The return address associated with the warehouse
-          $ref: '#/components/schemas/CustomerAddress'
+          allOf:
+            - $ref: '#/components/schemas/CustomerAddress'
       required:
         - id
         - name
@@ -1512,17 +1477,55 @@ components:
           maxLength: 25
           example: CA1
         originAddress:
-          type: object
           description: The origin address of the warehouse
-          $ref: '#/components/schemas/CustomerAddress'
+          allOf:
+            - $ref: '#/components/schemas/CustomerAddress'
         returnAddress:
-          type: object
           description: The return address associated with the warehouse
-          $ref: '#/components/schemas/CustomerAddress'
+          allOf:
+            - $ref: '#/components/schemas/CustomerAddress'
       required:
         - id
         - name
         - type
+    Problem:
+      type: object
+      additionalProperties: true
+      minProperties: 1
+      description: >-
+        The Problem Details JSON Object
+        [[RFC7807](https://tools.ietf.org/html/rfc7807)].
+      properties:
+        type:
+          type: string
+          description: >-
+            A URI reference [[RFC3986](https://tools.ietf.org/html/rfc3986)]
+            that identifies the problem type. It should provide human-readable
+            documentation for the problem type. When this member is not present,
+            its value is assumed to be "about:blank".
+          format: uri
+        title:
+          type: string
+          description: >-
+            A short, human-readable summary of the problem type. It SHOULD NOT
+            change from occurrence to occurrence of the problem, except for
+            purposes of localization.
+        status:
+          type: integer
+          description: The HTTP status code.
+          minimum: 400
+          maximum: 599
+        detail:
+          type: string
+          description: >-
+            A human-readable explanation specific to this occurrence of the
+            problem.
+        instance:
+          type: string
+          description: >-
+            A URI reference that identifies the specific occurrence of the
+            problem.  It may or may not yield further information if
+            dereferenced.
   responses:
     Problem:
       description: Problem
