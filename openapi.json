@@ -134,6 +134,70 @@
         }
       }
     },
+    "/carrier/v1/{carrierId}/add_funds": {
+      "put": {
+        "tags": [
+          "Carriers"
+        ],
+        "summary": "Add Funds To Carrier",
+        "description": "Add Funds To Carrier",
+        "operationId": "addFunds",
+        "security": [
+          {
+            "api_key": []
+          },
+          {
+            "basic_auth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "carrierId",
+            "in": "path",
+            "description": "Carrier ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 25
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/balance"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "balance": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/balance"
+                        }
+                      ],
+                      "description": "The current balance of the account"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/carrier/v1/{carrierId}/options": {
       "get": {
         "tags": [
@@ -324,20 +388,10 @@
               }
             }
           },
-          "400": {
+          "401": {
             "description": "Unauthorized"
           }
-        },
-        "x-codeSamples": [
-          {
-            "lang": "C#",
-            "source": "API.v1.Echo echo = new API.v1.Echo();\r\necho.message = \"Hello World!\");\r\nEchoResponse response = echo.post();\r\nif (response.statusCode == HttpStatusCode.Created)\r\n{\r\n  // Success\r\n}\r\nelse\r\n{\r\n  // Something wrong -- check response for errors\r\n  Console.WriteLine(response.getRawResponse());\r\n}\r\n"
-          },
-          {
-            "lang": "PHP",
-            "source": "$form = new \\API\\Entities\\Echo();\r\n$form->setMessage(\"Hello World!\");\r\ntry {\r\n    $pet = $client->echo()->post($form);\r\n} catch (UnprocessableEntityException $e) {\r\n    var_dump($e->getErrors());\r\n}\r\n"
-          }
-        ]
+        }
       }
     },
     "/warehouse/v1": {
@@ -375,20 +429,10 @@
               }
             }
           },
-          "400": {
+          "401": {
             "description": "Unauthorized"
           }
-        },
-        "x-codeSamples": [
-          {
-            "lang": "C#",
-            "source": "API.v1.Echo echo = new API.v1.Echo();\r\necho.message = \"Hello World!\");\r\nEchoResponse response = echo.post();\r\nif (response.statusCode == HttpStatusCode.Created)\r\n{\r\n  // Success\r\n}\r\nelse\r\n{\r\n  // Something wrong -- check response for errors\r\n  Console.WriteLine(response.getRawResponse());\r\n}\r\n"
-          },
-          {
-            "lang": "PHP",
-            "source": "$form = new \\API\\Entities\\Echo();\r\n$form->setMessage(\"Hello World!\");\r\ntry {\r\n    $pet = $client->echo()->post($form);\r\n} catch (UnprocessableEntityException $e) {\r\n    var_dump($e->getErrors());\r\n}\r\n"
-          }
-        ]
+        }
       },
       "post": {
         "tags": [
@@ -435,20 +479,10 @@
               }
             }
           },
-          "400": {
+          "401": {
             "description": "Unauthorized"
           }
-        },
-        "x-codeSamples": [
-          {
-            "lang": "C#",
-            "source": "API.v1.Echo echo = new API.v1.Echo();\r\necho.message = \"Hello World!\");\r\nEchoResponse response = echo.post();\r\nif (response.statusCode == HttpStatusCode.Created)\r\n{\r\n  // Success\r\n}\r\nelse\r\n{\r\n  // Something wrong -- check response for errors\r\n  Console.WriteLine(response.getRawResponse());\r\n}\r\n"
-          },
-          {
-            "lang": "PHP",
-            "source": "$form = new \\API\\Entities\\Echo();\r\n$form->setMessage(\"Hello World!\");\r\ntry {\r\n    $pet = $client->echo()->post($form);\r\n} catch (UnprocessableEntityException $e) {\r\n    var_dump($e->getErrors());\r\n}\r\n"
-          }
-        ]
+        }
       }
     },
     "/warehouse/v1/{warehouseId}": {
@@ -580,9 +614,8 @@
               }
             }
           },
-          "403": {
-            "description": "Forbidden",
-            "$ref": "#/components/responses/Problem"
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "User not found",
@@ -663,6 +696,47 @@
           }
         }
       },
+      "CarrierDimensions": {
+        "type": "object",
+        "properties": {
+          "unit": {
+            "description": "The dimension units that are supported by GigaLogistics.",
+            "type": "string",
+            "enum": [
+              "CM",
+              "IN"
+            ],
+            "example": "CM"
+          },
+          "length": {
+            "description": "The length of the package, in the specified unit",
+            "type": "number",
+            "format": "double",
+            "minLength": 0,
+            "example": 0
+          },
+          "width": {
+            "description": "The width of the package, in the specified unit",
+            "type": "number",
+            "format": "double",
+            "minLength": 0,
+            "example": 0
+          },
+          "height": {
+            "description": "The length of the package, in the specified unit",
+            "type": "number",
+            "format": "double",
+            "minLength": 0,
+            "example": 0
+          }
+        },
+        "required": [
+          "unit",
+          "length",
+          "width",
+          "height"
+        ]
+      },
       "Package": {
         "type": "object",
         "properties": {
@@ -687,7 +761,7 @@
           },
           "dimensions": {
             "description": "An error message associated with the failed API call",
-            "type": "string"
+            "$ref": "#/components/schemas/CarrierDimensions"
           },
           "description": {
             "description": "Provides a helpful description for the custom package.",
@@ -884,6 +958,35 @@
           "errors"
         ]
       },
+      "balance": {
+        "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string",
+            "enum": [
+              "usd",
+              "cad",
+              "aud",
+              "gbp",
+              "eur",
+              "nzd"
+            ],
+            "description": "The currencies that are supported by ShipEngine.\n\n | Currency Code\t | Description    \n |----------------|-----------------\n |`usd`           | United States Dollar  \n  |`cad`           | Canadian Dollar       \n |`aud`           | Australian Dollar     \n |`gbp`           | Great British Pound   \n |`eur`           | Euro                  \n |`nzd`           | New Zealand Dollar    \n",
+            "example": "aud"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "maxLength": 0,
+            "description": "The monetary amount, in the specified currency.",
+            "example": 0
+          }
+        },
+        "required": [
+          "currency",
+          "amount"
+        ]
+      },
       "contact": {
         "type": "object",
         "properties": {
@@ -998,6 +1101,7 @@
         ]
       },
       "recipient": {
+        "type": "object",
         "properties": {
           "contact": {
             "description": "This is detailed information on physical location.",
@@ -1006,6 +1110,58 @@
           "address": {
             "description": "Indicate the contact details for this shipment.",
             "$ref": "#/components/schemas/address"
+          }
+        },
+        "required": [
+          "contact",
+          "address"
+        ]
+      },
+      "payor": {
+        "type": "object",
+        "properties": {
+          "contact": {
+            "description": "This is detailed information on physical location.",
+            "$ref": "#/components/schemas/contact"
+          },
+          "address": {
+            "description": "Indicate the contact details for this shipment.",
+            "$ref": "#/components/schemas/address"
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "This field is used to bill shipping costs to a third party."
+          }
+        },
+        "required": [
+          "accountNumber"
+        ]
+      },
+      "payment_options": {
+        "type": "object",
+        "properties": {
+          "paymentType": {
+            "type": "string",
+            "enum": [
+              "SENDER",
+              "RECIPIENT",
+              "THIRD_PARTY",
+              "COLLECT"
+            ],
+            "description": "Specifies the payment Type.\n\n > note: The payment type `COLLECT` is applicable only for FedEx Ground shipments.",
+            "externalDocs": {
+              "url": "http://example.com",
+              "description": "Find more info here"
+            }
+          },
+          "payor": {
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/payor"
+              }
+            ],
+            "description": "Payor is mandatory when the paymentType is `RECIPIENT`, `THIRD_PARTY` or `COLLECT`."
           }
         },
         "required": [
@@ -1546,6 +1702,51 @@
           "dimensions"
         ]
       },
+      "tax_indentifiers": {
+        "type": "object",
+        "title": "",
+        "additionalProperties": false,
+        "properties": {
+          "taxableEntityType": {
+            "title": "taxable_entity_type",
+            "type": "string",
+            "enum": [
+              "shipper",
+              "recipient"
+            ],
+            "description": "The taxable entity type for this tax item. Valid values include the following.\n\n | Value     | Description \n |---------|----------------\n |`shipper`  |  The shipper is responsible for this tax.    \n  |`recipient`  | The recipient of the shipment is responsible for this tax.\n"
+          },
+          "identifierType": {
+            "title": "identifier_type",
+            "type": "string",
+            "enum": [
+              "vat",
+              "eori",
+              "ssn",
+              "ein",
+              "tin",
+              "ioss",
+              "pan",
+              "voec"
+            ],
+            "description": "The carrier service used to ship the package.\n\n |Identifier Type     | Service Name \n |---------|----------------\n |`vat`  |  The tax identifier is a Value Added Tax.\n  |`eori`  | The tax identifier is an Economic Operators Registration and Identification Number (EORI).\n |`ssn`  | The tax identifier is a Social Security Number.\n |`ein` | The tax identifier is an Employer Identification Number (EIN).\n |`tin` | The tax identifier is a Tax Identification Number (TIN).\n |`ioss`    | The tax identifier is an Import One-Stop Shop (IOSS).  \n |`pan`  | The tax identifier is a Permanent Account Number (PAN).\n |`voec`  | The tax identifier is a Norwegian VAT On E-Commerce(VOEC).\n"
+          },
+          "issuingAuthority": {
+            "type": "string",
+            "description": "The authority that issued this tax. This must be a valid 2 character ISO 3166 Alpha 2 country code."
+          },
+          "value": {
+            "type": "string",
+            "description": "The value of the identifier"
+          }
+        },
+        "required": [
+          "taxableEntityType",
+          "identifierType",
+          "issuing_authority",
+          "value"
+        ]
+      },
       "create_shipments_request_body": {
         "type": "object",
         "properties": {
@@ -1576,13 +1777,20 @@
                 "$ref": "#/components/schemas/shipper"
               }
             ],
-            "description": "The shipment's origin address. If you frequently ship from the same location, consider creating a warehouse. Then you can simply specify the `warehouse_id` rather than the complete address each time.\n\n > **Note:** Either `warehouse_id` or `ship_from` must be specified."
+            "description": "The shipment's origin address. If you frequently ship from the same  , consider creating a warehouse. Then you can simply specify the `warehouse_id` rather than the complete address each time.\n\n > **Note:** Either `warehouse_id` or `ship_from` must be specified."
           },
           "recipient": {
             "description": "The recipient's mailing address",
             "allOf": [
               {
                 "$ref": "#/components/schemas/recipient"
+              }
+            ]
+          },
+          "paymentOptions": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/payment_options"
               }
             ]
           },
@@ -1645,6 +1853,17 @@
               "allOf": [
                 {
                   "$ref": "#/components/schemas/ItemLine"
+                }
+              ]
+            }
+          },
+          "taxIndentifiers": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/tax_indentifiers"
                 }
               ]
             }

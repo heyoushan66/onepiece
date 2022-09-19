@@ -83,6 +83,43 @@ paths:
                 $ref: '#/components/schemas/Carrier'
         '401':
           description: Unauthorized
+  /carrier/v1/{carrierId}/add_funds:
+    put:
+      tags:
+        - Carriers
+      summary: Add Funds To Carrier
+      description: Add Funds To Carrier
+      operationId: addFunds
+      security:
+        - api_key: []
+        - basic_auth: []
+      parameters:
+        - name: carrierId
+          in: path
+          description: Carrier ID
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 25
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/balance'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  balance:
+                    allOf:
+                      - $ref: '#/components/schemas/balance'
+                    description: The current balance of the account
+        '401':
+          description: Unauthorized
   /carrier/v1/{carrierId}/options:
     get:
       tags:
@@ -204,13 +241,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResp'
-        '400':
+        '401':
           description: Unauthorized
-      x-codeSamples:
-        - lang: C#
-          source: "API.v1.Echo echo = new API.v1.Echo();\r\necho.message = \"Hello World!\");\r\nEchoResponse response = echo.post();\r\nif (response.statusCode == HttpStatusCode.Created)\r\n{\r\n  // Success\r\n}\r\nelse\r\n{\r\n  // Something wrong -- check response for errors\r\n  Console.WriteLine(response.getRawResponse());\r\n}\r\n"
-        - lang: PHP
-          source: "$form = new \\API\\Entities\\Echo();\r\n$form->setMessage(\"Hello World!\");\r\ntry {\r\n    $pet = $client->echo()->post($form);\r\n} catch (UnprocessableEntityException $e) {\r\n    var_dump($e->getErrors());\r\n}\r\n"
   /warehouse/v1:
     get:
       tags:
@@ -235,13 +267,8 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Warehouse'
-        '400':
+        '401':
           description: Unauthorized
-      x-codeSamples:
-        - lang: C#
-          source: "API.v1.Echo echo = new API.v1.Echo();\r\necho.message = \"Hello World!\");\r\nEchoResponse response = echo.post();\r\nif (response.statusCode == HttpStatusCode.Created)\r\n{\r\n  // Success\r\n}\r\nelse\r\n{\r\n  // Something wrong -- check response for errors\r\n  Console.WriteLine(response.getRawResponse());\r\n}\r\n"
-        - lang: PHP
-          source: "$form = new \\API\\Entities\\Echo();\r\n$form->setMessage(\"Hello World!\");\r\ntry {\r\n    $pet = $client->echo()->post($form);\r\n} catch (UnprocessableEntityException $e) {\r\n    var_dump($e->getErrors());\r\n}\r\n"
     post:
       tags:
         - Warehouses
@@ -276,13 +303,8 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Warehouse'
-        '400':
+        '401':
           description: Unauthorized
-      x-codeSamples:
-        - lang: C#
-          source: "API.v1.Echo echo = new API.v1.Echo();\r\necho.message = \"Hello World!\");\r\nEchoResponse response = echo.post();\r\nif (response.statusCode == HttpStatusCode.Created)\r\n{\r\n  // Success\r\n}\r\nelse\r\n{\r\n  // Something wrong -- check response for errors\r\n  Console.WriteLine(response.getRawResponse());\r\n}\r\n"
-        - lang: PHP
-          source: "$form = new \\API\\Entities\\Echo();\r\n$form->setMessage(\"Hello World!\");\r\ntry {\r\n    $pet = $client->echo()->post($form);\r\n} catch (UnprocessableEntityException $e) {\r\n    var_dump($e->getErrors());\r\n}\r\n"
   /warehouse/v1/{warehouseId}:
     parameters:
       - name: warehouseId
@@ -366,9 +388,8 @@ paths:
             application/json:
               schema:
                 type: boolean
-        '403':
-          description: Forbidden
-          $ref: '#/components/responses/Problem'
+        '401':
+          description: Unauthorized
         '404':
           description: User not found
           $ref: '#/components/responses/Problem'
@@ -429,6 +450,39 @@ components:
           description: Carrier supports multiple packages per shipment
           type: boolean
           example: false
+    CarrierDimensions:
+      type: object
+      properties:
+        unit:
+          description: The dimension units that are supported by GigaLogistics.
+          type: string
+          enum:
+            - CM
+            - IN
+          example: CM
+        length:
+          description: The length of the package, in the specified unit
+          type: number
+          format: double
+          minLength: 0
+          example: 0
+        width:
+          description: The width of the package, in the specified unit
+          type: number
+          format: double
+          minLength: 0
+          example: 0
+        height:
+          description: The length of the package, in the specified unit
+          type: number
+          format: double
+          minLength: 0
+          example: 0
+      required:
+        - unit
+        - length
+        - width
+        - height
     Package:
       type: object
       properties:
@@ -450,7 +504,7 @@ components:
           example: test
         dimensions:
           description: An error message associated with the failed API call
-          type: string
+          $ref: '#/components/schemas/CarrierDimensions'
         description:
           description: Provides a helpful description for the custom package.
           type: string
@@ -594,6 +648,29 @@ components:
         - carriers
         - requestId
         - errors
+    balance:
+      type: object
+      properties:
+        currency:
+          type: string
+          enum:
+            - usd
+            - cad
+            - aud
+            - gbp
+            - eur
+            - nzd
+          description: "The currencies that are supported by ShipEngine.\n\n | Currency Code\t | Description    \n |----------------|-----------------\n |`usd`           | United States Dollar  \n  |`cad`           | Canadian Dollar       \n |`aud`           | Australian Dollar     \n |`gbp`           | Great British Pound   \n |`eur`           | Euro                  \n |`nzd`           | New Zealand Dollar    \n"
+          example: aud
+        amount:
+          type: number
+          format: double
+          maxLength: 0
+          description: The monetary amount, in the specified currency.
+          example: 0
+      required:
+        - currency
+        - amount
     contact:
       type: object
       properties:
@@ -691,6 +768,7 @@ components:
         - contact
         - address
     recipient:
+      type: object
       properties:
         contact:
           description: This is detailed information on physical location.
@@ -698,6 +776,47 @@ components:
         address:
           description: Indicate the contact details for this shipment.
           $ref: '#/components/schemas/address'
+      required:
+        - contact
+        - address
+    payor:
+      type: object
+      properties:
+        contact:
+          description: This is detailed information on physical location.
+          $ref: '#/components/schemas/contact'
+        address:
+          description: Indicate the contact details for this shipment.
+          $ref: '#/components/schemas/address'
+        accountNumber:
+          type: string
+          description: This field is used to bill shipping costs to a third party.
+      required:
+        - accountNumber
+    payment_options:
+      type: object
+      properties:
+        paymentType:
+          type: string
+          enum:
+            - SENDER
+            - RECIPIENT
+            - THIRD_PARTY
+            - COLLECT
+          description: |-
+            Specifies the payment Type.
+
+             > note: The payment type `COLLECT` is applicable only for FedEx Ground shipments.
+          externalDocs:
+            url: http://example.com
+            description: Find more info here
+        payor:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/payor'
+          description: >-
+            Payor is mandatory when the paymentType is `RECIPIENT`,
+            `THIRD_PARTY` or `COLLECT`.
       required:
         - contact
         - address
@@ -1129,6 +1248,63 @@ components:
         - itemCode
         - weight
         - dimensions
+    tax_indentifiers:
+      type: object
+      title: ''
+      additionalProperties: false
+      properties:
+        taxableEntityType:
+          title: taxable_entity_type
+          type: string
+          enum:
+            - shipper
+            - recipient
+          description: >
+            The taxable entity type for this tax item. Valid values include the
+            following.
+
+             | Value     | Description 
+             |---------|----------------
+             |`shipper`  |  The shipper is responsible for this tax.    
+              |`recipient`  | The recipient of the shipment is responsible for this tax.
+        identifierType:
+          title: identifier_type
+          type: string
+          enum:
+            - vat
+            - eori
+            - ssn
+            - ein
+            - tin
+            - ioss
+            - pan
+            - voec
+          description: |
+            The carrier service used to ship the package.
+
+             |Identifier Type     | Service Name 
+             |---------|----------------
+             |`vat`  |  The tax identifier is a Value Added Tax.
+              |`eori`  | The tax identifier is an Economic Operators Registration and Identification Number (EORI).
+             |`ssn`  | The tax identifier is a Social Security Number.
+             |`ein` | The tax identifier is an Employer Identification Number (EIN).
+             |`tin` | The tax identifier is a Tax Identification Number (TIN).
+             |`ioss`    | The tax identifier is an Import One-Stop Shop (IOSS).  
+             |`pan`  | The tax identifier is a Permanent Account Number (PAN).
+             |`voec`  | The tax identifier is a Norwegian VAT On E-Commerce(VOEC).
+        issuingAuthority:
+          type: string
+          description: >-
+            The authority that issued this tax. This must be a valid 2 character
+            ISO 3166 Alpha 2 country code.
+        value:
+          type: string
+          description: The value of the identifier
+      required:
+        - taxableEntityType
+        - identifierType
+        - issuing_authority
+        - value
     create_shipments_request_body:
       type: object
       properties:
@@ -1158,15 +1334,18 @@ components:
           allOf:
             - $ref: '#/components/schemas/shipper'
           description: >-
-            The shipment's origin address. If you frequently ship from the same
-            location, consider creating a warehouse. Then you can simply specify
-            the `warehouse_id` rather than the complete address each time.
+            The shipment's origin address. If you frequently ship from the same 
+            , consider creating a warehouse. Then you can simply specify the
+            `warehouse_id` rather than the complete address each time.
 
              > **Note:** Either `warehouse_id` or `ship_from` must be specified.
         recipient:
           description: The recipient's mailing address
           allOf:
             - $ref: '#/components/schemas/recipient'
+        paymentOptions:
+          allOf:
+            - $ref: '#/components/schemas/payment_options'
         warehouseId:
           type: string
           default: null
@@ -1199,6 +1378,12 @@ components:
           items:
             allOf:
               - $ref: '#/components/schemas/ItemLine'
+        taxIndentifiers:
+          type: array
+          nullable: true
+          items:
+            allOf:
+              - $ref: '#/components/schemas/tax_indentifiers'
       required:
         - recipient
         - shipper
