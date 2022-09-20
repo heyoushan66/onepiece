@@ -140,7 +140,7 @@
           "Carriers"
         ],
         "summary": "Add Funds To Carrier",
-        "description": "Add Funds To Carrier",
+        "description": "Add Funds To A Carrier",
         "operationId": "addFunds",
         "security": [
           {
@@ -253,8 +253,8 @@
         "tags": [
           "Carriers"
         ],
-        "summary": "Get Carrier Packages",
-        "description": "Get a list of the options available for the carrier",
+        "summary": "List Carrier Package Types",
+        "description": "List the package types associated with the carrier",
         "operationId": "getCarrierPackageById",
         "security": [
           {
@@ -304,7 +304,7 @@
           "Carriers"
         ],
         "summary": "Get Carrier Services",
-        "description": "Get a list of the options available for the carrier",
+        "description": "List the services associated with the carrier ID",
         "operationId": "getCarrierServiceById",
         "security": [
           {
@@ -365,14 +365,11 @@
           "content": {
             "application/json": {
               "schema": {
-                "properties": {
-                  "shipments": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/create_shipments_request_body"
-                    }
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/create_shipments_request_body"
                   }
-                }
+                ]
               }
             }
           }
@@ -964,14 +961,12 @@
           "currency": {
             "type": "string",
             "enum": [
-              "usd",
-              "cad",
-              "aud",
-              "gbp",
-              "eur",
-              "nzd"
+              "USD",
+              "EUR",
+              "GBP",
+              "JPY"
             ],
-            "description": "The currencies that are supported by ShipEngine.\n\n | Currency Code\t | Description    \n |----------------|-----------------\n |`usd`           | United States Dollar  \n  |`cad`           | Canadian Dollar       \n |`aud`           | Australian Dollar     \n |`gbp`           | Great British Pound   \n |`eur`           | Euro                  \n |`nzd`           | New Zealand Dollar    \n",
+            "description": "The currencies that are supported by ShipEngine.\n\n | Currency Code\t | Description    \n |----------------|-----------------\n |`USD`           | United States Dollar  \n  |`GBP`           | Great British Pound   \n |`EUR`           | Euro                  \n |`JPY`           | Japanese Yen          \n",
             "example": "aud"
           },
           "amount": {
@@ -1083,33 +1078,24 @@
           "streetLine1"
         ]
       },
-      "shipper": {
+      "addressAndConcat": {
         "type": "object",
         "properties": {
           "contact": {
             "description": "Indicate the contact details for this shipment.",
-            "$ref": "#/components/schemas/contact"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/contact"
+              }
+            ]
           },
           "address": {
             "description": "This is detailed information on physical location.",
-            "$ref": "#/components/schemas/address"
-          }
-        },
-        "required": [
-          "contact",
-          "address"
-        ]
-      },
-      "recipient": {
-        "type": "object",
-        "properties": {
-          "contact": {
-            "description": "This is detailed information on physical location.",
-            "$ref": "#/components/schemas/contact"
-          },
-          "address": {
-            "description": "Indicate the contact details for this shipment.",
-            "$ref": "#/components/schemas/address"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/address"
+              }
+            ]
           }
         },
         "required": [
@@ -1122,11 +1108,19 @@
         "properties": {
           "contact": {
             "description": "This is detailed information on physical location.",
-            "$ref": "#/components/schemas/contact"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/contact"
+              }
+            ]
           },
           "address": {
             "description": "Indicate the contact details for this shipment.",
-            "$ref": "#/components/schemas/address"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/address"
+              }
+            ]
           },
           "accountNumber": {
             "type": "string",
@@ -1199,12 +1193,14 @@
         "type": "object",
         "properties": {
           "signatureOption": {
-            "description": "Signing service type, only when the value is NO_SIGNATURE_REQUIRED do not purchase the service, the default is purchase.",
+            "description": "Signing service type",
             "type": "string",
             "enum": [
-              "NO_SIGNATURE_REQUIRED"
+              "NO_SIGNATURE_REQUIRED",
+              "DIRECT"
             ],
-            "example": "NO_SIGNATURE_REQUIRED"
+            "example": "NO_SIGNATURE_REQUIRED",
+            "default": "DIRECT"
           }
         }
       },
@@ -1215,11 +1211,11 @@
             "description": "Signing service type",
             "type": "string",
             "enum": [
-              "false",
-              "true"
+              "NO_SIGNATURE_REQUIRED",
+              "DIRECT"
             ],
-            "default": "false",
-            "example": "false"
+            "default": "NO_SIGNATURE_REQUIRED",
+            "example": "NO_SIGNATURE_REQUIRED"
           }
         }
       },
@@ -1309,7 +1305,7 @@
           {
             "type": "object",
             "properties": {
-              "templateSet": {
+              "labelStockType": {
                 "type": "string",
                 "default": "NONE",
                 "example": "NONE"
@@ -1332,7 +1328,7 @@
           {
             "type": "object",
             "properties": {
-              "templateSet": {
+              "labelStockType": {
                 "type": "string",
                 "default": "ZPL_200",
                 "example": "ZPL_200",
@@ -1356,7 +1352,7 @@
           {
             "type": "object",
             "properties": {
-              "templateSet": {
+              "labelStockType": {
                 "type": "string",
                 "default": "PF_4_I",
                 "example": "PF_4_I",
@@ -1385,7 +1381,7 @@
           {
             "type": "object",
             "properties": {
-              "templateSet": {
+              "labelStockType": {
                 "type": "string",
                 "default": "D_200",
                 "example": "D_200",
@@ -1411,7 +1407,7 @@
           {
             "type": "object",
             "properties": {
-              "templateSet": {
+              "labelStockType": {
                 "type": "string",
                 "default": "T_200_BF",
                 "example": "T_200_BF",
@@ -1540,18 +1536,11 @@
             "items": {
               "type": "string",
               "enum": [
-                "DANGEROUS_GOODS",
-                "COD",
-                "AVIS_DEPOT",
-                "AVIS_FAHRER",
-                "AVIS_SMS",
-                "AVIS_MAIL",
-                "INTERNATIONAL_FORM"
+                "DANGEROUS_GOODS"
               ]
             },
             "example": [
-              "DANGEROUS_GOODS",
-              "COD"
+              "DANGEROUS_GOODS"
             ]
           },
           "specialServiceAttributeList": {
@@ -1594,7 +1583,7 @@
         "description": "Custom messages to print on the shipping label for the package. These are typically used to print invoice numbers, product numbers, or other internal reference numbers. Not all carriers support label messages. The number of lines and the maximum length of each line also varies by carrier.",
         "properties": {
           "ref1": {
-            "description": "The first line of the custom label message. Some carriers may prefix this line with something like \"REF\", \"Reference\", \"Trx Ref No.\", etc.",
+            "description": "The first line of the custom label message. Some carriers may prefix this line with something like \"PO\", \"Reference\", \"Trx Ref No.\", etc.",
             "type": "string",
             "minLength": 1,
             "example": "RB1-UB-20220221-18853"
@@ -1606,17 +1595,24 @@
             "example": "W44616989"
           },
           "ref3": {
-            "description": "The third line of the custom label message. Some carriers may prefix this line with something like \"PO\", \"Reference 3\", etc.",
+            "description": "The third line of the custom label message. Some carriers may prefix this line with something like \"REF\", \"Reference 3\", etc.",
+            "type": "string",
+            "minLength": 1,
+            "example": "W44616989"
+          },
+          "ref4": {
+            "description": "The third line of the custom label message. Some carriers may prefix this line with something like \"DEPT\", \"Reference 4\", etc.",
+            "type": "string",
+            "minLength": 1,
+            "example": "W44616989"
+          },
+          "ref5": {
+            "description": "The third line of the custom label message. Some carriers may prefix this line with something like \"RMA\", \"Reference 5\", etc.",
             "type": "string",
             "minLength": 1,
             "example": "W44616989"
           }
-        },
-        "required": [
-          "ref1",
-          "ref2",
-          "ref3"
-        ]
+        }
       },
       "ItemLine": {
         "type": "object",
@@ -1628,7 +1624,7 @@
             "maxLength": 100,
             "example": "test-xxxx-xxxxxxxx"
           },
-          "package_code": {
+          "packageCode": {
             "type": "string",
             "description": "The package type, such as `thick_envelope`, `small_flat_rate_box`, `large_package`, etc. The code `package` indicates a custom or unknown package type."
           },
@@ -1774,16 +1770,16 @@
           "shipper": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/shipper"
+                "$ref": "#/components/schemas/addressAndConcat"
               }
             ],
-            "description": "The shipment's origin address. If you frequently ship from the same  , consider creating a warehouse. Then you can simply specify the `warehouse_id` rather than the complete address each time.\n\n > **Note:** Either `warehouse_id` or `ship_from` must be specified."
+            "description": "The shipment's origin address. If you frequently ship from the same  , consider creating a warehouse. Then you can simply specify the `warehouseId` rather than the complete address each time.\n\n > **Note:** Either `warehouseId` or `shipper` must be specified."
           },
           "recipient": {
             "description": "The recipient's mailing address",
             "allOf": [
               {
-                "$ref": "#/components/schemas/recipient"
+                "$ref": "#/components/schemas/addressAndConcat"
               }
             ]
           },
@@ -1806,13 +1802,10 @@
           },
           "returnAddress": {
             "type": "object",
-            "description": "The return address for this shipment. Defaults to the `ship_from` address.",
+            "description": "The return address for this shipment. Defaults to the `shipper` address.",
             "allOf": [
               {
-                "$ref": "#/components/schemas/contact"
-              },
-              {
-                "$ref": "#/components/schemas/address"
+                "$ref": "#/components/schemas/addressAndConcat"
               }
             ]
           },
@@ -2002,7 +1995,7 @@
           },
           "name": {
             "type": "string",
-            "description": "The name of a contact person at this address. This field may be set instead of - or in addition to - the `company_name` field.",
+            "description": "The name of a contact person at this address. This field may be set instead of - or in addition to - the `companyName` field.",
             "minLength": 1,
             "maxLength": 25,
             "example": "CA1"

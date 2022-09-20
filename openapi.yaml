@@ -88,7 +88,7 @@ paths:
       tags:
         - Carriers
       summary: Add Funds To Carrier
-      description: Add Funds To Carrier
+      description: Add Funds To A Carrier
       operationId: addFunds
       security:
         - api_key: []
@@ -155,8 +155,8 @@ paths:
     get:
       tags:
         - Carriers
-      summary: Get Carrier Packages
-      description: Get a list of the options available for the carrier
+      summary: List Carrier Package Types
+      description: List the package types associated with the carrier
       operationId: getCarrierPackageById
       security:
         - api_key: []
@@ -187,7 +187,7 @@ paths:
       tags:
         - Carriers
       summary: Get Carrier Services
-      description: Get a list of the options available for the carrier
+      description: List the services associated with the carrier ID
       operationId: getCarrierServiceById
       security:
         - api_key: []
@@ -229,11 +229,8 @@ paths:
         content:
           application/json:
             schema:
-              properties:
-                shipments:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/create_shipments_request_body'
+              allOf:
+                - $ref: '#/components/schemas/create_shipments_request_body'
       responses:
         '200':
           description: OK
@@ -654,13 +651,11 @@ components:
         currency:
           type: string
           enum:
-            - usd
-            - cad
-            - aud
-            - gbp
-            - eur
-            - nzd
-          description: "The currencies that are supported by ShipEngine.\n\n | Currency Code\t | Description    \n |----------------|-----------------\n |`usd`           | United States Dollar  \n  |`cad`           | Canadian Dollar       \n |`aud`           | Australian Dollar     \n |`gbp`           | Great British Pound   \n |`eur`           | Euro                  \n |`nzd`           | New Zealand Dollar    \n"
+            - USD
+            - EUR
+            - GBP
+            - JPY
+          description: "The currencies that are supported by ShipEngine.\n\n | Currency Code\t | Description    \n |----------------|-----------------\n |`USD`           | United States Dollar  \n  |`GBP`           | Great British Pound   \n |`EUR`           | Euro                  \n |`JPY`           | Japanese Yen          \n"
           example: aud
         amount:
           type: number
@@ -755,27 +750,17 @@ components:
         - city
         - zipCode
         - streetLine1
-    shipper:
+    addressAndConcat:
       type: object
       properties:
         contact:
           description: Indicate the contact details for this shipment.
-          $ref: '#/components/schemas/contact'
+          allOf:
+            - $ref: '#/components/schemas/contact'
         address:
           description: This is detailed information on physical location.
-          $ref: '#/components/schemas/address'
-      required:
-        - contact
-        - address
-    recipient:
-      type: object
-      properties:
-        contact:
-          description: This is detailed information on physical location.
-          $ref: '#/components/schemas/contact'
-        address:
-          description: Indicate the contact details for this shipment.
-          $ref: '#/components/schemas/address'
+          allOf:
+            - $ref: '#/components/schemas/address'
       required:
         - contact
         - address
@@ -784,10 +769,12 @@ components:
       properties:
         contact:
           description: This is detailed information on physical location.
-          $ref: '#/components/schemas/contact'
+          allOf:
+            - $ref: '#/components/schemas/contact'
         address:
           description: Indicate the contact details for this shipment.
-          $ref: '#/components/schemas/address'
+          allOf:
+            - $ref: '#/components/schemas/address'
         accountNumber:
           type: string
           description: This field is used to bill shipping costs to a third party.
@@ -858,13 +845,13 @@ components:
       type: object
       properties:
         signatureOption:
-          description: >-
-            Signing service type, only when the value is NO_SIGNATURE_REQUIRED
-            do not purchase the service, the default is purchase.
+          description: Signing service type
           type: string
           enum:
             - NO_SIGNATURE_REQUIRED
+            - DIRECT
           example: NO_SIGNATURE_REQUIRED
+          default: DIRECT
     signature_option_evri:
       type: object
       properties:
@@ -872,10 +859,10 @@ components:
           description: Signing service type
           type: string
           enum:
-            - 'false'
-            - 'true'
-          default: 'false'
-          example: 'false'
+            - NO_SIGNATURE_REQUIRED
+            - DIRECT
+          default: NO_SIGNATURE_REQUIRED
+          example: NO_SIGNATURE_REQUIRED
     LabelSpecification_fedex:
       type: object
       properties:
@@ -943,7 +930,7 @@ components:
         - $ref: '#/components/schemas/LabelSpecification_gls'
         - type: object
           properties:
-            templateSet:
+            labelStockType:
               type: string
               default: NONE
               example: NONE
@@ -957,7 +944,7 @@ components:
         - $ref: '#/components/schemas/LabelSpecification_gls'
         - type: object
           properties:
-            templateSet:
+            labelStockType:
               type: string
               default: ZPL_200
               example: ZPL_200
@@ -972,7 +959,7 @@ components:
         - $ref: '#/components/schemas/LabelSpecification_gls'
         - type: object
           properties:
-            templateSet:
+            labelStockType:
               type: string
               default: PF_4_I
               example: PF_4_I
@@ -991,7 +978,7 @@ components:
         - $ref: '#/components/schemas/LabelSpecification_gls'
         - type: object
           properties:
-            templateSet:
+            labelStockType:
               type: string
               default: D_200
               example: D_200
@@ -1007,7 +994,7 @@ components:
         - $ref: '#/components/schemas/LabelSpecification_gls'
         - type: object
           properties:
-            templateSet:
+            labelStockType:
               type: string
               default: T_200_BF
               example: T_200_BF
@@ -1110,15 +1097,8 @@ components:
             type: string
             enum:
               - DANGEROUS_GOODS
-              - COD
-              - AVIS_DEPOT
-              - AVIS_FAHRER
-              - AVIS_SMS
-              - AVIS_MAIL
-              - INTERNATIONAL_FORM
           example:
             - DANGEROUS_GOODS
-            - COD
         specialServiceAttributeList:
           description: These are special services dynamic fields
           type: array
@@ -1155,8 +1135,7 @@ components:
         ref1:
           description: >-
             The first line of the custom label message. Some carriers may prefix
-            this line with something like "REF", "Reference", "Trx Ref No.",
-            etc.
+            this line with something like "PO", "Reference", "Trx Ref No.", etc.
           type: string
           minLength: 1
           example: RB1-UB-20220221-18853
@@ -1171,14 +1150,24 @@ components:
         ref3:
           description: >-
             The third line of the custom label message. Some carriers may prefix
-            this line with something like "PO", "Reference 3", etc.
+            this line with something like "REF", "Reference 3", etc.
           type: string
           minLength: 1
           example: W44616989
-      required:
-        - ref1
-        - ref2
-        - ref3
+        ref4:
+          description: >-
+            The third line of the custom label message. Some carriers may prefix
+            this line with something like "DEPT", "Reference 4", etc.
+          type: string
+          minLength: 1
+          example: W44616989
+        ref5:
+          description: >-
+            The third line of the custom label message. Some carriers may prefix
+            this line with something like "RMA", "Reference 5", etc.
+          type: string
+          minLength: 1
+          example: W44616989
     ItemLine:
       type: object
       properties:
@@ -1191,7 +1180,7 @@ components:
           minLength: 1
           maxLength: 100
           example: test-xxxx-xxxxxxxx
-        package_code:
+        packageCode:
           type: string
           description: >-
             The package type, such as `thick_envelope`, `small_flat_rate_box`,
@@ -1332,17 +1321,17 @@ components:
           type: string
         shipper:
           allOf:
-            - $ref: '#/components/schemas/shipper'
+            - $ref: '#/components/schemas/addressAndConcat'
           description: >-
             The shipment's origin address. If you frequently ship from the same 
             , consider creating a warehouse. Then you can simply specify the
-            `warehouse_id` rather than the complete address each time.
+            `warehouseId` rather than the complete address each time.
 
-             > **Note:** Either `warehouse_id` or `ship_from` must be specified.
+             > **Note:** Either `warehouseId` or `shipper` must be specified.
         recipient:
           description: The recipient's mailing address
           allOf:
-            - $ref: '#/components/schemas/recipient'
+            - $ref: '#/components/schemas/addressAndConcat'
         paymentOptions:
           allOf:
             - $ref: '#/components/schemas/payment_options'
@@ -1355,11 +1344,10 @@ components:
         returnAddress:
           type: object
           description: >-
-            The return address for this shipment. Defaults to the `ship_from`
+            The return address for this shipment. Defaults to the `shipper`
             address.
           allOf:
-            - $ref: '#/components/schemas/contact'
-            - $ref: '#/components/schemas/address'
+            - $ref: '#/components/schemas/addressAndConcat'
         signatureOption:
           type: object
           description: Indicate the Signature Type.
@@ -1506,7 +1494,7 @@ components:
           type: string
           description: >-
             The name of a contact person at this address. This field may be set
-            instead of - or in addition to - the `company_name` field.
+            instead of - or in addition to - the `companyName` field.
           minLength: 1
           maxLength: 25
           example: CA1
