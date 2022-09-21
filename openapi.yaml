@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   version: 1.1.2022090801
   title: GigaLogistics API
-  termsOfService: https://example.com/terms/
+  termsOfService: https://platform.gigacloudlogistics.com/docs/
   contact:
     name: GigaLogistics Sales & Support
     email: sa-support@gigacloudtech.com
@@ -186,7 +186,7 @@ paths:
     get:
       tags:
         - Carriers
-      summary: Get Carrier Services
+      summary: List Carrier Services
       description: List the services associated with the carrier ID
       operationId: getCarrierServiceById
       security:
@@ -419,8 +419,8 @@ components:
           example: auto_fund_not_supported
         carrierCode:
           description: >-
-            A string that uniquely identifies a ShipEngine resource, such as a
-            carrier, label, shipment, etc.
+            A string that uniquely identifies a GIGALOGISTICS resource, such as
+            a carrier, label, shipment, etc.
           type: string
           minLength: 1
           maxLength: 25
@@ -655,7 +655,7 @@ components:
             - EUR
             - GBP
             - JPY
-          description: "The currencies that are supported by ShipEngine.\n\n | Currency Code\t | Description    \n |----------------|-----------------\n |`USD`           | United States Dollar  \n  |`GBP`           | Great British Pound   \n |`EUR`           | Euro                  \n |`JPY`           | Japanese Yen          \n"
+          description: "The currencies that are supported by GIGALOGISTICS.\n\n | Currency Code\t | Description    \n |----------------|-----------------\n |`USD`           | United States Dollar  \n  |`GBP`           | Great British Pound   \n |`EUR`           | Euro                  \n |`JPY`           | Japanese Yen          \n"
           example: aud
         amount:
           type: number
@@ -739,10 +739,10 @@ components:
           description: Indicate this address type
           type: string
           enum:
-            - Residential
-            - Business
-            - Parcelshop
-          example: Residential
+            - RESIDENTIAL
+            - BUSINESS
+            - PARCELSHOP
+          example: RESIDENTIAL
           x-nullable: true
       required:
         - countryCode
@@ -793,9 +793,10 @@ components:
           description: |-
             Specifies the payment Type.
 
-             > note: The payment type `COLLECT` is applicable only for FedEx Ground shipments.
+             > **Note**: The payment type `COLLECT` is applicable only for FedEx Ground shipments.
           externalDocs:
-            url: http://example.com
+            url: >-
+              https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html
             description: Find more info here
         payor:
           type: object
@@ -865,6 +866,13 @@ components:
           example: NO_SIGNATURE_REQUIRED
     LabelSpecification_fedex:
       type: object
+      discriminator:
+        propertyName: imageType
+        mapping:
+          PNG: '#/components/schemas/fedex_png_pdf'
+          PDF: '#/components/schemas/fedex_png_pdf'
+          ZPLII: '#/components/schemas/fedex_zplii_epl2'
+          EPL2: '#/components/schemas/fedex_zplii_epl2'
       properties:
         imageType:
           description: Specify the image format used for a shipping document.
@@ -875,15 +883,51 @@ components:
             - ZPLII
             - EPL2
           example: PDF
-        labelStockType:
-          description: Indicate the label stock type used.
-          type: string
-          enum:
-            - STOCK_4X6
-            - PAPER_4X6
-          example: STOCK_4X6
       required:
         - imageType
+    fedex_png_pdf:
+      type: object
+      description: Indicate the label stock type used.
+      allOf:
+        - $ref: '#/components/schemas/LabelSpecification_fedex'
+        - type: object
+          properties:
+            labelStockType:
+              type: string
+              example: PAPER_4X6
+              enum:
+                - PAPER_4X6
+                - PAPER_4X675
+                - PAPER_4X8
+                - PAPER_4X9
+                - PAPER_7X475
+                - PAPER_85X11_BOTTOM_HALF_LABEL
+                - PAPER_85X11_TOP_HALF_LABEL
+                - PAPER_LETTER
+      required:
+        - labelStockType
+    fedex_zplii_epl2:
+      type: object
+      description: Indicate the label stock type used.
+      allOf:
+        - $ref: '#/components/schemas/LabelSpecification_fedex'
+        - type: object
+          properties:
+            labelStockType:
+              type: string
+              example: STOCK_4X6
+              enum:
+                - STOCK_4X6
+                - STOCK_4X675
+                - STOCK_4X675_LEADING_DOC_TAB
+                - STOCK_4X675_TRAILING_DOC_TAB
+                - STOCK_4X8
+                - STOCK_4X9
+                - STOCK_4X9_LEADING_DOC_TAB
+                - STOCK_4X9_TRAILING_DOC_TAB
+                - STOCK_4X85_TRAILING_DOC_TAB
+                - STOCK_4X105_TRAILING_DOC_TAB
+      required:
         - labelStockType
     LabelSpecification_gel:
       type: object
@@ -1053,10 +1097,10 @@ components:
         unit:
           description: The dimension units that are supported by GIGALOGISTICS.
           type: string
-          default: in
+          default: IN
           enum:
-            - cm
-            - in
+            - CM
+            - IN
           title: Unit information
         length:
           description: Indicate the length of the package.
@@ -1091,7 +1135,8 @@ components:
           description: Indicate the types of special services requested for the shipment.
           externalDocs:
             description: Find more info here
-            url: https://example.com
+            url: >-
+              https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html
           type: array
           items:
             type: string
@@ -1109,14 +1154,16 @@ components:
                 description: click here to see Package Special Service Types
                 externalDocs:
                   description: Find more info here
-                  url: https://example.com
+                  url: >-
+                    https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html
                 type: string
                 example: age
               value:
                 description: click here to see Package Special Service Types
                 externalDocs:
                   description: Find more info here
-                  url: https://example.com
+                  url: >-
+                    https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html
                 type: string
                 example: '17'
             required:
@@ -1178,14 +1225,19 @@ components:
             match the request to the reply.
           type: string
           minLength: 1
-          maxLength: 100
+          maxLength: 50
           example: test-xxxx-xxxxxxxx
         packageCode:
           type: string
+          default: CUSTOM_PACKAGE
           description: >-
-            The package type, such as `thick_envelope`, `small_flat_rate_box`,
-            `large_package`, etc. The code `package` indicates a custom or
-            unknown package type.
+            The package type, such as `THICK_ENVELOPE`, `SMALL_FLAT_RATE_BOX`,
+            `LARGE_PACKAGE`, etc. The code `CUSTOM_PACKAGE` indicates a custom
+            or unknown package type.
+          externalDocs:
+            description: Find more info here
+            url: >-
+              https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html
         itemCode:
           description: sku
           type: string
@@ -1198,10 +1250,11 @@ components:
         dimensions:
           allOf:
             - $ref: '#/components/schemas/Dimensions'
-          description: Indicate the dimensions of the package.
-          externalDocs:
-            description: Find more info here
-            url: https://example.com
+          description: |-
+            Indicate the dimensions of the package.
+
+             - Dimensions are optional but when added, then all three dimensions must be indicated.
+             - Dimensions are required with `CUSTOM_PACKAGE` package type.
         declaredValue:
           type: object
           description: >-
@@ -1217,7 +1270,7 @@ components:
                 - EUR
                 - JPY
                 - GBP
-              description: The currencies that are supported by ShipEngine.
+              description: The currencies that are supported by GIGALOGISTICS.
             amount:
               type: number
               minimum: 0
@@ -1232,11 +1285,14 @@ components:
             This is a customer reference type. The value specified here for the
             element is printed on the Commercial Invoice only for tracking and
             label information.
+          externalDocs:
+            url: >-
+              https://platform.gigacloudlogistics.com/docs/guide/shipping-labels/custom-label-messages.html
+            description: Find more info here
       required:
         - itemTransactionId
         - itemCode
         - weight
-        - dimensions
     tax_indentifiers:
       type: object
       title: ''
@@ -1246,46 +1302,47 @@ components:
           title: taxable_entity_type
           type: string
           enum:
-            - shipper
-            - recipient
+            - SHIPPER
+            - RECIPIENT
           description: >
             The taxable entity type for this tax item. Valid values include the
             following.
 
              | Value     | Description 
              |---------|----------------
-             |`shipper`  |  The shipper is responsible for this tax.    
-              |`recipient`  | The recipient of the shipment is responsible for this tax.
+             |`SHIPPER`  |  The shipper is responsible for this tax.    
+              |`RECIPIENT`  | The recipient of the shipment is responsible for this tax.
         identifierType:
           title: identifier_type
           type: string
           enum:
-            - vat
-            - eori
-            - ssn
-            - ein
-            - tin
-            - ioss
-            - pan
-            - voec
+            - VAT
+            - EORI
+            - SSN
+            - EIN
+            - TIN
+            - IOSS
+            - PAN
+            - VOEC
           description: |
             The carrier service used to ship the package.
 
              |Identifier Type     | Service Name 
              |---------|----------------
-             |`vat`  |  The tax identifier is a Value Added Tax.
-              |`eori`  | The tax identifier is an Economic Operators Registration and Identification Number (EORI).
-             |`ssn`  | The tax identifier is a Social Security Number.
-             |`ein` | The tax identifier is an Employer Identification Number (EIN).
-             |`tin` | The tax identifier is a Tax Identification Number (TIN).
-             |`ioss`    | The tax identifier is an Import One-Stop Shop (IOSS).  
-             |`pan`  | The tax identifier is a Permanent Account Number (PAN).
-             |`voec`  | The tax identifier is a Norwegian VAT On E-Commerce(VOEC).
+             |`VAT`  |  The tax identifier is a Value Added Tax.
+              |`EORI`  | The tax identifier is an Economic Operators Registration and Identification Number (EORI).
+             |`SSN`  | The tax identifier is a Social Security Number.
+             |`EIN` | The tax identifier is an Employer Identification Number (EIN).
+             |`TIN` | The tax identifier is a Tax Identification Number (TIN).
+             |`IOSS`    | The tax identifier is an Import One-Stop Shop (IOSS).  
+             |`PAN`  | The tax identifier is a Permanent Account Number (PAN).
+             |`VOEC`  | The tax identifier is a Norwegian VAT On E-Commerce(VOEC).
         issuingAuthority:
           type: string
           description: >-
             The authority that issued this tax. This must be a valid 2 character
-            ISO 3166 Alpha 2 country code.
+            [country
+            code](https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html).
         value:
           type: string
           description: The value of the identifier
@@ -1313,11 +1370,12 @@ components:
           example: John
         serviceType:
           description: >-
-            The [carrier service](https://example.com) used to ship the package,
-            such as `fedex_ground`, , etc.
+            The carrier service used to ship the package, such as
+            `FEDEX_GROUND`, etc.
           externalDocs:
             description: Find more info here
-            url: https://example.com
+            url: >-
+              https://platform.gigacloudlogistics.com/docs/guide/shipping/specify-carrier-service.html
           type: string
         shipper:
           allOf:
@@ -1333,6 +1391,9 @@ components:
           allOf:
             - $ref: '#/components/schemas/addressAndConcat'
         paymentOptions:
+          description: >-
+            Specifies the payment details specifying the method and means of
+            payment to carrier for providing shipping services.
           allOf:
             - $ref: '#/components/schemas/payment_options'
         warehouseId:
@@ -1340,7 +1401,10 @@ components:
           default: null
           allOf:
             - $ref: '#/components/schemas/gg_id'
-          description: 'The warehouse that the shipment is being shipped from. '
+          description: >-
+            The
+            [warehouse](https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html)
+            that the shipment is being shipped from. 
         returnAddress:
           type: object
           description: >-
@@ -1363,18 +1427,21 @@ components:
             - $ref: '#/components/schemas/LabelSpecification_whistl'
         itemLines:
           type: array
+          description: The packages in the shipment.
           items:
             allOf:
               - $ref: '#/components/schemas/ItemLine'
         taxIndentifiers:
           type: array
-          nullable: true
           items:
             allOf:
               - $ref: '#/components/schemas/tax_indentifiers'
       required:
+        - transactionId
+        - carrierId
+        - serviceType
         - recipient
-        - shipper
+        - itemLines
     Item:
       type: object
       properties:
@@ -1478,7 +1545,8 @@ components:
           example: Parameter check exception
         data:
           description: The descriptive data of the requested shipment.
-          $ref: '#/components/schemas/Data'
+          allOf:
+            - $ref: '#/components/schemas/Data'
           x-nullable: true
       required:
         - success
@@ -1557,8 +1625,8 @@ components:
           minLength: 2
           maxLength: 2
           description: >-
-            The two-letter [ISO 3166-1 country
-            code](https://en.wikipedia.org/wiki/ISO_3166-1)
+            The two-letter [country
+            code](https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html)
           example: US
         addressResidentialIndicator:
           type: string
