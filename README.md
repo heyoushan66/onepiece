@@ -10,23 +10,16 @@ Depending on your preferences and/or tooling, you may choose to use one or more 
 
 |Path                |Description
 |:-------------------|:--------------------------------
-|[`openapi.yaml`](openapi.yaml)        |The entire ShipEngine OpenAPI definition, in a single YAML file.  This file uses [`$ref` pointers](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#reference-object) to reduce duplication and keep the file small and fairly human-readable.<br><br> Some [OpenAPI tools](https://openapi.tools/) don't support YAML or don't support `$ref` pointers, so you may need to use the [`openapi.json` file](openapi.json) instead.
-|[`openapi.json`](openapi.json)        |The entire ShipEngine OpenAPI definition, in a single JSON file.  This file **does not** contain any `$ref` pointers, which means it should work with any [OpenAPI tool](https://openapi.tools/).
+|[`openapi.yaml`](openapi.yaml)        |The entire GIGALOGISTICS OpenAPI definition, in a single YAML file.  This file uses [`$ref` pointers](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#reference-object) to reduce duplication and keep the file small and fairly human-readable.<br><br> Some [OpenAPI tools](https://openapi.tools/) don't support YAML or don't support `$ref` pointers, so you may need to use the [`openapi.json` file](openapi.json) instead.
+|[`openapi.json`](openapi.json)        |The entire GIGALOGISTICS OpenAPI definition, in a single JSON file.  This file **does not** contain any `$ref` pointers, which means it should work with any [OpenAPI tool](https://openapi.tools/).
 
 
 Other API Definition Formats
 ----------------------------
 
-### ![Redoc Logo](https://shipengine.github.io/img/redoc-logo-small.png)
-View the ShipEngine API definition [online in your browser](https://shipengine.github.io/shipengine-openapi/). This web page is generated from the [OpenAPI definition](https://github.com/ShipEngine/shipengine-openapi) using [ReDoc](https://github.com/Redocly/redoc).
+### ![Redoc Logo](docs/img/redoc-logo-small.png)
+View the GIGALOGISTICS API definition [online in your browser](https://heyoushan66.github.io/onepiece/). This web page is generated from the [OpenAPI definition](https://heyoushan66.github.io/onepiece) using [ReDoc](https://github.com/Redocly/redoc).
 
 
-### ![Postman Logo](https://shipengine.github.io/img/postman-logo-small.png) Postman
-The official [Postman reference collection](https://documenter.getpostman.com/view/305204/SW7W5V6o) for ShipEngine.  Just import it into [Postman](https://getpostman.com) and immediately begin interacting with the ShipEngine API. 
-
-
-New to ShipEngine? Download our [walkthrough collection instead](https://documenter.getpostman.com/view/305204/SW7XbA6V).
-
-
-### ![JSON Schema Logo](https://shipengine.github.io/img/json-schema-logo-small.png) JSON Schema
-If you need to validate API requests and responses, then you may want to use [our JSON Schema definitions](https://github.com/ShipEngine/shipengine-json-schema).
+### ![Postman Logo](docs/img/postman-logo-small.png) Postman
+The official [Postman reference collection](https://documenter.getpostman.com/view/305204/SW7W5V6o) for GIGALOGISTICS.  Just import it into [Postman](https://getpostman.com) and immediately begin interacting with the GIGALOGISTICS API. 
