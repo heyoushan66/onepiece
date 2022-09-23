@@ -36,7 +36,7 @@ servers:
   - url: https://prod.com
     description: Production Server
 paths:
-  /carrier/v1:
+  /v1/carriers:
     get:
       tags:
         - Carriers
@@ -55,7 +55,7 @@ paths:
                 $ref: '#/components/schemas/CarrierResp'
         '401':
           description: Unauthorized
-  /carrier/v1/{carrierId}:
+  /v1/carriers/{carrierId}:
     get:
       tags:
         - Carriers
@@ -83,44 +83,7 @@ paths:
                 $ref: '#/components/schemas/Carrier'
         '401':
           description: Unauthorized
-  /carrier/v1/{carrierId}/add_funds:
-    put:
-      tags:
-        - Carriers
-      summary: Add Funds To Carrier
-      description: Add Funds To A Carrier
-      operationId: addFunds
-      security:
-        - api_key: []
-        - basic_auth: []
-      parameters:
-        - name: carrierId
-          in: path
-          description: Carrier ID
-          required: true
-          schema:
-            type: string
-            minLength: 1
-            maxLength: 25
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/balance'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                properties:
-                  balance:
-                    allOf:
-                      - $ref: '#/components/schemas/balance'
-                    description: The current balance of the account
-        '401':
-          description: Unauthorized
-  /carrier/v1/{carrierId}/options:
+  /v1/carrier/{carrierId}/options:
     get:
       tags:
         - Carriers
@@ -151,7 +114,7 @@ paths:
                   $ref: '#/components/schemas/Option'
         '401':
           description: Unauthorized
-  /carrier/v1/{carrierId}/packages:
+  /v1/carrier/{carrierId}/packages:
     get:
       tags:
         - Carriers
@@ -182,7 +145,7 @@ paths:
                   $ref: '#/components/schemas/Package'
         '401':
           description: Unauthorized
-  /carrier/v1/{carrierId}/services:
+  /v1/carrier/{carrierId}/services:
     get:
       tags:
         - Carriers
@@ -213,7 +176,7 @@ paths:
                   $ref: '#/components/schemas/Service'
         '401':
           description: Unauthorized
-  /shipment/v1:
+  /v1/shipment:
     post:
       tags:
         - Shipments
@@ -240,7 +203,33 @@ paths:
                 $ref: '#/components/schemas/SuccessResp'
         '401':
           description: Unauthorized
-  /warehouse/v1:
+  /v1/shipment/cancel:
+    put:
+      tags:
+        - Shipments
+      summary: Cancel a shipment
+      description: >-
+        Mark a shipment cancelled, if it is no longer needed or being used by
+        your organized.
+      operationId: cancelShipment
+      security:
+        - api_key: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/cencel_shipments_request_body'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResp'
+        '401':
+          description: Unauthorized
+  /v1/warehouse:
     get:
       tags:
         - Warehouses
@@ -302,7 +291,7 @@ paths:
                       $ref: '#/components/schemas/Warehouse'
         '401':
           description: Unauthorized
-  /warehouse/v1/{warehouseId}:
+  /v1/warehouse/{warehouseId}:
     parameters:
       - name: warehouseId
         in: path
@@ -645,27 +634,6 @@ components:
         - carriers
         - requestId
         - errors
-    balance:
-      type: object
-      properties:
-        currency:
-          type: string
-          enum:
-            - USD
-            - EUR
-            - GBP
-            - JPY
-          description: "The currencies that are supported by GIGALOGISTICS.\n\n | Currency Code\t | Description    \n |----------------|-----------------\n |`USD`           | United States Dollar  \n  |`GBP`           | Great British Pound   \n |`EUR`           | Euro                  \n |`JPY`           | Japanese Yen          \n"
-          example: aud
-        amount:
-          type: number
-          format: double
-          maxLength: 0
-          description: The monetary amount, in the specified currency.
-          example: 0
-      required:
-        - currency
-        - amount
     contact:
       type: object
       properties:
@@ -1550,6 +1518,30 @@ components:
           x-nullable: true
       required:
         - success
+    cencel_shipments_request_body:
+      type: object
+      properties:
+        transactionId:
+          description: >-
+            This element allows you to assign a unique identifier to your
+            transaction. This element is also returned in the reply and helps
+            you match the request to the reply.
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: XXXX_XXX123XXXXX
+        accountNumber:
+          type: string
+          description: The account number (account value) associated with the shipment.
+        trackingNumber:
+          type: string
+          description: >-
+            This is an unique number assigned by FedEx to the packages for
+            tracking.<br/> Example: '794953555571'
+          example: '794953555571'
+      required:
+        - accountNumber
+        - trackingNumber
     CustomerAddress:
       type: object
       description: customer address info
