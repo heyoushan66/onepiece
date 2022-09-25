@@ -10,7 +10,7 @@ info:
   x-logo:
     url: >-
       http://ar-logistics-hk-prod.oss-cn-hongkong.aliyuncs.com/logistics-parent/openapi/DJYClogo1.png
-  description: "This is an **example** API to demonstrate features of the OpenAPI specification.\r\n\r\n# Getting Started\r\n\r\nThis API definition is intended to to be a good starting point for\r\ndescribing your API in \r\n\r\n[OpenAPI/Swagger\r\nformat](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md).\r\n\r\nIt also demonstrates features of the\r\n[create-openapi-repo](https://github.com/Redocly/create-openapi-repo) tool\r\nand \r\n\r\nthe [Redoc](https://github.com/Redocly/Redoc) documentation engine. Beyond\r\nthe standard OpenAPI syntax, we use a few \r\n\r\n[vendor\r\nextensions](https://github.com/Redocly/Redoc/blob/master/docs/redoc-vendor-extensions.md).\r\n\r\n"
+  description: "This is an **example** API to demonstrate features of the OpenAPI specification.\r\n\r\n# Getting Started\r\n\r\nThis API definition is intended to to be a good starting point for\r\ndescribing your API in \r\n\r\n[OpenAPI/Swagger\r\nformat](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md).\r\n\r\nIt also demonstrates features of the\r\n[create-openapi-repo](https://github.com/Redocly/create-openapi-repo) tool\r\nand \r\n\r\nthe [Redoc](https://github.com/Redocly/Redoc) documentation engine. Beyond\r\nthe standard OpenAPI syntax, we use a few \r\n\r\n[vendor\r\nextensions](https://github.com/Redocly/Redoc/blob/master/docs/redoc-vendor-extensions.md).\r\n\r\n# Authentication\r\n\r\nTo authenticate yourself to GIGALOGISTICS, you need to include an `Authorization`\r\nheader in each API call. If you don't include a key when making an API\r\nrequest, or if you use an incorrect or expired key, then GIGALOGISTICS will\r\nrespond with a `401 Unauthorized` error.<br>\r\n<br>\r\nLearn more about API keys in our [authentication\r\nguide](https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html)."
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -43,9 +43,9 @@ paths:
       summary: List Carriers
       description: List all carriers that have been added to this account.
       operationId: listCarrier
-      security:
-        - api_key: []
-        - basic_auth: []
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
       responses:
         '200':
           description: OK
@@ -62,10 +62,9 @@ paths:
       summary: Get Carrier By ID
       description: Retrive carrier info by ID
       operationId: getCarrierById
-      security:
-        - api_key: []
-        - basic_auth: []
+      security: []
       parameters:
+        - $ref: '#/components/parameters/Authorization'
         - name: carrierId
           in: path
           description: Carrier ID
@@ -90,10 +89,9 @@ paths:
       summary: Get Carrier Options
       description: Get a list of the options available for the carrier
       operationId: getCarrierOptionById
-      security:
-        - api_key: []
-        - basic_auth: []
+      security: []
       parameters:
+        - $ref: '#/components/parameters/Authorization'
         - name: carrierId
           in: path
           description: Carrier ID
@@ -121,10 +119,9 @@ paths:
       summary: List Carrier Package Types
       description: List the package types associated with the carrier
       operationId: getCarrierPackageById
-      security:
-        - api_key: []
-        - basic_auth: []
+      security: []
       parameters:
+        - $ref: '#/components/parameters/Authorization'
         - name: carrierId
           in: path
           description: Carrier ID
@@ -152,10 +149,9 @@ paths:
       summary: List Carrier Services
       description: List the services associated with the carrier ID
       operationId: getCarrierServiceById
-      security:
-        - api_key: []
-        - basic_auth: []
+      security: []
       parameters:
+        - $ref: '#/components/parameters/Authorization'
         - name: carrierId
           in: path
           description: Carrier ID
@@ -186,8 +182,21 @@ paths:
         the first step in creating a shipping label, or creating a manifest.
         It's also essential for getting shipping rates.
       operationId: createShipment
-      security:
-        - api_key: []
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - name: transactionId
+          in: header
+          required: true
+          schema:
+            description: >-
+              This element allows you to assign a unique identifier to your
+              transaction. This element is also returned in the reply and helps
+              you match the request to the reply.
+            type: string
+            minLength: 1
+            maxLength: 50
+            example: XXXX_XXX123XXXXX
       requestBody:
         content:
           application/json:
@@ -212,8 +221,9 @@ paths:
         Mark a shipment cancelled, if it is no longer needed or being used by
         your organized.
       operationId: cancelShipment
-      security:
-        - api_key: []
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
       requestBody:
         content:
           application/json:
@@ -236,8 +246,9 @@ paths:
       summary: List Warehouses
       description: Retrieve a list of warehouses associated with this account.
       operationId: listWarehouses
-      security:
-        - api_key: []
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
       responses:
         '200':
           description: The request was a success.
@@ -265,8 +276,9 @@ paths:
         not supplied in the request body then it is assumed that the origin
         address is the return address as well
       operationId: createWarehouse
-      security:
-        - api_key: []
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
       requestBody:
         content:
           application/json:
@@ -308,10 +320,9 @@ paths:
       description: |
         Retrieve warehouse data based on the warehouse ID
       operationId: getWarehouseById
-      security:
-        - main_auth:
-            - read:users
-        - api_key: []
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
       responses:
         '200':
           description: Success
@@ -332,10 +343,9 @@ paths:
       description: |
         Update Warehouse object information
       operationId: updateWarehouseById
-      security:
-        - main_auth:
-            - read:users
-        - api_key: []
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
       requestBody:
         content:
           application/json:
@@ -363,10 +373,9 @@ paths:
       description: |
         Delete a warehouse by ID
       operationId: removeWarehouseById
-      security:
-        - main_auth:
-            - read:users
-        - api_key: []
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
       responses:
         '200':
           description: Success
@@ -380,22 +389,17 @@ paths:
           description: User not found
           $ref: '#/components/responses/Problem'
 components:
-  securitySchemes:
-    main_auth:
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: http://example.com/api/oauth/dialog
-          scopes:
-            read:users: read users info
-            write:users: modify or remove users
-    api_key:
-      type: apiKey
+  parameters:
+    Authorization:
+      name: Authorization
       in: header
-      name: api_key
-    basic_auth:
-      type: http
-      scheme: basic
+      required: true
+      schema:
+        type: string
+        description: >-
+          Example: `Bearer XXX` <br> This indicates the
+          [authorization](http://127.0.0.1:8080/#section/Authentication) token
+          for the input request.
   schemas:
     Service:
       type: object
@@ -541,9 +545,8 @@ components:
           example: account_570827
         requiresFundedAmount:
           description: Indicates whether the carrier requires funding to use its services
-          type: string
-          minLength: 1
-          example: account_570827
+          type: boolean
+          example: false
         balance:
           description: Current available balance
           type: number
@@ -1023,10 +1026,10 @@ components:
           type: string
           enum:
             - PDF
-            - GIF
+            - JPG
             - PNG
-            - TIFF
-            - JPEG
+            - EPL
+            - ZPL
           example: PDF
         labelStockType:
           description: Indicate the label stock type used.
@@ -1322,15 +1325,6 @@ components:
     create_shipments_request_body:
       type: object
       properties:
-        transactionId:
-          description: >-
-            This element allows you to assign a unique identifier to your
-            transaction. This element is also returned in the reply and helps
-            you match the request to the reply.
-          type: string
-          minLength: 1
-          maxLength: 50
-          example: XXXX_XXX123XXXXX
         carrierId:
           description: The carrier account that is billed for the shipping charges.
           type: string
