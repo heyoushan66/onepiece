@@ -6,7 +6,7 @@ info:
   contact:
     name: GigaLogistics Sales & Support
     email: sa-support@gigacloudtech.com
-    url: http://example.com/contact
+    url: https://platform.gigacloudlogistics.com/docs/
   x-logo:
     url: >-
       http://ar-logistics-hk-prod.oss-cn-hongkong.aliyuncs.com/logistics-parent/openapi/DJYClogo1.png
@@ -28,10 +28,12 @@ tags:
       essential for getting shipping rates.
   - name: Tracking
     description: tracking
+  - name: LTL
+    description: Ltl shipping.
   - name: Warehouses
     description: warehouses
 servers:
-  - url: https://sandbox.com
+  - url: http://sit.gateway.orsd.tech/gw/cloud-ship-service
     description: Sandbox Server
   - url: https://prod.com
     description: Production Server
