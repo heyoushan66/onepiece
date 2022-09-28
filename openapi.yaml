@@ -231,7 +231,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResp'
         '500':
-          description: An error occurred on GIGALOGISTICS side.
+          description: Failure
           content:
             application/json:
               schema:
@@ -1175,38 +1175,22 @@ components:
         carrier.
       properties:
         ref1:
-          description: >-
-            The first line of the custom label message. Some carriers may prefix
-            this line with something like "PO", "Reference", "Trx Ref No.", etc.
           type: string
           minLength: 1
           example: RB1-UB-20220221-18853
         ref2:
-          description: >-
-            The second line of the custom label message. Some carriers may
-            prefix this line with something like "INV", "Reference 2", "Trx Ref
-            No.", etc.
           type: string
           minLength: 1
           example: W44616989
         ref3:
-          description: >-
-            The third line of the custom label message. Some carriers may prefix
-            this line with something like "REF", "Reference 3", etc.
           type: string
           minLength: 1
           example: W44616989
         ref4:
-          description: >-
-            The third line of the custom label message. Some carriers may prefix
-            this line with something like "DEPT", "Reference 4", etc.
           type: string
           minLength: 1
           example: W44616989
         ref5:
-          description: >-
-            The third line of the custom label message. Some carriers may prefix
-            this line with something like "RMA", "Reference 5", etc.
           type: string
           minLength: 1
           example: W44616989
@@ -1376,7 +1360,7 @@ components:
           description: The recipient's mailing address
           allOf:
             - $ref: '#/components/schemas/addressAndConcat'
-        paymentOptions:
+        paymentOption:
           description: >-
             Specifies the payment details specifying the method and means of
             payment to carrier for providing shipping services.
@@ -1451,7 +1435,7 @@ components:
              > **Note:** When fileUrl is null, fileBytes must have a value, otherwise, when fileUrl is not empty, fileBytes is null
           type: string
           example: https://XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-        fileBytes:
+        fileBase64:
           description: >-
             Base64 string representing label data. Decode this from base64 to
             get your label in the right encoding. E.g. a png label decoded from
@@ -1527,8 +1511,10 @@ components:
             description: Find more info here
         packageDocuments:
           description: These are package documents returned in the response.
-          allOf:
-            - $ref: '#/components/schemas/PackageDoc'
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/PackageDoc'
       required:
         - itemTransactionId
         - itemCode
@@ -1553,16 +1539,13 @@ components:
           description: Return the code of a Carrier operating company
           type: string
           enum:
-            - FDXE
-            - FDXG
-            - FXSP
-            - FXCC
+            - FedEx
             - WHISTL
             - DPD
             - GLS
             - GEL
             - EVRI
-          example: FDXE
+          example: FedEx
         serviceType:
           description: >-
             The carrier service used to ship the package, such as
@@ -1572,7 +1555,7 @@ components:
             url: >-
               https://platform.gigacloudlogistics.com/docs/guide/shipping/specify-carrier-service.html
           type: string
-        paymentOptions:
+        paymentOption:
           description: >-
             Specifies the payment details specifying the method and means of
             payment to carrier for providing shipping services.
