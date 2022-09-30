@@ -1484,6 +1484,89 @@
           "labelStockType"
         ]
       },
+      "LabelSpecification_dpd": {
+        "type": "object",
+        "discriminator": {
+          "propertyName": "imageType",
+          "mapping": {
+            "PDF": "#/components/schemas/dpd_file",
+            "BARCODE_IMAGE": "#/components/schemas/dpd_file",
+            "MULTIPAGE_IMAGE": "#/components/schemas/dpd_file",
+            "DPL": "#/components/schemas/dpd_printer",
+            "PDL": "#/components/schemas/dpd_printer",
+            "ZPL": "#/components/schemas/dpd_printer"
+          }
+        },
+        "properties": {
+          "imageType": {
+            "description": "Specify the image format used for a shipping document. A7 only prints return labels.",
+            "type": "string",
+            "enum": [
+              "PDF",
+              "BARCODE_IMAGE",
+              "MULTIPAGE_IMAGE",
+              "DPL",
+              "PDL",
+              "ZPL"
+            ],
+            "example": "PDF"
+          }
+        },
+        "required": [
+          "imageType"
+        ]
+      },
+      "dpd_file": {
+        "type": "object",
+        "description": "Indicate the label stock type used.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/LabelSpecification_dpd"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "labelStockType": {
+                "type": "string",
+                "example": "A6",
+                "enum": [
+                  "A4",
+                  "A6",
+                  "A7"
+                ]
+              }
+            }
+          }
+        ],
+        "required": [
+          "labelStockType"
+        ]
+      },
+      "dpd_printer": {
+        "type": "object",
+        "description": "Indicate the label stock type used.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/LabelSpecification_dpd"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "labelStockType": {
+                "type": "string",
+                "example": "A6",
+                "enum": [
+                  "A6",
+                  "A7"
+                ]
+              }
+            }
+          }
+        ],
+        "required": [
+          "labelStockType"
+        ]
+      },
       "Weight": {
         "type": "object",
         "properties": {
@@ -1859,6 +1942,9 @@
               },
               {
                 "$ref": "#/components/schemas/LabelSpecification_whistl"
+              },
+              {
+                "$ref": "#/components/schemas/LabelSpecification_dpd"
               }
             ]
           },
@@ -2084,6 +2170,9 @@
               },
               {
                 "$ref": "#/components/schemas/LabelSpecification_whistl"
+              },
+              {
+                "$ref": "#/components/schemas/LabelSpecification_dpd"
               }
             ]
           },
