@@ -59,7 +59,7 @@
     }
   ],
   "paths": {
-    "/cloud-boot-manager/v1/carriers": {
+    "/cloud-boot-manager/api/v1/carriers": {
       "get": {
         "tags": [
           "Carriers"
@@ -79,18 +79,45 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CarrierResp"
+                  "$ref": "#/components/schemas/CarrierListResp"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request contained verification failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
                 }
               }
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/cloud-boot-manager/v1/carriers/{carrierId}": {
+    "/cloud-boot-manager/api/v1/carriers/{carrierId}": {
       "get": {
         "tags": [
           "Carriers"
@@ -121,18 +148,45 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Carrier"
+                  "$ref": "#/components/schemas/CarrierOneResp"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request contained verification failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
                 }
               }
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/cloud-boot-manager/v1/carrier/{carrierId}/options": {
+    "/cloud-boot-manager/api/v1/carrier/{carrierId}/options": {
       "get": {
         "tags": [
           "Carriers"
@@ -166,19 +220,46 @@
                   "type": "array",
                   "description": "AN array of carrier options",
                   "items": {
-                    "$ref": "#/components/schemas/Option"
+                    "$ref": "#/components/schemas/CarrierOptionResp"
                   }
                 }
               }
             }
           },
+          "400": {
+            "description": "The request contained verification failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/cloud-boot-manager/v1/carrier/{carrierId}/packages": {
+    "/cloud-boot-manager/api/v1/carrier/{carrierId}/packages": {
       "get": {
         "tags": [
           "Carriers"
@@ -212,19 +293,46 @@
                   "type": "array",
                   "description": "AN array of carrier options",
                   "items": {
-                    "$ref": "#/components/schemas/Package"
+                    "$ref": "#/components/schemas/CarrierPackageResp"
                   }
                 }
               }
             }
           },
+          "400": {
+            "description": "The request contained verification failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/cloud-boot-manager/v1/carrier/{carrierId}/services": {
+    "/cloud-boot-manager/api/v1/carrier/{carrierId}/services": {
       "get": {
         "tags": [
           "Carriers"
@@ -258,14 +366,41 @@
                   "type": "array",
                   "description": "AN array of carrier options",
                   "items": {
-                    "$ref": "#/components/schemas/Service"
+                    "$ref": "#/components/schemas/CarrierServiceResp"
                   }
                 }
               }
             }
           },
+          "400": {
+            "description": "The request contained verification failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
           }
         }
       }
@@ -401,13 +536,40 @@
               }
             }
           },
+          "400": {
+            "description": "The request contained verification failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/cloud-boot-manager/v1/warehouse": {
+    "/cloud-boot-manager/v1/warehouses": {
       "get": {
         "tags": [
           "Warehouses"
@@ -427,24 +589,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "title": "list_warehouses_response_body",
-                  "description": "A warehouse list response body",
-                  "properties": {
-                    "warehouses": {
-                      "description": "The array of warehouses returned by the API call",
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Warehouse"
-                      }
-                    }
-                  }
+                  "$ref": "#/components/schemas/WhListSuccessResp"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request contained verification failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
                 }
               }
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
           }
         }
       },
@@ -478,29 +656,45 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "title": "list_warehouses_response_body",
-                  "description": "A warehouse list response body",
-                  "properties": {
-                    "warehouses": {
-                      "description": "The array of warehouses returned by the API call",
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Warehouse"
-                      }
-                    }
-                  }
+                  "$ref": "#/components/schemas/WhOneSuccessResp"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request contained verification failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
                 }
               }
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/cloud-boot-manager/v1/warehouse/{warehouseId}": {
+    "/cloud-boot-manager/v1/warehouses/{warehouseId}": {
       "parameters": [
         {
           "name": "warehouseId",
@@ -533,18 +727,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Warehouse"
+                  "$ref": "#/components/schemas/WhOneSuccessResp"
                 }
               }
             }
           },
-          "403": {
-            "description": "Forbidden",
-            "$ref": "#/components/responses/Problem"
+          "400": {
+            "description": "The request contained verification failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
           },
-          "404": {
-            "description": "User not found",
-            "$ref": "#/components/responses/Problem"
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
           }
         }
       },
@@ -578,18 +794,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Warehouse"
+                  "$ref": "#/components/schemas/WhOneSuccessResp"
                 }
               }
             }
           },
-          "403": {
-            "description": "Forbidden",
-            "$ref": "#/components/responses/Problem"
+          "400": {
+            "description": "The request contained verification failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
           },
-          "404": {
-            "description": "User not found",
-            "$ref": "#/components/responses/Problem"
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
           }
         }
       },
@@ -612,17 +850,48 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "boolean"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "Used to judge whether it is successful.",
+                      "example": true,
+                      "default": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request contained verification failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
                 }
               }
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
           },
-          "404": {
-            "description": "User not found",
-            "$ref": "#/components/responses/Problem"
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
           }
         }
       }
@@ -889,31 +1158,16 @@
           }
         }
       },
-      "CarrierError": {
+      "CarrierListResp": {
         "type": "object",
         "properties": {
-          "errorCode": {
-            "description": "The error code specified for the failed API Call",
-            "type": "string",
-            "minLength": 1,
-            "example": "auto_fund_not_supported"
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "example": true,
+            "default": true
           },
-          "message": {
-            "description": "An error message associated with the failed API call",
-            "type": "string",
-            "minLength": 1,
-            "example": "Body of request cannot be null."
-          }
-        },
-        "required": [
-          "errorCode",
-          "message"
-        ]
-      },
-      "CarrierResp": {
-        "type": "object",
-        "properties": {
-          "carriers": {
+          "data": {
             "description": "The carrier response body",
             "type": "array",
             "items": {
@@ -923,29 +1177,128 @@
                 }
               ]
             }
-          },
-          "requestId": {
-            "description": "A UUID that uniquely identifies the request id. This can be given to the support team to help debug non-trivial issues that may occur",
-            "type": "string",
-            "minLength": 1,
-            "example": "aa3d8e8e-462b-4476-9618-72db7f7b7009"
-          },
-          "errors": {
-            "description": "The errors associated with the failed API call",
-            "type": "array",
-            "items": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/CarrierError"
-                }
-              ]
-            }
           }
         },
         "required": [
-          "carriers",
-          "requestId",
-          "errors"
+          "success",
+          "data"
+        ]
+      },
+      "ErrorResp": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "default": false,
+            "example": false
+          },
+          "errCode": {
+            "description": "The error code specified for the failed API Call.",
+            "type": "string",
+            "example": "InvalidToken"
+          },
+          "errMessage": {
+            "description": "An error message associated with the failed API call",
+            "type": "string",
+            "example": "An access token is missing,expired,revoked,malformed,or invalid for other reasons"
+          }
+        },
+        "required": [
+          "success",
+          "errCode"
+        ]
+      },
+      "CarrierOneResp": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "example": true,
+            "default": true
+          },
+          "data": {
+            "description": "The carrier response body",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Carrier"
+              }
+            ]
+          }
+        },
+        "required": [
+          "success",
+          "data"
+        ]
+      },
+      "CarrierOptionResp": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "example": true,
+            "default": true
+          },
+          "data": {
+            "description": "The carrier response body",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Option"
+              }
+            ]
+          }
+        },
+        "required": [
+          "success",
+          "data"
+        ]
+      },
+      "CarrierPackageResp": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "example": true,
+            "default": true
+          },
+          "data": {
+            "description": "The carrier response body",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Package"
+              }
+            ]
+          }
+        },
+        "required": [
+          "success",
+          "data"
+        ]
+      },
+      "CarrierServiceResp": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "example": true,
+            "default": true
+          },
+          "data": {
+            "description": "The carrier response body",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Service"
+              }
+            ]
+          }
+        },
+        "required": [
+          "success",
+          "data"
         ]
       },
       "contact": {
@@ -1141,7 +1494,7 @@
       "signature_option_fedex": {
         "type": "object",
         "properties": {
-          "signatureOption": {
+          "signatureOptionType": {
             "description": "Valid Values:\n\n - `ADULT`: Adult signature required, at recipient address.\n\n - `DIRECT`: Signature required, at recipient address.\n\n - `INDIRECT`: Signature required, alternate address is accepted.This option is available for residential deliveries only\n\n - `NO_SIGNATURE_REQUIRED`: Signature is not required.\n\n - `SERVICE_DEFAULT`: Signature handled as per current Service Guide.",
             "type": "string",
             "enum": [
@@ -1158,27 +1511,27 @@
       "signature_option_gel": {
         "type": "object",
         "properties": {
-          "signatureOption": {
+          "signatureOptionType": {
             "description": "Signing service type",
             "type": "string",
             "enum": [
               "NO_SIGNATURE_REQUIRED",
-              "DIRECT"
+              "SIGNATURE_REQUIRED"
             ],
             "example": "NO_SIGNATURE_REQUIRED",
-            "default": "DIRECT"
+            "default": "SIGNATURE_REQUIRED"
           }
         }
       },
       "signature_option_evri": {
         "type": "object",
         "properties": {
-          "signatureOption": {
+          "signatureOptionType": {
             "description": "Signing service type",
             "type": "string",
             "enum": [
               "NO_SIGNATURE_REQUIRED",
-              "DIRECT"
+              "SIGNATURE_REQUIRED"
             ],
             "default": "NO_SIGNATURE_REQUIRED",
             "example": "NO_SIGNATURE_REQUIRED"
@@ -2299,31 +2652,6 @@
           "data"
         ]
       },
-      "ErrorResp": {
-        "type": "object",
-        "properties": {
-          "success": {
-            "description": "Used to judge whether it is successful.",
-            "type": "boolean",
-            "default": false,
-            "example": false
-          },
-          "errCode": {
-            "description": "The error code specified for the failed API Call.",
-            "type": "string",
-            "example": "UNKNOWN_ERROR"
-          },
-          "errMessage": {
-            "description": "An error message associated with the failed API call",
-            "type": "string",
-            "example": "Parameter check exception"
-          }
-        },
-        "required": [
-          "success",
-          "errCode"
-        ]
-      },
       "cencel_shipments_request_body": {
         "type": "object",
         "properties": {
@@ -2340,7 +2668,7 @@
           },
           "trackingNumber": {
             "type": "string",
-            "description": "This is an unique number assigned by FedEx to the packages for tracking.<br/> Example: '794953555571'",
+            "description": "This is an unique number assigned by FedEx to the packages for tracking.<br/> Example: `794953555571`",
             "example": "794953555571"
           }
         },
@@ -2353,11 +2681,6 @@
         "type": "object",
         "description": "customer address info",
         "properties": {
-          "id": {
-            "type": "integer",
-            "minLength": 1,
-            "description": "unique id"
-          },
           "name": {
             "type": "string",
             "description": "The name of a contact person at this address. This field may be set instead of - or in addition to - the `companyName` field.",
@@ -2375,7 +2698,12 @@
           "companyName": {
             "type": "string",
             "description": "If this is a business address, then the company name should be specified here.",
-            "x-nullable": true,
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "This is the email address.",
+            "maxLength": 50,
             "example": "John Doe"
           },
           "addressLine1": {
@@ -2387,13 +2715,11 @@
           "addressLine2": {
             "type": "string",
             "description": "The second line of the street address.  For some addresses, this line may not be needed.",
-            "example": "Unit 408.",
-            "nullable": true
+            "example": "Unit 408."
           },
           "addressLine3": {
             "type": "string",
             "description": "The third line of the street address.  For some addresses, this line may not be needed.",
-            "nullable": true,
             "example": "Building #7"
           },
           "cityLocality": {
@@ -2422,19 +2748,12 @@
             "example": "US"
           },
           "addressResidentialIndicator": {
-            "type": "string",
-            "enum": [
-              "unknown",
-              "yes",
-              "no"
-            ],
-            "default": "unknown",
+            "type": "boolean",
             "description": "Indicates whether this is a residential address.",
-            "example": "yes"
+            "example": false
           }
         },
         "required": [
-          "id",
           "name",
           "phone",
           "addressLine1",
@@ -2447,17 +2766,16 @@
       },
       "Warehouse": {
         "type": "object",
-        "title": "list_warehouses_response_body",
         "description": "A warehouse list response body",
         "properties": {
           "id": {
             "description": "A string that uniquely identifies the warehouse",
             "type": "string",
-            "maxLength": 100,
-            "example": "XXXX_XXX123XXXXX"
+            "maxLength": 20,
+            "example": "xx-152452145251"
           },
           "name": {
-            "description": "Name of the warehouse",
+            "description": "Name of the warehouse, Duplicates are not allowed.",
             "type": "string",
             "minLength": 1,
             "maxLength": 25,
@@ -2500,6 +2818,32 @@
           "id",
           "name",
           "type"
+        ]
+      },
+      "WhListSuccessResp": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "example": true,
+            "default": true
+          },
+          "data": {
+            "description": "The array of warehouses returned by the API call",
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Warehouse"
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "success",
+          "data"
         ]
       },
       "AddAndUpdateReq": {
@@ -2508,17 +2852,11 @@
         "description": "create A warehouse Request",
         "properties": {
           "name": {
-            "description": "Name of the warehouse",
+            "description": "Name of the warehouse, Duplicates are not allowed.",
             "type": "string",
             "minLength": 1,
             "maxLength": 25,
             "example": "Zero Cool HQ"
-          },
-          "customerId": {
-            "description": "Warehouse customer",
-            "type": "string",
-            "maxLength": 50,
-            "example": "John"
           },
           "type": {
             "description": "Type of the warehouse",
@@ -2559,48 +2897,28 @@
           "type"
         ]
       },
-      "Problem": {
+      "WhOneSuccessResp": {
         "type": "object",
-        "additionalProperties": true,
-        "minProperties": 1,
-        "description": "The Problem Details JSON Object [[RFC7807](https://tools.ietf.org/html/rfc7807)].",
         "properties": {
-          "type": {
-            "type": "string",
-            "description": "A URI reference [[RFC3986](https://tools.ietf.org/html/rfc3986)] that identifies the problem type. It should provide human-readable documentation for the problem type. When this member is not present, its value is assumed to be \"about:blank\".",
-            "format": "uri"
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "example": true,
+            "default": true
           },
-          "title": {
-            "type": "string",
-            "description": "A short, human-readable summary of the problem type. It SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization."
-          },
-          "status": {
-            "type": "integer",
-            "description": "The HTTP status code.",
-            "minimum": 400,
-            "maximum": 599
-          },
-          "detail": {
-            "type": "string",
-            "description": "A human-readable explanation specific to this occurrence of the problem."
-          },
-          "instance": {
-            "type": "string",
-            "description": "A URI reference that identifies the specific occurrence of the problem.  It may or may not yield further information if dereferenced."
+          "data": {
+            "description": "The descriptive data of the requested shipment.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Warehouse"
+              }
+            ]
           }
-        }
-      }
-    },
-    "responses": {
-      "Problem": {
-        "description": "Problem",
-        "content": {
-          "application/problem+json": {
-            "schema": {
-              "$ref": "#/components/schemas/Problem"
-            }
-          }
-        }
+        },
+        "required": [
+          "success",
+          "data"
+        ]
       }
     }
   }
