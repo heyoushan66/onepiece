@@ -320,7 +320,7 @@ paths:
     put:
       tags:
         - Shipments
-      summary: Cancel a shipment
+      summary: Cancel Shipment
       description: >-
         Mark a shipment cancelled, if it is no longer needed or being used by
         your organized.
@@ -340,7 +340,51 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessResp'
+                $ref: '#/components/schemas/CancelSuccessResp'
+        '400':
+          description: The request contained verification failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '500':
+          description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+  /cloud-ship-service /v1/shipment/{gigaTrackingNumber}/cancel:
+    put:
+      tags:
+        - Shipments
+      summary: Cancel Shipment By GigaTrackingNumber
+      description: >-
+        Mark a shipment cancelled, According to Giga tracking number, if it is
+        no longer needed or being used by your organized.
+      operationId: cancelShipmentByGigaTrackingNumber
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - name: gigaTrackingNumber
+          in: path
+          description: Giga tracking number
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelSuccessResp'
         '400':
           description: The request contained verification failed
           content:
@@ -1702,7 +1746,7 @@ components:
           description: |-
             The URL of the shipping document/label.
 
-             > **Note:** When fileUrl is null, fileBytes must have a value, otherwise, when fileUrl is not empty, fileBytes is null
+             > **Note:** When fileUrl is null, fileBase64 must have a value, otherwise, when fileUrl is not empty, fileBase64 is null
           type: string
           example: https://XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         fileBase64:
@@ -1794,12 +1838,6 @@ components:
     Data:
       type: object
       properties:
-        transactionId:
-          description: >-
-            This element has a unique identifier added in your request, helps
-            you match the request to the reply.
-          type: string
-          example: XXXX_XXX123XXXXX
         carrierId:
           description: The carrier account that is billed for the shipping charges.
           type: string
@@ -1928,15 +1966,6 @@ components:
     cencel_shipments_request_body:
       type: object
       properties:
-        transactionId:
-          description: >-
-            This element allows you to assign a unique identifier to your
-            transaction. This element is also returned in the reply and helps
-            you match the request to the reply.
-          type: string
-          minLength: 1
-          maxLength: 50
-          example: XXXX_XXX123XXXXX
         accountNumber:
           type: string
           description: The account number (account value) associated with the shipment.
@@ -1949,6 +1978,46 @@ components:
       required:
         - accountNumber
         - trackingNumber
+    CancelData:
+      type: object
+      properties:
+        cancelledShipment:
+          description: >-
+            Indicates whether the shipment has been cancelled or not. If the
+            value is True, then it indicates that the shipment has been
+            cancelled.
+          type: boolean
+          example: false
+        cancelledHistory:
+          description: >-
+            Indicates whether the shipment has been deleted from history or not.
+            If the value is True, then it indicates that the shipment has been
+            deleted.
+          type: boolean
+          example: false
+        message:
+          description: >-
+            The success message generated during cancellation request for
+            Shipment.
+          type: string
+      required:
+        - cancelledShipment
+        - cancelledHistory
+    CancelSuccessResp:
+      type: object
+      properties:
+        success:
+          description: Used to judge whether it is successful.
+          type: boolean
+          example: true
+          default: true
+        data:
+          description: The descriptive data of the requested shipment.
+          allOf:
+            - $ref: '#/components/schemas/CancelData'
+      required:
+        - success
+        - data
     CustomerAddress:
       type: object
       description: customer address info
