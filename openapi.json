@@ -12,13 +12,21 @@
     "x-logo": {
       "url": "http://ar-logistics-hk-prod.oss-cn-hongkong.aliyuncs.com/logistics-parent/openapi/DJYClogo1.png"
     },
-    "description": "This is an **example** API to demonstrate features of the OpenAPI specification.\r\n\r\n# Getting Started\r\n\r\nThis API definition is intended to to be a good starting point for\r\ndescribing your API in \r\n\r\n[OpenAPI/Swagger\r\nformat](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md).\r\n\r\nIt also demonstrates features of the\r\n[create-openapi-repo](https://github.com/Redocly/create-openapi-repo) tool\r\nand \r\n\r\nthe [Redoc](https://github.com/Redocly/Redoc) documentation engine. Beyond\r\nthe standard OpenAPI syntax, we use a few \r\n\r\n[vendor\r\nextensions](https://github.com/Redocly/Redoc/blob/master/docs/redoc-vendor-extensions.md).\r\n\r\n# Authentication\r\n\r\nTo authenticate yourself to GIGALOGISTICS, you need to include an `Authorization`\r\nheader in each API call. If you don't include a key when making an API\r\nrequest, or if you use an incorrect or expired key, then GIGALOGISTICS will\r\nrespond with a `401 Unauthorized` error.<br>\r\n<br>\r\nLearn more about API keys in our [authentication\r\nguide](https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html).",
+    "description": "This is an **example** API to demonstrate features of the OpenAPI specification.\r\n\r\n# Getting Started\r\n\r\nThis API definition is intended to to be a good starting point for\r\ndescribing your API in \r\n\r\n[OpenAPI/Swagger\r\nformat](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md).\r\n\r\nIt also demonstrates features of the\r\n[create-openapi-repo](https://github.com/Redocly/create-openapi-repo) tool\r\nand \r\n\r\nthe [Redoc](https://github.com/Redocly/Redoc) documentation engine. Beyond\r\nthe standard OpenAPI syntax, we use a few \r\n\r\n[vendor\r\nextensions](https://github.com/Redocly/Redoc/blob/master/docs/redoc-vendor-extensions.md).",
     "license": {
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
   "tags": [
+    {
+      "name": "Authentication",
+      "description": "To authenticate yourself to GIGALOGISTICS, you need to include an `Authorization` header in each API call. If you don't include a key when making an API request, or if you use an incorrect or expired key, then GIGALOGISTICS will respond with a `401 Unauthorized` error.<br> <br> Learn more about API keys in our [authentication guide](https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html)."
+    },
+    {
+      "name": "Addresses",
+      "description": "No matter your shipping volume, failed deliveries and address change surcharges cut into your bottom line and damage perception with customers. Our address validation services ensure your packages make it to the right place the first time. Learn how to leverage our address validation services here."
+    },
     {
       "name": "Carriers",
       "description": "carriers"
@@ -59,6 +67,281 @@
     }
   ],
   "paths": {
+    "/oauth/token": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Api Authorization",
+        "description": "Use this endpoint to request the OAuth token (bearer token) to authorize your application to access GigaCloud resources. You can pass this bearer token in your subsequent individual GigaCloud API endpoint requests..",
+        "operationId": "apiAuthorization",
+        "security": [],
+        "parameters": [
+          {
+            "name": "content-type",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "description": "This is used to indicate the media type of the resource. The media type is a string sent along with the file indicating format of the file.",
+              "type": "string",
+              "example": "application/x-www-form-urlencoded"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/authorization"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The requested object creation was a success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSuccessResp"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request contained verification failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/advc/search": {
+      "post": {
+        "tags": [
+          "Addresses"
+        ],
+        "summary": "Address By Zipcode",
+        "description": "This is to get the address information through zipcode",
+        "operationId": "SearchAddressByZipcode",
+        "security": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/searchAddressReq"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchAdvcSuccessResp"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request contained verification failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/advc/postal": {
+      "post": {
+        "tags": [
+          "Addresses"
+        ],
+        "summary": "Address Valid Zipcode Level",
+        "description": "This is the address verification zipcode level; Currently only Fedex supports this feature.",
+        "operationId": "AdvcZipcodeLevel",
+        "security": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/postalAdvcReq"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/postalAdvcSuccessResp"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request contained verification failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/advc": {
+      "post": {
+        "tags": [
+          "Addresses"
+        ],
+        "summary": "Address Valid Street Level",
+        "description": "This is address verification street level; Currently only Fedex supports this feature.",
+        "operationId": "AdvcStreetLevel",
+        "security": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/streetAdvcReq"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/streetAdvcSuccessResp"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request contained verification failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/cloud-boot-manager/api/v1/carriers": {
       "get": {
         "tags": [
@@ -1022,18 +1305,521 @@
     }
   },
   "components": {
-    "parameters": {
-      "Authorization": {
-        "name": "Authorization",
-        "in": "header",
-        "required": true,
-        "schema": {
-          "type": "string",
-          "description": "Example: `Bearer XXX` <br> This indicates the [authorization](http://127.0.0.1:8080/#section/Authentication) token for the input request."
-        }
-      }
-    },
     "schemas": {
+      "authorization": {
+        "type": "object",
+        "properties": {
+          "grant_type": {
+            "description": "Example: `client_credentials`<br> Specify Type of customer requesting the Oauth token.",
+            "type": "string",
+            "example": "client_credentials"
+          },
+          "client_id": {
+            "description": "Example: `xxxxxxxxx`<br> Specify the Client ID also known as API Key received during gigacloud Developer portal registration.",
+            "type": "string",
+            "example": "xxxxxxxx"
+          },
+          "client_secret": {
+            "description": "Example: `xxxxxxxxx`<br> Specify the Client secret also known as Secret Key received during gigacloud Developer portal registration.",
+            "type": "string",
+            "example": "xxxxxxxx"
+          }
+        }
+      },
+      "AuthSuccessResp": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "description": "This is an encrypted OAuth token used to authenticate your API requests. Use it in the authorization header of your API requests.",
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX……"
+          },
+          "token_type": {
+            "description": "This is a token type. In this case, it is 'bearer authentication'.",
+            "type": "string",
+            "example": "Bearer"
+          },
+          "expires_in": {
+            "description": "Indicates the token expiration time in seconds. The standard token expiration time is one hour.",
+            "type": "integer",
+            "example": 3600
+          },
+          "scope": {
+            "description": "Indicates the scope of authorization provided to the consumer.",
+            "type": "string",
+            "example": "ALL"
+          }
+        }
+      },
+      "AuthErrorResp": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "description": "Indicates the error code.",
+            "type": "string",
+            "example": "invalid_client"
+          },
+          "error_description": {
+            "description": "Indicates the API error alert message.",
+            "type": "string",
+            "example": "Invalid client credentials"
+          }
+        }
+      },
+      "searchAddressReq": {
+        "type": "object",
+        "properties": {
+          "countryCode": {
+            "description": "This is the two-letter country code.",
+            "type": "string",
+            "example": "US"
+          },
+          "zipcode": {
+            "description": "This is the postal code.",
+            "type": "string",
+            "example": "04756"
+          }
+        },
+        "required": [
+          "countryCode",
+          "zipcode"
+        ]
+      },
+      "addressInfoBySearch": {
+        "type": "object",
+        "properties": {
+          "countryCode": {
+            "description": "This is ISO alpha 2 country code.",
+            "type": "string",
+            "example": "US"
+          },
+          "stateOrProvinceCode": {
+            "description": "This is state or province code.",
+            "type": "string",
+            "example": "ME"
+          },
+          "city": {
+            "description": "This is city name.",
+            "type": "string",
+            "example": "MADAWASKA"
+          },
+          "zipcode": {
+            "description": "This is the postal code.",
+            "type": "string",
+            "example": "04756",
+            "maxLength": 5,
+            "minLength": 5
+          }
+        },
+        "required": [
+          "countryCode",
+          "stateOrProvinceCode",
+          "city",
+          "zipcode"
+        ]
+      },
+      "SearchAdvcSuccessResp": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "example": true,
+            "default": true
+          },
+          "data": {
+            "description": "The descriptive data of the requested shipment.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/addressInfoBySearch"
+              }
+            ]
+          }
+        },
+        "required": [
+          "success",
+          "data"
+        ]
+      },
+      "ErrorResp": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "default": false,
+            "example": false
+          },
+          "errCode": {
+            "description": "The error code specified for the failed API Call.",
+            "type": "string",
+            "example": "InvalidToken"
+          },
+          "errMessage": {
+            "description": "An error message associated with the failed API call",
+            "type": "string",
+            "example": "An access token is missing,expired,revoked,malformed,or invalid for other reasons"
+          }
+        },
+        "required": [
+          "success",
+          "errCode"
+        ]
+      },
+      "carrier_option_fedex": {
+        "type": "string",
+        "description": "Specify the four letter code of a FedEx operating company that meets your requirements",
+        "enum": [
+          "FDXE",
+          "FDXG",
+          "FXSP",
+          "FDXC",
+          "FXCC"
+        ],
+        "example": "FDXE"
+      },
+      "postalAdvcReq": {
+        "type": "object",
+        "properties": {
+          "carrierId": {
+            "description": "The carrier account that is billed for the shipping charges.",
+            "type": "string",
+            "example": "GLSXXXXXXXXX"
+          },
+          "carrierCode": {
+            "description": "Specify the four letter code of a operating company that meets your requirements",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/carrier_option_fedex"
+              }
+            ]
+          },
+          "countryCode": {
+            "description": "The two-letter code used to identify a country.",
+            "type": "string",
+            "example": "US"
+          },
+          "stateOrProvinceCode": {
+            "description": "This is the state or province code. Format and presence of this field will vary, depending on country.",
+            "type": "string",
+            "example": "CA"
+          },
+          "zipcode": {
+            "description": "Identification code of a region (usally small) for easier and accurate mail/package delivery. The format and presence of this field may vary depending on the country.",
+            "type": "string",
+            "example": "04756"
+          },
+          "shipDate": {
+            "description": "Specify the date on which the package is to be shipped. The specified date should not be the current date or any date, 10 days after the current date. The date format must be `YYYY-MM-DD`.",
+            "type": "string",
+            "example": "2019-10-04"
+          }
+        },
+        "required": [
+          "carrierId",
+          "carrierCode",
+          "countryCode",
+          "stateOrProvinceCode",
+          "zipcode",
+          "shipDate"
+        ]
+      },
+      "addressInfoByPostal": {
+        "type": "object",
+        "properties": {
+          "countryCode": {
+            "description": "The two-letter code used to identify a country.",
+            "type": "string",
+            "example": "US"
+          },
+          "stateOrProvinceCode": {
+            "description": "This is the state or province code. Format and presence of this element will vary, depending on country.",
+            "maxLength": 2,
+            "minLength": 2,
+            "type": "string",
+            "example": "ME"
+          },
+          "cityFirstInitials": {
+            "description": "Initials of the City.",
+            "type": "string",
+            "example": "B"
+          },
+          "zipcode": {
+            "description": "This is the postal code.",
+            "type": "string",
+            "example": "04756"
+          },
+          "alterMessage": {
+            "description": "This is specifies Alert details returned in the reply such as code, message and any other parameters.",
+            "type": "string"
+          },
+          "locationDescriptions": {
+            "description": "This object specifies location details returned in the reply such as location ID, service area and airport ID etc.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "locationId": {
+                  "description": "Location id of the postal code provided.",
+                  "type": "string",
+                  "example": "MAAPD"
+                },
+                "locationNumber": {
+                  "description": "Location number of the postal code provided.",
+                  "type": "string",
+                  "example": 6955
+                },
+                "serviceArea": {
+                  "description": "Service area of the postal code provided.",
+                  "type": "string",
+                  "example": "AA"
+                },
+                "airportId": {
+                  "description": "Airport Id of the postal code provided.",
+                  "type": "string",
+                  "example": "BLR"
+                }
+              },
+              "required": [
+                "locationId",
+                "locationNumber",
+                "serviceArea",
+                "airportId"
+              ]
+            }
+          }
+        }
+      },
+      "postalAdvcSuccessResp": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "example": true,
+            "default": true
+          },
+          "data": {
+            "description": "The descriptive data of the requested shipment.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/addressInfoByPostal"
+              }
+            ]
+          }
+        },
+        "required": [
+          "success",
+          "data"
+        ]
+      },
+      "streetAdvcReq": {
+        "type": "object",
+        "properties": {
+          "carrierId": {
+            "description": "The carrier account that is billed for the shipping charges.",
+            "type": "string",
+            "example": "GLSXXXXXXXXX"
+          },
+          "countryCode": {
+            "description": "The two-letter code used to identify a country.",
+            "type": "string",
+            "example": "US"
+          },
+          "stateOrProvinceCode": {
+            "description": "This is the state or province code. Format and presence of this field will vary, depending on country.",
+            "type": "string",
+            "example": "CA"
+          },
+          "city": {
+            "description": "Indicate the name of city, town, etc.",
+            "type": "string",
+            "example": "MADAWASKA"
+          },
+          "zipcode": {
+            "description": "Identification code of a region (usally small) for easier and accurate mail/package delivery. The format and presence of this field may vary depending on the country.",
+            "type": "string",
+            "example": "04756"
+          }
+        },
+        "required": [
+          "carrierId",
+          "carrierCode",
+          "countryCode",
+          "stateOrProvinceCode",
+          "zipcode",
+          "city"
+        ]
+      },
+      "advcToken": {
+        "type": "object",
+        "properties": {
+          "changed": {
+            "description": "Indicates if it has changed from the input address.",
+            "type": "boolean"
+          },
+          "value": {
+            "description": "Indicates the changed value.",
+            "type": "string",
+            "example": "SAN JUAN"
+          }
+        }
+      },
+      "fedex_advc_street_level": {
+        "type": "object",
+        "properties": {
+          "streetLinesToken": {
+            "description": "Indicates the resolved street address lines.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "7372 PARKRIDGE BLVD",
+              "APT 286, 2903 sprank"
+            ]
+          },
+          "city": {
+            "description": "This is resolved city name.",
+            "type": "string",
+            "example": "MADAWASKA"
+          },
+          "stateOrProvinceCode": {
+            "description": "This is the state or province code. Format and presence of this element will vary, depending on country.",
+            "maxLength": 2,
+            "minLength": 2,
+            "type": "string",
+            "example": "ME"
+          },
+          "countryCode": {
+            "description": "This is resolved ISO alpha 2 country code.",
+            "type": "string",
+            "example": "US",
+            "maxLength": 2,
+            "minLength": 2
+          },
+          "customerMessage": {
+            "description": "This is specifies Alert details returned in the reply such as code, message and any other parameters.\n Following are informational code and messages with respect to the results:\n - INVALID.SUITE.NUMBER - Invalid or missing Apartment/Suite\n - SUITE.NUMBER.REQUIRED - Invalid or missing Apartment/Suite\n - PARTIAL.STREET.MATCH - A street address is required for delivery. The entered address is a street number range.\n - MISSING.OR.AMBIGUOUS.DIRECTIONAL - Invalid or missing address directional.\n - INTERPOLATED.STREET.ADDRESS - Unable to confirm exact street number for the entered street name. The address falls within a valid range for the street name.\n - RRHC.CONVERSION - A street address is required for delivery. The address has been converted from a rural route.",
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "cityToken": {
+            "description": "This is the resolved city name with a token. The token is an indication to the changes made.",
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/advcToken"
+                }
+              ]
+            }
+          },
+          "postalCodeToken": {
+            "description": "This is the resolved postal code with a token. The token is an indication to the changes made.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/advcToken"
+              }
+            ]
+          },
+          "parsedPostalCode": {
+            "description": "The postal code specified in a form that is supported by USPS as base, secondary and tertiary.\\n - Base - AddOn - DeliveryPoint",
+            "example": "75063-8659",
+            "type": "object",
+            "properties": {
+              "base": {
+                "type": "string",
+                "description": "Indicates the base.",
+                "example": "00926"
+              },
+              "addOn": {
+                "type": "string",
+                "example": "2716",
+                "description": "Indicates the secondary value in Postal Code."
+              },
+              "deliveryPoint": {
+                "type": "string",
+                "example": "50",
+                "description": "Indicates the tertiary value in Postal Code."
+              }
+            }
+          },
+          "classification": {
+            "type": "string",
+            "enum": [
+              "MIXED",
+              "UNKNOWN",
+              "BUSINESS",
+              "RESIDENTIAL"
+            ],
+            "description": "This is the classification type of a FedEx address.Valid values:\n - BUSINESS\n - RESIDENTIAL\n - MIXED (If it is a multi-tenant based address and contains both business and residential units.)\n - UNKNOWN (If just a zip code is provided, Address Validation Service returns `unknown` for the business/residential classification.)",
+            "example": "UNKNOWN"
+          },
+          "postOfficeBox": {
+            "type": "boolean",
+            "description": "Indicates if the resolved address is a P.O. Box.",
+            "example": false
+          },
+          "normalizedStatusNameDPV": {
+            "type": "boolean",
+            "description": "Indicates the presence of a delivery point such as a mailbox. Provided only for US addresses that are standardized against Postal Data.",
+            "example": false
+          },
+          "standardizedStatusNameMatchSource": {
+            "type": "string",
+            "description": "Indicates the source from which the standardized address is matched.",
+            "example": "Postal or Map."
+          },
+          "resolutionMethodName": {
+            "type": "string",
+            "description": "Indicates the resolution method used to resolve the address.Valid values: - USPS_VALIDATE\\n - CA_VALIDATE\\n - GENERIC_VALIDATE\\n - NAVTEQ_GEO_VALIDATE\\n - TELEATLAS_GEO_VALIDATE\\n",
+            "example": "USPS_VALIDATE"
+          },
+          "ruralRouteHighwayContract": {
+            "type": "boolean",
+            "description": "Indicates if the resolved address is a Rural Route or Highway Contract (US only). It returns true if it is rural route.",
+            "example": true
+          },
+          "generalDelivery": {
+            "type": "boolean",
+            "description": "Indicates the mail service is for those without permanent address. The mails for this address are held at a post office. Only applies to addresses that can be standardized against Postal Data. Not provided for US Geo Validated addresses. Note: Only returned when the address cannot be resolved.",
+            "example": false
+          },
+          "attributes": {
+            "type": "object",
+            "description": "These are the key-value pair as additional information returned along with the address processed by the system. These attribute will list what is working and what is not on the input address. For More information, look in to Chapter Address Attributes in the Overview.",
+            "externalDocs": {
+              "description": "Find more info here",
+              "url": "https://developer.fedex.com/api/en-us/guides/api-reference.html#addressattributes"
+            }
+          }
+        }
+      },
+      "streetAdvcSuccessResp": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "example": true,
+            "default": true
+          },
+          "data": {
+            "description": "The descriptive data of the requested shipment.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/fedex_advc_street_level"
+              }
+            ]
+          }
+        },
+        "required": [
+          "success",
+          "data"
+        ]
+      },
       "Service": {
         "type": "object",
         "properties": {
@@ -1306,31 +2092,6 @@
         "required": [
           "success",
           "data"
-        ]
-      },
-      "ErrorResp": {
-        "type": "object",
-        "properties": {
-          "success": {
-            "description": "Used to judge whether it is successful.",
-            "type": "boolean",
-            "default": false,
-            "example": false
-          },
-          "errCode": {
-            "description": "The error code specified for the failed API Call.",
-            "type": "string",
-            "example": "InvalidToken"
-          },
-          "errMessage": {
-            "description": "An error message associated with the failed API call",
-            "type": "string",
-            "example": "An access token is missing,expired,revoked,malformed,or invalid for other reasons"
-          }
-        },
-        "required": [
-          "success",
-          "errCode"
         ]
       },
       "CarrierOneResp": {
@@ -2201,6 +2962,22 @@
           }
         }
       },
+      "signature_option_ups": {
+        "type": "object",
+        "properties": {
+          "signatureOptionType": {
+            "description": "Valid Values:\n\n - `NO_SIGNATURE_REQUIRED`: Signature is not required.\n\n - `SIGNATURE_REQUIRED`: Signature required.\n\n - `ADULT`: Adult signature required.",
+            "type": "string",
+            "enum": [
+              "NO_SIGNATURE_REQUIRED",
+              "SIGNATURE_REQUIRED",
+              "ADULT"
+            ],
+            "example": "NO_SIGNATURE_REQUIRED",
+            "default": "NO_SIGNATURE_REQUIRED"
+          }
+        }
+      },
       "LabelSpecification_fedex": {
         "type": "object",
         "discriminator": {
@@ -2583,6 +3360,73 @@
           "labelStockType"
         ]
       },
+      "LabelSpecification_ups": {
+        "type": "object",
+        "discriminator": {
+          "propertyName": "imageType",
+          "mapping": {
+            "PNG": "#/components/schemas/ups_file",
+            "GIF": "#/components/schemas/ups_file",
+            "EPL": "#/components/schemas/ups_printer",
+            "ZPL": "#/components/schemas/ups_printer",
+            "SPL": "#/components/schemas/ups_printer"
+          }
+        },
+        "properties": {
+          "imageType": {
+            "description": "Specify the image format used for a shipping document.",
+            "type": "string",
+            "enum": [
+              "PNG",
+              "GIF",
+              "EPL",
+              "ZPL",
+              "SPL"
+            ],
+            "example": "GIF"
+          }
+        },
+        "required": [
+          "imageType"
+        ]
+      },
+      "ups_file": {
+        "type": "object",
+        "description": "Indicate the label stock type used.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/LabelSpecification_ups"
+          },
+          {
+            "type": "object"
+          }
+        ]
+      },
+      "ups_printer": {
+        "type": "object",
+        "description": "Indicate the label stock type used. IN_4_6 means 4*6 inches. IN_4_8 means 4*8 inches.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/LabelSpecification_ups"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "labelStockType": {
+                "type": "string",
+                "example": "IN_4_6",
+                "enum": [
+                  "IN_4_6",
+                  "IN_4_8"
+                ]
+              }
+            }
+          }
+        ],
+        "required": [
+          "labelStockType"
+        ]
+      },
       "Weight": {
         "type": "object",
         "properties": {
@@ -2942,6 +3786,9 @@
               },
               {
                 "$ref": "#/components/schemas/signature_option_evri"
+              },
+              {
+                "$ref": "#/components/schemas/signature_option_ups"
               }
             ]
           },
@@ -2961,6 +3808,9 @@
               },
               {
                 "$ref": "#/components/schemas/LabelSpecification_dpd"
+              },
+              {
+                "$ref": "#/components/schemas/LabelSpecification_ups"
               }
             ]
           },
@@ -3165,6 +4015,9 @@
               },
               {
                 "$ref": "#/components/schemas/signature_option_evri"
+              },
+              {
+                "$ref": "#/components/schemas/signature_option_ups"
               }
             ]
           },
@@ -3184,6 +4037,9 @@
               },
               {
                 "$ref": "#/components/schemas/LabelSpecification_dpd"
+              },
+              {
+                "$ref": "#/components/schemas/LabelSpecification_ups"
               }
             ]
           },
@@ -3616,6 +4472,17 @@
           "success",
           "data"
         ]
+      }
+    },
+    "parameters": {
+      "Authorization": {
+        "name": "Authorization",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Example: `Bearer XXX` <br> This indicates the [authorization](http://127.0.0.1:8080/#section/Authentication) token for the input request."
+        }
       }
     }
   }
