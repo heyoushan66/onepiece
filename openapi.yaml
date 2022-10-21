@@ -959,6 +959,29 @@ components:
         - data
         - empty
         - notEmpty
+    ErrorInfo:
+      type: object
+      properties:
+        source:
+          type: string
+          enum:
+            - Carrier
+            - Platform
+          description: >-
+            The source of the error, as indicated by the name this informs us if
+            the API call failed because of the carrier or the platform itself.
+        code:
+          description: >-
+            The error code specified for the failed API Call.[Click here to see
+            more](https://platform.gigacloudlogistics.com/docs/guide/overview/error-codes.html);
+          type: string
+        message:
+          type: string
+          description: An error message associated with the failed API call
+      required:
+        - source
+        - code
+        - message
     ErrorResp:
       type: object
       properties:
@@ -967,19 +990,15 @@ components:
           type: boolean
           default: false
           example: false
-        errCode:
-          description: The error code specified for the failed API Call.
-          type: string
-          example: InvalidToken
-        errMessage:
-          description: An error message associated with the failed API call
-          type: string
-          example: >-
-            An access token is missing,expired,revoked,malformed,or invalid for
-            other reasons
+        errors:
+          description: The errors associated with the failed API call
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/ErrorInfo'
       required:
         - success
-        - errCode
+        - errors
     carrier_option_fedex:
       type: string
       description: >-
