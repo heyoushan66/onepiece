@@ -125,33 +125,41 @@
         }
       }
     },
-    "/v1/advc/search": {
+    "/v1/advc/finder/{countryCode}/{keyword}": {
       "post": {
         "tags": [
           "Addresses"
         ],
-        "summary": "Address By Zipcode",
-        "description": "This is to get the address information through zipcode",
-        "operationId": "SearchAddressByZipcode",
+        "summary": "Address finder",
+        "description": "The address is automatically completed according to the keyword query. currently only supports the United States.",
+        "operationId": "finderAddressByKeyord",
         "security": [],
         "parameters": [
           {
             "$ref": "#/components/parameters/Authorization"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/searchAddressReq"
-                  }
-                ]
-              }
+          },
+          {
+            "name": "countryCode",
+            "in": "path",
+            "description": "This is the two-letter country code.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 2
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "path",
+            "description": "This is the keyword used to query address information.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -201,8 +209,8 @@
         "tags": [
           "Addresses"
         ],
-        "summary": "Address Valid Zipcode Level",
-        "description": "This is the address verification zipcode level; Currently only Fedex supports this feature.",
+        "summary": "Validate Postal",
+        "description": "Use this endpoint to validate postal codes and service commitments. Supports city, postal, country and Origin-Destination related lookups and validations. Currently only Fedex supports this feature.",
         "operationId": "AdvcZipcodeLevel",
         "security": [],
         "parameters": [
@@ -272,8 +280,8 @@
         "tags": [
           "Addresses"
         ],
-        "summary": "Address Valid Street Level",
-        "description": "This is address verification street level; Currently only Fedex supports this feature.",
+        "summary": "Validate Address",
+        "description": "Use this endpoint to get address resolution details. These details are the outcome of validatation and resolution of the input address. An address is stated as resolved when the input address matches the known reference data. Currently only Fedex supports this feature.",
         "operationId": "AdvcStreetLevel",
         "security": [],
         "parameters": [
@@ -1366,25 +1374,6 @@
           }
         }
       },
-      "searchAddressReq": {
-        "type": "object",
-        "properties": {
-          "countryCode": {
-            "description": "This is the two-letter country code.",
-            "type": "string",
-            "example": "US"
-          },
-          "zipcode": {
-            "description": "This is the postal code.",
-            "type": "string",
-            "example": "04756"
-          }
-        },
-        "required": [
-          "countryCode",
-          "zipcode"
-        ]
-      },
       "addressInfoBySearch": {
         "type": "object",
         "properties": {
@@ -1429,16 +1418,31 @@
           },
           "data": {
             "description": "The descriptive data of the requested shipment.",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/addressInfoBySearch"
-              }
-            ]
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/addressInfoBySearch"
+                }
+              ]
+            }
+          },
+          "empty": {
+            "description": "This indicates that data is not empty",
+            "type": "boolean",
+            "example": false
+          },
+          "notEmpty": {
+            "description": "This indicates that datawei is empty",
+            "type": "boolean",
+            "example": true
           }
         },
         "required": [
           "success",
-          "data"
+          "data",
+          "empty",
+          "notEmpty"
         ]
       },
       "ErrorResp": {
