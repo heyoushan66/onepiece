@@ -47,6 +47,23 @@ tags:
     description: Ltl shipping.
   - name: Warehouses
     description: warehouses
+  - name: Error Codes
+    description: |2
+       | <br><font face='Verdana' color=#160E0C size=3>**Error Code & Message**<img width=500/></font><br>                                                                                                                                          | <br><font face='Verdana' color=#160E0C size=3>**HTTP Status Code**</font><br><br>
+        |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------
+       | <br><font face='Verdana' color=#160E0C size=2>**PARTIAL_SUCCESS_ERROR**</font><br /><br><font face='Georgia' color=#595555 size=3>The request contained several errors.</font><br><br>                                         | <font face='Verdana' color=#160E0C size=2>207 Multi Status<font>
+       | <br><font face='Verdana' color=#160E0C size=2>**BIZ_ERROR**</font><br /><br><font face='Georgia' color=#595555 size=3>Extension point exception.</font><br><br>                                                                | <font face='Verdana' color=#160E0C size=2>400 Bad Request<font>
+       | <br><font face='Verdana' color=#160E0C size=2>**VALIDATION_ERROR**</font><br /><br><font face='Georgia' color=#595555 size=3>The request parameters that you provided contain some errors.</font><br><br>                      | <font face='Verdana' color=#160E0C size=2>400 Bad Request<font>
+       | <br><font face='Verdana' color=#160E0C size=2>**NOT_SUPPORT_ERROR**</font><br /><br><font face='Georgia' color=#595555 size=3>This request system does not support.</font><br><br>                                             | <font face='Verdana' color=#160E0C size=2>400 Bad Request<font>
+       | <br><font face='Verdana' color=#160E0C size=2>**METHOD_ARGUMENT_NOT_VALID**</font><br /><br><font face='Georgia' color=#595555 size=3>This request basic validation exception.</font><br><br>                                  | <font face='Verdana' color=#160E0C size=2>400 Bad Request<font>
+       | <br><font face='Verdana' color=#160E0C size=2>**CARRIER_VALIDATION_ERROR**</font><br /><br><font face='Georgia' color=#595555 size=3>This request logistics company parameter verification is abnormal.</font><br><br>         | <font face='Verdana' color=#160E0C size=2>400 Bad Request<font>
+       | <br><font face='Verdana' color=#160E0C size=2>**INVALID_TOKEN**</font><br /><br><font face='Georgia' color=#595555 size=3>An access token is missing,expired,revoked,malformed,or invalid for other reasons.</font><br><br>    | <font face='Verdana' color=#160E0C size=2>401 Unauthorized</font>
+       | <br><font face='Verdana' color=#160E0C size=2>**ACCESS_FAILURE**</font><br /><br><font face='Georgia' color=#595555 size=3>Access to the resource is denied.</font><br><br>                                                    | <font face='Verdana' color=#160E0C size=2>403 Forbidden</font>
+       | <br><font face='Verdana' color=#160E0C size=2>**RATELIMIT_EXCEEDED**</font><br /><br><font face='Georgia' color=#595555 size=3>The request was not accepted because the application has exceeded the rate limit.</font><br><br>| <font face='Verdana' color=#160E0C size=2>429 Too Many Requests</font>
+       | <br><font face='Verdana' color=#160E0C size=2>**DUPLICATE_REQUEST**</font><br /><br><font face='Georgia' color=#595555 size=3>The transactionId is duplicated in the request.</font><br><br>                                   | <font face='Verdana' color=#160E0C size=2>429 Too Many Requests</font>
+       | <br><font face='Verdana' color=#160E0C size=2>**THIRD_PARTY_REQUEST_ERROR**</font><br /><br><font face='Georgia' color=#595555 size=3>An exception occurred while requesting a third party.</font><br><br>                     | <font face='Verdana' color=#160E0C size=2>500 Internal Server Error</font>
+       | <br><font face='Verdana' color=#160E0C size=2>**FULL_FAILED_ERROR**</font><br /><br><font face='Georgia' color=#595555 size=3>Batch request completely failed exception.</font><br><br>                                        | <font face='Verdana' color=#160E0C size=2>500 Internal Server Error</font>
+       | <br><font face='Verdana' color=#160E0C size=2>**SYS_ERROR**</font><br /><br><font face='Georgia' color=#595555 size=3>Request could not be executed due to an internal server error.</font><br><br>                            | <font face='Verdana' color=#160E0C size=2>500 Internal Server Error</font>
 servers:
   - url: http://sit.gateway.orsd.tech/gw
     description: Sandbox Server
@@ -61,7 +78,7 @@ paths:
       description: >-
         Use this endpoint to request the OAuth token (bearer token) to authorize
         your application to access GigaCloud resources. You can pass this bearer
-        token in your subsequent individual GigaCloud API endpoint requests..
+        token in your subsequent individual GigaCloud API endpoint requests.
       operationId: apiAuthorization
       security: []
       parameters:
@@ -83,13 +100,13 @@ paths:
                 - $ref: '#/components/schemas/authorization'
       responses:
         '200':
-          description: The requested object creation was a success.
+          description: Success
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthSuccessResp'
         '400':
-          description: The request contained verification failed
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -123,13 +140,13 @@ paths:
             minLength: 1
       responses:
         '200':
-          description: OK
+          description: Success
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SearchAdvcSuccessResp'
         '400':
-          description: The request contained verification failed
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -139,9 +156,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GateWayErrorResp'
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '500':
           description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
           content:
             application/json:
               schema:
@@ -167,13 +196,13 @@ paths:
                 - $ref: '#/components/schemas/postalAdvcReq'
       responses:
         '200':
-          description: OK
+          description: Success
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/postalAdvcSuccessResp'
         '400':
-          description: The request contained verification failed
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -183,9 +212,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GateWayErrorResp'
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '500':
           description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
           content:
             application/json:
               schema:
@@ -212,14 +253,14 @@ paths:
                 - $ref: '#/components/schemas/streetAdvcReq'
       responses:
         '200':
-          description: OK
+          description: Success
           content:
             application/json:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/streetAdvcSuccessResp'
         '400':
-          description: The request contained verification failed
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -229,9 +270,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GateWayErrorResp'
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '500':
           description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
           content:
             application/json:
               schema:
@@ -248,13 +301,13 @@ paths:
         - $ref: '#/components/parameters/Authorization'
       responses:
         '200':
-          description: OK
+          description: Success
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CarrierListResp'
         '400':
-          description: The request contained verification failed
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -264,9 +317,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GateWayErrorResp'
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '500':
           description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
           content:
             application/json:
               schema:
@@ -291,13 +356,13 @@ paths:
             maxLength: 25
       responses:
         '200':
-          description: OK
+          description: Success
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CarrierOneResp'
         '400':
-          description: The request contained verification failed
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -307,9 +372,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GateWayErrorResp'
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '500':
           description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
           content:
             application/json:
               schema:
@@ -334,7 +411,7 @@ paths:
             maxLength: 25
       responses:
         '200':
-          description: OK
+          description: Success
           content:
             application/json:
               schema:
@@ -343,7 +420,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/CarrierOptionResp'
         '400':
-          description: The request contained verification failed
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -353,9 +430,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GateWayErrorResp'
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '500':
           description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
           content:
             application/json:
               schema:
@@ -380,7 +469,7 @@ paths:
             maxLength: 25
       responses:
         '200':
-          description: OK
+          description: Success
           content:
             application/json:
               schema:
@@ -389,7 +478,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/CarrierPackageResp'
         '400':
-          description: The request contained verification failed
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -399,9 +488,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GateWayErrorResp'
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '500':
           description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
           content:
             application/json:
               schema:
@@ -426,7 +527,7 @@ paths:
             maxLength: 25
       responses:
         '200':
-          description: OK
+          description: Success
           content:
             application/json:
               schema:
@@ -435,7 +536,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/CarrierServiceResp'
         '400':
-          description: The request contained verification failed
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -445,9 +546,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GateWayErrorResp'
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '500':
           description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
           content:
             application/json:
               schema:
@@ -485,13 +598,41 @@ paths:
                 - $ref: '#/components/schemas/request_spot_quote'
       responses:
         '200':
-          description: OK
+          description: Success
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/success_response_spot_quote'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '401':
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '500':
+          description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
   /v-beta/ltl/shipment:
     post:
       tags:
@@ -522,13 +663,41 @@ paths:
                 - $ref: '#/components/schemas/ltl_shipment_request'
       responses:
         '200':
-          description: OK
+          description: Success
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ltl_shipment_response'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '401':
           description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '500':
+          description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
   /cloud-ship-service/v1/shipment:
     post:
       tags:
@@ -562,19 +731,19 @@ paths:
                 - $ref: '#/components/schemas/create_shipments_request_body'
       responses:
         '200':
-          description: The requested object creation was a success.
+          description: Success
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResp'
         '207':
-          description: The request was partially successful.
+          description: The request contained several errors
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PartSuccessResp'
         '400':
-          description: The request contained verification failed
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -584,15 +753,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GateWayErrorResp'
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '429':
           description: Too Many Requests
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GateWayErrorResp'
+                $ref: '#/components/schemas/ErrorResp'
         '500':
           description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
           content:
             application/json:
               schema:
@@ -617,13 +798,13 @@ paths:
                 - $ref: '#/components/schemas/cencel_shipments_request_body'
       responses:
         '200':
-          description: OK
+          description: Success
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CancelSuccessResp'
         '400':
-          description: The request contained verification failed
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -633,9 +814,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GateWayErrorResp'
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '500':
           description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
           content:
             application/json:
               schema:
@@ -661,13 +854,13 @@ paths:
             minLength: 1
       responses:
         '200':
-          description: OK
+          description: Success
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CancelSuccessResp'
         '400':
-          description: The request contained verification failed
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -677,9 +870,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GateWayErrorResp'
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '500':
           description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
           content:
             application/json:
               schema:
@@ -696,13 +901,13 @@ paths:
         - $ref: '#/components/parameters/Authorization'
       responses:
         '200':
-          description: The request was a success.
+          description: Success
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/WhListSuccessResp'
         '400':
-          description: The request contained verification failed
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -712,9 +917,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GateWayErrorResp'
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '500':
           description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
           content:
             application/json:
               schema:
@@ -741,13 +958,13 @@ paths:
         required: true
       responses:
         '200':
-          description: The request was a success.
+          description: Success
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/WhOneSuccessResp'
         '400':
-          description: The request contained verification failed
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -757,9 +974,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GateWayErrorResp'
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '500':
           description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
           content:
             application/json:
               schema:
@@ -792,7 +1021,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/WhOneSuccessResp'
         '400':
-          description: The request contained verification failed
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -802,9 +1031,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GateWayErrorResp'
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '500':
           description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
           content:
             application/json:
               schema:
@@ -834,7 +1075,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/WhOneSuccessResp'
         '400':
-          description: The request contained verification failed
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -844,9 +1085,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GateWayErrorResp'
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '500':
           description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
           content:
             application/json:
               schema:
@@ -875,7 +1128,7 @@ paths:
                     example: true
                     default: true
         '400':
-          description: The request contained verification failed
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -885,9 +1138,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GateWayErrorResp'
+                $ref: '#/components/schemas/ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
         '500':
           description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResp'
+        '503':
+          description: Service Unavailable
           content:
             application/json:
               schema:
@@ -1008,8 +1273,8 @@ components:
         source:
           type: string
           enum:
-            - Carrier
-            - Platform
+            - CARRIER
+            - GIGA
           description: >-
             The source of the error, as indicated by the name this informs us if
             the API call failed because of the carrier or the platform itself.
@@ -1042,26 +1307,6 @@ components:
       required:
         - success
         - errors
-    GateWayErrorResp:
-      type: object
-      properties:
-        success:
-          description: Used to judge whether it is successful.
-          type: boolean
-          default: false
-          example: false
-        errCode:
-          description: >-
-            The error code specified for the failed API Call.[Click here to see
-            more](https://platform.gigacloudlogistics.com/docs/guide/overview/error-codes.html);
-          type: string
-        errMessage:
-          type: string
-          description: An error message associated with the failed API call
-      required:
-        - success
-        - errCode
-        - errMessage
     carrier_option_fedex:
       type: string
       description: >-
@@ -2334,7 +2579,7 @@ components:
       properties:
         bolNumber:
           type: string
-          description: null
+          description: ''
         documents:
           type: array
           description: >-
@@ -3503,13 +3748,6 @@ components:
             cancelled.
           type: boolean
           example: false
-        cancelledHistory:
-          description: >-
-            Indicates whether the shipment has been deleted from history or not.
-            If the value is True, then it indicates that the shipment has been
-            deleted.
-          type: boolean
-          example: false
         message:
           description: >-
             The success message generated during cancellation request for
@@ -3517,7 +3755,6 @@ components:
           type: string
       required:
         - cancelledShipment
-        - cancelledHistory
     CancelSuccessResp:
       type: object
       properties:
