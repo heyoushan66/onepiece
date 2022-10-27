@@ -180,7 +180,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -190,7 +190,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -200,7 +200,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/403ErrorResp"
                 }
               }
             }
@@ -210,7 +210,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -220,7 +220,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -271,7 +271,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -281,7 +281,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -291,7 +291,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -301,7 +301,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -311,7 +311,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -366,7 +366,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -376,7 +376,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -386,7 +386,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/403ErrorResp"
                 }
               }
             }
@@ -396,7 +396,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -406,7 +406,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -444,7 +444,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -454,7 +454,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -464,7 +464,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/403ErrorResp"
                 }
               }
             }
@@ -474,7 +474,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -484,7 +484,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -533,7 +533,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -543,7 +543,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -553,7 +553,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/403ErrorResp"
                 }
               }
             }
@@ -563,7 +563,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -573,7 +573,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -626,7 +626,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -636,7 +636,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -646,7 +646,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/403ErrorResp"
                 }
               }
             }
@@ -656,7 +656,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -666,7 +666,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -719,7 +719,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -729,7 +729,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -739,7 +739,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/403ErrorResp"
                 }
               }
             }
@@ -749,7 +749,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -759,7 +759,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -812,7 +812,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -822,7 +822,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -832,7 +832,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/403ErrorResp"
                 }
               }
             }
@@ -842,7 +842,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -852,7 +852,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -915,7 +915,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -925,7 +925,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -935,7 +935,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/403ErrorResp"
                 }
               }
             }
@@ -945,7 +945,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -955,7 +955,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -1018,7 +1018,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -1028,7 +1028,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -1038,7 +1038,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/403ErrorResp"
                 }
               }
             }
@@ -1048,7 +1048,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -1058,7 +1058,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -1131,7 +1131,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -1141,7 +1141,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -1151,7 +1151,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/403ErrorResp"
                 }
               }
             }
@@ -1161,7 +1161,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/429ErrorResp"
                 }
               }
             }
@@ -1171,7 +1171,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -1181,7 +1181,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -1232,7 +1232,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -1242,7 +1242,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -1252,7 +1252,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/403ErrorResp"
                 }
               }
             }
@@ -1262,7 +1262,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -1272,7 +1272,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -1320,7 +1320,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -1330,7 +1330,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -1340,7 +1340,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/403ErrorResp"
                 }
               }
             }
@@ -1350,7 +1350,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -1360,7 +1360,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -1398,7 +1398,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -1408,7 +1408,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -1418,7 +1418,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/403ErrorResp"
                 }
               }
             }
@@ -1428,7 +1428,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -1438,7 +1438,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -1485,7 +1485,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -1495,7 +1495,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -1505,7 +1505,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/403ErrorResp"
                 }
               }
             }
@@ -1515,7 +1515,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -1525,7 +1525,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -1576,7 +1576,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -1586,7 +1586,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -1596,7 +1596,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/403ErrorResp"
                 }
               }
             }
@@ -1606,7 +1606,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -1616,7 +1616,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -1663,7 +1663,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -1673,7 +1673,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -1683,7 +1683,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/403ErrorResp"
                 }
               }
             }
@@ -1693,7 +1693,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -1703,7 +1703,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -1747,7 +1747,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/400ErrorResp"
                 }
               }
             }
@@ -1757,7 +1757,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/401ErrorResp"
                 }
               }
             }
@@ -1767,7 +1767,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/403ErrorResp"
                 }
               }
             }
@@ -1777,7 +1777,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/500ErrorResp"
                 }
               }
             }
@@ -1787,7 +1787,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResp"
+                  "$ref": "#/components/schemas/503ErrorResp"
                 }
               }
             }
@@ -1929,33 +1929,7 @@
           "notEmpty"
         ]
       },
-      "ErrorInfo": {
-        "type": "object",
-        "properties": {
-          "source": {
-            "type": "string",
-            "enum": [
-              "CARRIER",
-              "GIGA"
-            ],
-            "description": "The source of the error, as indicated by the name this informs us if the API call failed because of the carrier or the platform itself."
-          },
-          "code": {
-            "description": "The error code specified for the failed API Call.[Click here to see more](https://platform.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
-            "type": "string"
-          },
-          "message": {
-            "type": "string",
-            "description": "An error message associated with the failed API call"
-          }
-        },
-        "required": [
-          "source",
-          "code",
-          "message"
-        ]
-      },
-      "ErrorResp": {
+      "400ErrorResp": {
         "type": "object",
         "properties": {
           "success": {
@@ -1968,10 +1942,224 @@
             "description": "The errors associated with the failed API call",
             "type": "array",
             "items": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/ErrorInfo"
+              "type": "object",
+              "properties": {
+                "source": {
+                  "type": "string",
+                  "enum": [
+                    "CARRIER",
+                    "GIGA"
+                  ],
+                  "description": "The source of the error, as indicated by the name this informs us if the API call failed because of the carrier or the platform itself.",
+                  "example": "GIGA"
+                },
+                "code": {
+                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
+                  "type": "string",
+                  "example": "VALIDATION_ERROR"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "The service is currently unavailable and we are working to resolve the issue. We apologize for any inconvenience. Please check back at a later time.",
+                  "example": "Failed to obtain the logistics account information. No corresponding data found."
                 }
+              },
+              "required": [
+                "source",
+                "code",
+                "message"
+              ]
+            }
+          }
+        },
+        "required": [
+          "success",
+          "errors"
+        ]
+      },
+      "401ErrorResp": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "default": false,
+            "example": false
+          },
+          "errors": {
+            "description": "The errors associated with the failed API call",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "source": {
+                  "type": "string",
+                  "enum": [
+                    "CARRIER",
+                    "GIGA"
+                  ],
+                  "description": "The source of the error, as indicated by the name this informs us if the API call failed because of the carrier or the platform itself.",
+                  "example": "GIGA"
+                },
+                "code": {
+                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
+                  "type": "string",
+                  "example": "INVALID_TOKEN"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "An error message associated with the failed API call",
+                  "example": "An access token is missing,expired,revoked,malformed,or invalid for other reasons."
+                }
+              },
+              "required": [
+                "source",
+                "code",
+                "message"
+              ]
+            }
+          }
+        },
+        "required": [
+          "success",
+          "errors"
+        ]
+      },
+      "403ErrorResp": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "default": false,
+            "example": false
+          },
+          "errors": {
+            "description": "The errors associated with the failed API call",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "source": {
+                  "type": "string",
+                  "enum": [
+                    "CARRIER",
+                    "GIGA"
+                  ],
+                  "description": "The source of the error, as indicated by the name this informs us if the API call failed because of the carrier or the platform itself.",
+                  "example": "GIGA"
+                },
+                "code": {
+                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
+                  "type": "string",
+                  "example": "ACCESS_FAILURE"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "An error message associated with the failed API call",
+                  "example": "Access to the resource is denied."
+                }
+              },
+              "required": [
+                "source",
+                "code",
+                "message"
+              ]
+            }
+          }
+        },
+        "required": [
+          "success",
+          "errors"
+        ]
+      },
+      "500ErrorResp": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "default": false,
+            "example": false
+          },
+          "errors": {
+            "description": "The errors associated with the failed API call",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "source": {
+                  "type": "string",
+                  "enum": [
+                    "CARRIER",
+                    "GIGA"
+                  ],
+                  "description": "The source of the error, as indicated by the name this informs us if the API call failed because of the carrier or the platform itself.",
+                  "example": "GIGA"
+                },
+                "code": {
+                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
+                  "type": "string",
+                  "example": "SYS_ERROR"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "An error message associated with the failed API call",
+                  "example": "Request could not be executed due to an internal server error."
+                }
+              },
+              "required": [
+                "source",
+                "code",
+                "message"
+              ]
+            }
+          }
+        },
+        "required": [
+          "success",
+          "errors"
+        ]
+      },
+      "503ErrorResp": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "default": false,
+            "example": false
+          },
+          "errors": {
+            "description": "The errors associated with the failed API call",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "source": {
+                  "type": "string",
+                  "enum": [
+                    "CARRIER",
+                    "GIGA"
+                  ],
+                  "description": "The source of the error, as indicated by the name this informs us if the API call failed because of the carrier or the platform itself.",
+                  "example": "GIGA"
+                },
+                "code": {
+                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
+                  "type": "string",
+                  "example": "SERVICE_UNAVAILABLE"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "An error message associated with the failed API call",
+                  "example": "The service is currently unavailable and we are working to resolve the issue. We apologize for any inconvenience. Please check back at a later time."
+                }
+              },
+              "required": [
+                "source",
+                "code",
+                "message"
               ]
             }
           }
@@ -4593,7 +4781,7 @@
             "description": "The carrier account that is billed for the shipping charges.",
             "type": "string",
             "minLength": 1,
-            "example": "John"
+            "example": "GLSxxxxxxxxxx"
           },
           "serviceType": {
             "description": "The carrier service used to ship the package, such as `FEDEX_GROUND`, etc.",
@@ -5036,6 +5224,54 @@
         "required": [
           "success",
           "data"
+        ]
+      },
+      "429ErrorResp": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "default": false,
+            "example": false
+          },
+          "errors": {
+            "description": "The errors associated with the failed API call",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "source": {
+                  "type": "string",
+                  "enum": [
+                    "CARRIER",
+                    "GIGA"
+                  ],
+                  "description": "The source of the error, as indicated by the name this informs us if the API call failed because of the carrier or the platform itself.",
+                  "example": "GIGA"
+                },
+                "code": {
+                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
+                  "type": "string",
+                  "example": "DUPLICATE_REQUEST"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "An error message associated with the failed API call",
+                  "example": "The transactionId is duplicated in the request."
+                }
+              },
+              "required": [
+                "source",
+                "code",
+                "message"
+              ]
+            }
+          }
+        },
+        "required": [
+          "success",
+          "errors"
         ]
       },
       "cencel_shipments_request_body": {
