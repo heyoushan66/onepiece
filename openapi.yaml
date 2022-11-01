@@ -34,6 +34,8 @@ tags:
     description: carriers
   - name: Carrier Accounts
     description: carrier accounts
+  - name: Warehouses
+    description: warehouses
   - name: Rates
     description: rates
   - name: Shipments
@@ -45,8 +47,6 @@ tags:
     description: tracking
   - name: LTL Shipping
     description: Ltl shipping.
-  - name: Warehouses
-    description: warehouses
   - name: Error Codes
     description: |2
        | <br><font face='Verdana' color=#160E0C size=3>**Error Code & Message**<img width=500/></font><br>                                                                                                                                          | <br><font face='Verdana' color=#160E0C size=3>**HTTP Status Code**</font><br><br>
@@ -111,7 +111,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthErrorResp'
-  /v1/advc/finder/{countryCode}/{keyword}:
+  /cloud-ship-service/v1/advc/finder/{countryCode}/{keyword}:
     post:
       tags:
         - Addresses
@@ -175,7 +175,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/503ErrorResp'
-  /v1/advc/postal:
+  /cloud-ship-service/v1/advc/postal:
     post:
       tags:
         - Addresses
@@ -231,7 +231,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/503ErrorResp'
-  /v1/advc:
+  /cloud-ship-service/v1/advc:
     post:
       tags:
         - Addresses
@@ -833,7 +833,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/503ErrorResp'
-  /cloud-ship-service /v1/shipment/{gigaTrackingNumber}/cancel:
+  /cloud-ship-service/v1/shipment/{gigaTrackingNumber}/cancel:
     put:
       tags:
         - Shipments
@@ -889,7 +889,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/503ErrorResp'
-  /cloud-boot-manager/v1/warehouses:
+  /cloud-boot-manager/api/v1/warehouses:
     get:
       tags:
         - Warehouses
@@ -993,7 +993,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/503ErrorResp'
-  /cloud-boot-manager/v1/warehouses/{warehouseId}:
+  /cloud-boot-manager/api/v1/warehouses/{warehouseId}:
     parameters:
       - name: warehouseId
         in: path
@@ -2105,35 +2105,9 @@ components:
       required:
         - success
         - data
-    ltl_contact:
-      type: object
-      description: The information for the contact person.
-      properties:
-        name:
-          description: The name of a contact person at this address.
-          type: string
-          maxLength: 35
-          example: 1 Collection Point Name (Test 1)
-        phoneNumber:
-          description: >-
-            The phone number of a contact person at this address. The format of
-            this phone number varies depending on the country.
-          type: string
-          maxLength: 25
-          x-nullable: true
-          example: 1234-123456789
-        email:
-          description: Specify contact email address. Maximum length is 40.
-          type: string
-          maxLength: 40
-          x-nullable: true
-          example: TEST@TEST.COM
-      required:
-        - name
-        - phoneNumber
-        - email
     ltl_address:
       type: object
+      description: The address of the contact person.
       properties:
         countryCode:
           description: This is the two-letter country code.
@@ -2193,13 +2167,58 @@ components:
             - BUSINESS
             - PARCELSHOP
           example: RESIDENTIAL
-          x-nullable: true
       required:
         - countryCode
         - stateOrProvinceCode
         - city
         - zipCode
         - streetLine1
+        - addressType
+    ltl_balance:
+      type: object
+      properties:
+        currency:
+          type: string
+          enum:
+            - USD
+          description: Declared currency of the contained items.
+          example: USD
+        amount:
+          type: number
+          format: double
+          maxLength: 0
+          description: Insurable total product value for the items.
+          example: 0
+      required:
+        - currency
+        - amount
+    ltl_contact:
+      type: object
+      description: The information for the contact person.
+      properties:
+        personName:
+          description: The name of a contact person at this address.
+          type: string
+          maxLength: 35
+          example: 1 Collection Point Name (Test 1)
+        phoneNumber:
+          description: >-
+            The phone number of a contact person at this address. The format of
+            this phone number varies depending on the country.
+          type: string
+          maxLength: 25
+          x-nullable: true
+          example: 1234-123456789
+        emailAddress:
+          description: Specify contact email address. Maximum length is 40.
+          type: string
+          maxLength: 40
+          x-nullable: true
+          example: TEST@TEST.COM
+      required:
+        - name
+        - phoneNumber
+        - email
     ltl_payor:
       type: object
       properties:
@@ -2228,51 +2247,6 @@ components:
         - type
         - terms
         - contact
-    overDimension:
-      type: object
-      properties:
-        length:
-          type: number
-          format: double
-          description: >-
-            Extreme length.Every LTL carrier has some form of overlength
-            rules.[Click here to see more
-            rules](https://platform.gigacloudlogistics.com/docs)
-        units:
-          type: string
-          description: The dimension units that are supported by GIGALOGISTICS.
-          default: IN
-          enum:
-            - CM
-            - IN
-        pieces:
-          type: number
-          description: >-
-            Numbers of article with exact same extreme length contained in a
-            shipment.
-      required:
-        - length
-        - pieces
-    ltl_balance:
-      type: object
-      properties:
-        currency:
-          type: string
-          enum:
-            - USD
-            - EUR
-            - CAD
-          description: Declared currency of the contained items.
-          example: USD
-        amount:
-          type: number
-          format: double
-          maxLength: 0
-          description: Insurable total product value for the items.
-          example: 0
-      required:
-        - currency
-        - amount
     dimensions:
       type: object
       properties:
@@ -2376,18 +2350,12 @@ components:
         quantity:
           type: number
           description: Number of pallets that have the same Weight,Dimensions,and Content.
-        cartonCount:
-          type: number
-          description: The number of cartons contained on this pallet.
         stackable:
           type: boolean
           default: false
           description: This indicates whether or not this pallet can be safely stacked.
-        shipmentNew:
-          type: boolean
-          description: Shipments are either 'New' or 'Used'.
         declaredValue:
-          description: The total declared shipment value of the freight.
+          description: The declared value of the contained goods.
           allOf:
             - $ref: '#/components/schemas/ltl_balance'
         dimensions:
@@ -2404,8 +2372,13 @@ components:
           items:
             allOf:
               - $ref: '#/components/schemas/carton'
+        shipmentNew:
+          type: boolean
+          description: This indicates whether the goods are new or not.
+          default: true
         hazmat:
           type: boolean
+          default: false
           description: Indicates whether the pallet contains hazardous material or not.
         hazmatClass:
           type: string
@@ -2416,10 +2389,11 @@ components:
         - description
         - freightClass
         - quantity
-        - cartonCount
         - declaredValue
         - dimensions
         - weight
+        - stackable
+        - shipmentNew
         - hazmat
     ltl_shipmentBox:
       type: object
@@ -2448,6 +2422,10 @@ components:
         quantity:
           type: number
           description: Number of boxes with exact same weight,dimensions,and content.
+        stackable:
+          type: boolean
+          default: false
+          description: This indicates whether or not this box can be safely stacked.
         declaredValue:
           description: Total Declared Shipment Value of the freight.
           allOf:
@@ -2462,9 +2440,11 @@ components:
             - $ref: '#/components/schemas/weight'
         shipmentNew:
           type: boolean
-          description: Shipments are either 'New' or 'Used'.
+          description: This indicates whether the goods are new or not.
+          default: true
         hazmat:
           type: boolean
+          default: false
           description: Indicates whether the pallet contains hazardous material or not.
         hazmatClass:
           type: string
@@ -2479,6 +2459,8 @@ components:
         - dimensions
         - weight
         - hazmat
+        - stackable
+        - shipmentNew
     accessorials:
       type: object
       properties:
@@ -2496,6 +2478,31 @@ components:
               type: string
             value:
               type: string
+    overDimension:
+      type: object
+      properties:
+        length:
+          type: number
+          format: double
+          description: >-
+            Extreme length.Every LTL carrier has some form of overlength
+            rules.[Click here to see more
+            rules](https://platform.gigacloudlogistics.com/docs)
+        units:
+          type: string
+          description: The dimension units that are supported by GIGALOGISTICS.
+          default: IN
+          enum:
+            - CM
+            - IN
+        pieces:
+          type: number
+          description: >-
+            Numbers of article with exact same extreme length contained in a
+            shipment.
+      required:
+        - length
+        - pieces
     request_spot_quote:
       type: object
       properties:
@@ -2511,12 +2518,7 @@ components:
             The address and contact details for the location where freight will
             be picked up.
           properties:
-            contact:
-              description: The information for the contact person.
-              allOf:
-                - $ref: '#/components/schemas/ltl_contact'
             address:
-              description: The address of the location.
               allOf:
                 - $ref: '#/components/schemas/ltl_address'
         recipient:
@@ -2525,21 +2527,17 @@ components:
             The address and contact details for the location where the freight
             will be sent.
           properties:
-            contact:
-              allOf:
-                - $ref: '#/components/schemas/ltl_contact'
             address:
               allOf:
                 - $ref: '#/components/schemas/ltl_address'
+        totalDeclaredValue:
+          description: The total declared shipment value of the freight.
+          allOf:
+            - $ref: '#/components/schemas/ltl_balance'
         payor:
           type: object
           allOf:
             - $ref: '#/components/schemas/ltl_payor'
-        overDimensions:
-          type: array
-          items:
-            allOf:
-              - $ref: '#/components/schemas/overDimension'
         pallets:
           description: >-
             Array of pallet to be included on a shipment.Each shipment must
@@ -2562,16 +2560,20 @@ components:
           items:
             allOf:
               - $ref: '#/components/schemas/accessorials'
+        overDimensions:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/overDimension'
       required:
         - carrierId
         - pickupDate
         - shipper
         - recipient
-        - payor
     charge:
       type: object
       properties:
-        amout:
+        amount:
           type: object
           description: This object represents the monetary amount of the associated charge.
           properties:
@@ -2584,7 +2586,7 @@ components:
           type: string
         type:
           description: >-
-            This represents the type of the charge and witll return `total`,
+            This represents the type of the charge and will return `total`,
             `discount`, `accessorial`, `container`, or `uncategorized`.
           type: string
     quote:
@@ -2620,15 +2622,6 @@ components:
           description: >-
             This optional field contains contains a message about the quote if
             provided by the carrier.
-        service:
-          type: object
-          properties:
-            code:
-              type: string
-              description: This service code provided by the carrier.
-            serviceDescription:
-              type: string
-              description: The description of the shipment provided by the carrier.
         remark:
           type: string
           description: Quote remark information.
@@ -2696,11 +2689,9 @@ components:
             be picked up.
           properties:
             contact:
-              description: The information for the contact person.
               allOf:
                 - $ref: '#/components/schemas/ltl_contact'
             address:
-              description: The address of the location.
               allOf:
                 - $ref: '#/components/schemas/ltl_address'
             readyTime:
@@ -2723,11 +2714,9 @@ components:
             will be sent.
           properties:
             contact:
-              description: The information for the contact person.
               allOf:
                 - $ref: '#/components/schemas/ltl_contact'
             address:
-              description: The address of the location.
               allOf:
                 - $ref: '#/components/schemas/ltl_address'
             readyTime:
@@ -3270,6 +3259,46 @@ components:
                 - A7
       required:
         - labelStockType
+    LabelSpecification_dpd_uk:
+      type: object
+      discriminator:
+        propertyName: imageType
+        mapping:
+          EPL: '#/components/schemas/dpd_uk_printer'
+          CLP: '#/components/schemas/dpd_uk_printer'
+          HTML: '#/components/schemas/dpd_uk_file'
+      properties:
+        imageType:
+          description: |-
+            Valid Values:
+
+             - `EPL`: Intended for use with Eltron Printer / Or certain printer models that support EPL emulation.
+
+             - `CLP`: For use with Citizen Thermal Printers.
+
+             - `HTML`: Plain text HTML output, intended for printing to A4 laser Printer on A4 stationary.
+
+             ps: Laser/thermal printer overall bar code size minimum: 91.5mm x 25mm height.
+          type: string
+          enum:
+            - EPL
+            - CLP
+            - HTML
+          example: CLP
+      required:
+        - imageType
+    dpd_uk_printer:
+      type: object
+      description: Indicate the label stock type used.
+      allOf:
+        - $ref: '#/components/schemas/LabelSpecification_dpd_uk'
+        - type: object
+    dpd_uk_file:
+      type: object
+      description: Indicate the label stock type used.
+      allOf:
+        - $ref: '#/components/schemas/LabelSpecification_dpd_uk'
+        - type: object
     LabelSpecification_ups:
       type: object
       discriminator:
@@ -3646,6 +3675,7 @@ components:
             - $ref: '#/components/schemas/LabelSpecification_gls'
             - $ref: '#/components/schemas/LabelSpecification_whistl'
             - $ref: '#/components/schemas/LabelSpecification_dpd'
+            - $ref: '#/components/schemas/LabelSpecification_dpd_uk'
             - $ref: '#/components/schemas/LabelSpecification_ups'
         itemLines:
           type: array
@@ -3788,6 +3818,7 @@ components:
             - FedEx
             - WHISTL
             - DPD
+            - DPD_UK
             - GLS
             - GEL
             - EVRI
@@ -3822,6 +3853,7 @@ components:
             - $ref: '#/components/schemas/LabelSpecification_gls'
             - $ref: '#/components/schemas/LabelSpecification_whistl'
             - $ref: '#/components/schemas/LabelSpecification_dpd'
+            - $ref: '#/components/schemas/LabelSpecification_dpd_uk'
             - $ref: '#/components/schemas/LabelSpecification_ups'
         taxIndentifiers:
           type: array
