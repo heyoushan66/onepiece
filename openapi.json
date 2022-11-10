@@ -2904,6 +2904,37 @@
           "data"
         ]
       },
+      "ltl_contact": {
+        "type": "object",
+        "description": "The information for the contact person.",
+        "properties": {
+          "personName": {
+            "description": "The name of a contact person at this address.",
+            "type": "string",
+            "maxLength": 35,
+            "example": "1 Collection Point Name (Test 1)"
+          },
+          "phoneNumber": {
+            "description": "The phone number of a contact person at this address. The format of this phone number varies depending on the country.",
+            "type": "string",
+            "maxLength": 25,
+            "x-nullable": true,
+            "example": "1234-123456789"
+          },
+          "emailAddress": {
+            "description": "Specify contact email address. Maximum length is 40.",
+            "type": "string",
+            "maxLength": 40,
+            "x-nullable": true,
+            "example": "TEST@TEST.COM"
+          }
+        },
+        "required": [
+          "name",
+          "phoneNumber",
+          "email"
+        ]
+      },
       "ltl_address": {
         "type": "object",
         "description": "The address of the contact person.",
@@ -3002,37 +3033,6 @@
         "required": [
           "currency",
           "amount"
-        ]
-      },
-      "ltl_contact": {
-        "type": "object",
-        "description": "The information for the contact person.",
-        "properties": {
-          "personName": {
-            "description": "The name of a contact person at this address.",
-            "type": "string",
-            "maxLength": 35,
-            "example": "1 Collection Point Name (Test 1)"
-          },
-          "phoneNumber": {
-            "description": "The phone number of a contact person at this address. The format of this phone number varies depending on the country.",
-            "type": "string",
-            "maxLength": 25,
-            "x-nullable": true,
-            "example": "1234-123456789"
-          },
-          "emailAddress": {
-            "description": "Specify contact email address. Maximum length is 40.",
-            "type": "string",
-            "maxLength": 40,
-            "x-nullable": true,
-            "example": "TEST@TEST.COM"
-          }
-        },
-        "required": [
-          "name",
-          "phoneNumber",
-          "email"
         ]
       },
       "ltl_payor": {
@@ -3419,12 +3419,27 @@
             "type": "object",
             "description": "The address and contact details for the location where freight will be picked up.",
             "properties": {
+              "contact": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ltl_contact"
+                  }
+                ]
+              },
               "address": {
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/ltl_address"
                   }
                 ]
+              },
+              "readyTime": {
+                "type": "string",
+                "description": "When the shipment is ready to be picked up at the Origin (start). HH:MMAM/PM.  <br/>Example: 09:00AM"
+              },
+              "closeTime": {
+                "type": "string",
+                "description": "The closing window of when the shipment can be picked up at the Origin (end). HH:MMAM/PM. <br/>Example: 05:00PM"
               }
             }
           },
@@ -3432,12 +3447,27 @@
             "type": "object",
             "description": "The address and contact details for the location where the freight will be sent.",
             "properties": {
+              "contact": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ltl_contact"
+                  }
+                ]
+              },
               "address": {
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/ltl_address"
                   }
                 ]
+              },
+              "readyTime": {
+                "type": "string",
+                "description": "When the Destination is ready to begin receiving the shipment. HH:MMAM/PM.  <br/>Example: 09:00AM"
+              },
+              "closeTime": {
+                "type": "string",
+                "description": "The closing window of when the Destination can receive the shipment. HH:MMAM/PM. <br/>Example: 05:00PM"
               }
             }
           },
@@ -3667,11 +3697,11 @@
               },
               "readyTime": {
                 "type": "string",
-                "description": "When the shipment is ready to be picked up at the Origin (start)"
+                "description": "When the shipment is ready to be picked up at the Origin (start). HH:MMAM/PM.  <br/>Example: 09:00AM"
               },
               "closeTime": {
                 "type": "string",
-                "description": "The closing window of when the shipment can be picked up at the Origin (end)"
+                "description": "The closing window of when the shipment can be picked up at the Origin (end). HH:MMAM/PM. <br/>Example: 05:00PM"
               }
             },
             "required": [
@@ -3701,11 +3731,11 @@
               },
               "readyTime": {
                 "type": "string",
-                "description": "When the Destination is ready to begin receiving the shipment"
+                "description": "When the Destination is ready to begin receiving the shipment. HH:MMAM/PM.  <br/>Example: 09:00AM"
               },
               "closeTime": {
                 "type": "string",
-                "description": "The closing window of when the Destination can receive the shipment"
+                "description": "The closing window of when the Destination can receive the shipment. HH:MMAM/PM. <br/>Example: 05:00PM"
               }
             },
             "required": [
