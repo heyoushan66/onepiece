@@ -115,7 +115,7 @@ paths:
     post:
       tags:
         - Addresses
-      summary: Address finder
+      summary: Address Finder
       description: >-
         The address is automatically completed according to the keyword query.
         currently only supports the United States.
@@ -2129,9 +2129,7 @@ components:
           x-nullable: true
           example: TEST@TEST.COM
       required:
-        - name
         - phoneNumber
-        - email
     ltl_address:
       type: object
       description: The address of the contact person.
@@ -2200,7 +2198,28 @@ components:
         - city
         - zipCode
         - streetLine1
-        - addressType
+    ltl_address_info:
+      type: object
+      description: >-
+        The address and contact details for the location where freight will be
+        picked up.
+      properties:
+        contact:
+          allOf:
+            - $ref: '#/components/schemas/ltl_contact'
+        address:
+          allOf:
+            - $ref: '#/components/schemas/ltl_address'
+        readyTime:
+          type: string
+          description: >-
+            When the shipment is ready to be picked up at the Origin (start).
+            HH:MMAM/PM.  <br/>Example: 09:00AM
+        closeTime:
+          type: string
+          description: >-
+            The closing window of when the shipment can be picked up at the
+            Origin (end). HH:MMAM/PM. <br/>Example: 05:00PM
     ltl_balance:
       type: object
       properties:
@@ -2208,7 +2227,9 @@ components:
           type: string
           enum:
             - USD
-          description: Declared currency of the contained items.
+          description: >-
+            Declared currency of the contained items. Currently only supports
+            USD.
           example: USD
         amount:
           type: number
@@ -2257,6 +2278,7 @@ components:
           enum:
             - CM
             - IN
+            - FT
           title: Unit information
         length:
           description: Indicate the length of the package.
@@ -2395,9 +2417,6 @@ components:
         - declaredValue
         - dimensions
         - weight
-        - stackable
-        - shipmentNew
-        - hazmat
     ltl_shipmentBox:
       type: object
       properties:
@@ -2421,7 +2440,7 @@ components:
         linearFeet:
           type: number
           format: double
-          description: The total linear feet of the shipping item.
+          description: The total linear feet of the shipping item. units are feet.
         quantity:
           type: number
           description: Number of boxes with exact same weight,dimensions,and content.
@@ -2461,9 +2480,6 @@ components:
         - declaredValue
         - dimensions
         - weight
-        - hazmat
-        - stackable
-        - shipmentNew
     accessorials:
       type: object
       properties:
@@ -2481,31 +2497,6 @@ components:
               type: string
             value:
               type: string
-    overDimension:
-      type: object
-      properties:
-        length:
-          type: number
-          format: double
-          description: >-
-            Extreme length.Every LTL carrier has some form of overlength
-            rules.[Click here to see more
-            rules](https://platform.gigacloudlogistics.com/docs)
-        units:
-          type: string
-          description: The dimension units that are supported by GIGALOGISTICS.
-          default: IN
-          enum:
-            - CM
-            - IN
-        pieces:
-          type: number
-          description: >-
-            Numbers of article with exact same extreme length contained in a
-            shipment.
-      required:
-        - length
-        - pieces
     request_spot_quote:
       type: object
       properties:
@@ -2516,49 +2507,13 @@ components:
           type: string
           description: 'Ready for pick up date (YYYY-MM-DD). <br/> Example: 2022-09-22'
         shipper:
-          type: object
-          description: >-
-            The address and contact details for the location where freight will
-            be picked up.
-          properties:
-            contact:
-              allOf:
-                - $ref: '#/components/schemas/ltl_contact'
-            address:
-              allOf:
-                - $ref: '#/components/schemas/ltl_address'
-            readyTime:
-              type: string
-              description: >-
-                When the shipment is ready to be picked up at the Origin
-                (start). HH:MMAM/PM.  <br/>Example: 09:00AM
-            closeTime:
-              type: string
-              description: >-
-                The closing window of when the shipment can be picked up at the
-                Origin (end). HH:MMAM/PM. <br/>Example: 05:00PM
+          description: Origin information.
+          allOf:
+            - $ref: '#/components/schemas/ltl_address_info'
         recipient:
-          type: object
-          description: >-
-            The address and contact details for the location where the freight
-            will be sent.
-          properties:
-            contact:
-              allOf:
-                - $ref: '#/components/schemas/ltl_contact'
-            address:
-              allOf:
-                - $ref: '#/components/schemas/ltl_address'
-            readyTime:
-              type: string
-              description: >-
-                When the Destination is ready to begin receiving the shipment.
-                HH:MMAM/PM.  <br/>Example: 09:00AM
-            closeTime:
-              type: string
-              description: >-
-                The closing window of when the Destination can receive the
-                shipment. HH:MMAM/PM. <br/>Example: 05:00PM
+          description: Destination information.
+          allOf:
+            - $ref: '#/components/schemas/ltl_address_info'
         totalDeclaredValue:
           description: The total declared shipment value of the freight.
           allOf:
@@ -2589,16 +2544,41 @@ components:
           items:
             allOf:
               - $ref: '#/components/schemas/accessorials'
-        overDimensions:
-          type: array
-          items:
-            allOf:
-              - $ref: '#/components/schemas/overDimension'
       required:
         - carrierId
         - pickupDate
         - shipper
         - recipient
+    ltl_service_center_info:
+      type: object
+      description: >-
+        The address and contact details for the location where freight will be
+        picked up.
+      properties:
+        code:
+          type: string
+          description: Origin service center code.
+        location:
+          type: string
+          description: Origin service center City, State.
+        zipCode:
+          type: string
+          description: Origin service center zip code.
+        phone:
+          type: string
+          description: Origin service center phone number.
+        address1:
+          type: string
+          description: Origin service center address line 1
+        address2:
+          type: string
+          description: Origin service center address line 2
+        city:
+          type: string
+          description: Origin service center city.
+        state:
+          type: string
+          description: Origin service center state.
     charge:
       type: object
       properties:
@@ -2618,6 +2598,26 @@ components:
             This represents the type of the charge and will return `total`,
             `discount`, `accessorial`, `container`, or `uncategorized`.
           type: string
+        rate:
+          description: Charge rate.
+          type: string
+        weight:
+          description: Weight of the item.
+          type: object
+          properties:
+            value:
+              description: The weight, in the specified unit
+              type: number
+              format: double
+              example: 12.3
+            units:
+              description: The possible weight unit values.
+              type: string
+              enum:
+                - KG
+                - LB
+              example: KG
+              title: Unit information
     quote:
       type: object
       properties:
@@ -2631,6 +2631,29 @@ components:
           description: >-
             When generating a spot-quote, `spot` is the string returned. For
             contract quotes, `contract` is the string returned.
+        serviceLevel:
+          type: string
+          enum:
+            - STD
+            - GSDS
+            - NAN
+          description: service level code.
+        shipper:
+          description: Origin information.
+          allOf:
+            - $ref: '#/components/schemas/ltl_address_info'
+        recipient:
+          description: Destination information.
+          allOf:
+            - $ref: '#/components/schemas/ltl_address_info'
+        originServiceCenter:
+          description: Rate quote origin service center
+          allOf:
+            - $ref: '#/components/schemas/ltl_service_center_info'
+        destinationServiceCenter:
+          description: Rate quote destination service center
+          allOf:
+            - $ref: '#/components/schemas/ltl_service_center_info'
         charges:
           type: array
           description: >-
@@ -2646,14 +2669,42 @@ components:
           description: >-
             This number represents the estimated number of days between pickup
             and delivery if provided by the carrier.
+        pickupDate:
+          type: string
+          description: 'Ready for pick up date (YYYY-MM-DD). <br/> Example: 2022-09-22'
+        deliveryDate:
+          type: string
+          description: 'delivery date (YYYY-MM-DD). <br/> Example: 2022-09-22'
+        deliveryTime:
+          type: string
+          description: >-
+            delivery Time (HH-mm-ss). <br/> Example: 17:00:00. Minimum time
+            limit for time-guaranteed service.
         carrierMessage:
           type: string
           description: >-
             This optional field contains contains a message about the quote if
             provided by the carrier.
+        netCharge:
+          description: Rate quote net charge for this service level.
+          type: object
+          properties:
+            currency:
+              type: string
+            value:
+              type: number
         remark:
           type: string
           description: Quote remark information.
+      required:
+        - quoteId
+        - serviceLevel
+        - shipper
+        - recipient
+        - charges
+        - estimateDeliveryDays
+        - pickupDate
+        - netCharge
     waring:
       type: object
       description: >-
@@ -2685,6 +2736,8 @@ components:
           items:
             allOf:
               - $ref: '#/components/schemas/waring'
+      required:
+        - quotes
     success_response_spot_quote:
       type: object
       properties:
