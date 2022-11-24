@@ -565,7 +565,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/503ErrorResp'
-  /v1/ltl/quotes:
+  /cloud-ship-service/v1/ltl/quotes:
     post:
       tags:
         - LTL Shipping
@@ -633,7 +633,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/503ErrorResp'
-  /v1/ltl/shipment:
+  /cloud-ship-service/v1/ltl/shipment:
     post:
       tags:
         - LTL Shipping
@@ -2660,19 +2660,6 @@ components:
         - charges
         - pickupDate
         - netCharge
-    data:
-      type: object
-      properties:
-        quotes:
-          type: array
-          description: >-
-            This optional field contains a warning code and message if provided
-            by the carrier.
-          items:
-            allOf:
-              - $ref: '#/components/schemas/quote'
-      required:
-        - quotes
     success_response_spot_quote:
       type: object
       properties:
@@ -2683,8 +2670,10 @@ components:
           default: true
         data:
           description: The descriptive data of the requested shipment.
-          allOf:
-            - $ref: '#/components/schemas/data'
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/quote'
       required:
         - success
         - data

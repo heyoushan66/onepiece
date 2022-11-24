@@ -860,7 +860,7 @@
         }
       }
     },
-    "/v1/ltl/quotes": {
+    "/cloud-ship-service/v1/ltl/quotes": {
       "post": {
         "tags": [
           "LTL Shipping"
@@ -963,7 +963,7 @@
         }
       }
     },
-    "/v1/ltl/shipment": {
+    "/cloud-ship-service/v1/ltl/shipment": {
       "post": {
         "tags": [
           "LTL Shipping"
@@ -3602,25 +3602,6 @@
           "netCharge"
         ]
       },
-      "data": {
-        "type": "object",
-        "properties": {
-          "quotes": {
-            "type": "array",
-            "description": "This optional field contains a warning code and message if provided by the carrier.",
-            "items": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/quote"
-                }
-              ]
-            }
-          }
-        },
-        "required": [
-          "quotes"
-        ]
-      },
       "success_response_spot_quote": {
         "type": "object",
         "properties": {
@@ -3632,11 +3613,14 @@
           },
           "data": {
             "description": "The descriptive data of the requested shipment.",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/data"
-              }
-            ]
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/quote"
+                }
+              ]
+            }
           }
         },
         "required": [
