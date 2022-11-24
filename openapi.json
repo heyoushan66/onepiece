@@ -2918,19 +2918,19 @@
             "description": "The phone number of a contact person at this address. The format of this phone number varies depending on the country.",
             "type": "string",
             "maxLength": 25,
-            "x-nullable": true,
             "example": "1234-123456789"
           },
           "emailAddress": {
             "description": "Specify contact email address. Maximum length is 40.",
             "type": "string",
             "maxLength": 40,
-            "x-nullable": true,
             "example": "TEST@TEST.COM"
           }
         },
         "required": [
-          "phoneNumber"
+          "phoneNumber",
+          "personName",
+          "emailAddress"
         ]
       },
       "ltl_address": {
@@ -2966,7 +2966,6 @@
             "description": "Specify contact company name. Maximum length is 35.",
             "type": "string",
             "maxLength": 35,
-            "x-nullable": true,
             "example": "1 Collection Point Name (Test 1)"
           },
           "streetLine1": {
@@ -2979,15 +2978,13 @@
             "description": "The second line of the street address. For some addresses, this line may not be needed.",
             "type": "string",
             "maxLength": 35,
-            "example": "TEST",
-            "x-nullable": true
+            "example": "TEST"
           },
           "streetLine3": {
             "description": "The third line of the street address. For some addresses, this line may not be needed.",
             "type": "string",
             "maxLength": 35,
-            "example": "TEST",
-            "x-nullable": true
+            "example": "TEST"
           },
           "addressType": {
             "description": "Indicate this address type",
@@ -3028,13 +3025,16 @@
           },
           "readyTime": {
             "type": "string",
-            "description": "When the shipment is ready to be picked up at the Origin (start). HH:MMAM/PM.  <br/>Example: 09:00AM"
+            "description": "When the shipment is ready to be picked up at the Origin (start). The time will be represented in a 24-hour format.  <br/>Example: 09:00"
           },
           "closeTime": {
             "type": "string",
-            "description": "The closing window of when the shipment can be picked up at the Origin (end). HH:MMAM/PM. <br/>Example: 05:00PM"
+            "description": "The closing window of when the shipment can be picked up at the Origin (end). The time will be represented in a 24-hour format.  <br/>Example: 15:00"
           }
-        }
+        },
+        "required": [
+          "address"
+        ]
       },
       "ltl_balance": {
         "type": "object",
@@ -3065,11 +3065,11 @@
         "properties": {
           "type": {
             "type": "string",
-            "description": "The type of billing. Valid values include `consignee`, `shipper`, or `third_party`."
+            "description": "The type of billing. Valid values include `C`, `S`, or `T`.\n\n - `C` : consignee\n - `S` : shipper\n - `T` : third_party\n\n > **Note:** This item is required when the logistics company is RRTS or ESTES."
           },
           "terms": {
             "type": "string",
-            "description": "The payment terms. Valid values include `collect`, `prepaid`, or `third_party`."
+            "description": "The payment terms. Valid values include `P`, `C`.\n\n - `P` : prepaid\n - `C` : collect\n\n > **Note:** This item is required when the logistics company is RRTS or ESTES."
           },
           "account": {
             "type": "string",
@@ -3094,8 +3094,7 @@
         },
         "required": [
           "type",
-          "terms",
-          "contact"
+          "terms"
         ]
       },
       "dimensions": {
@@ -3166,11 +3165,11 @@
           "units"
         ]
       },
-      "carton": {
+      "ltl_shipmentPiece": {
         "type": "object",
         "properties": {
           "dimensions": {
-            "description": "The dimensions of the carton.",
+            "description": "The dimensions of the piece.",
             "allOf": [
               {
                 "$ref": "#/components/schemas/dimensions"
@@ -3178,7 +3177,7 @@
             ]
           },
           "weight": {
-            "description": "The weight of the carton.",
+            "description": "The weight of the piece.",
             "allOf": [
               {
                 "$ref": "#/components/schemas/weight"
@@ -3199,9 +3198,18 @@
           "weight"
         ]
       },
-      "ltl_shipmentPallet": {
+      "ltl_shipmentItem": {
         "type": "object",
         "properties": {
+          "packageType": {
+            "type": "string",
+            "enum": [
+              "PALLET",
+              "BOX",
+              "CARTON"
+            ],
+            "description": "The code for this package type."
+          },
           "description": {
             "type": "string",
             "description": "Name to represent what the box contains."
@@ -3221,22 +3229,22 @@
           "linearFeet": {
             "type": "number",
             "format": "double",
-            "description": "The total linear feet of the shipping item."
+            "description": "The linear feet of the shipping item.\n\n > **Note:** It is required when the truck company is `RL` or `ESTES` and uses `OD` special service."
           },
           "quantity": {
             "type": "number",
             "description": "Number of pallets that have the same Weight,Dimensions,and Content."
           },
-          "cartonCount": {
+          "pieceCount": {
             "type": "number",
-            "description": "The number of cartons contained on this pallet."
+            "description": "The number of pieces contained in this item."
           },
           "stackable": {
             "type": "boolean",
             "default": false,
             "description": "This indicates whether or not this pallet can be safely stacked."
           },
-          "declaredValue": {
+          "declaredInfo": {
             "description": "The declared value of the contained goods.",
             "allOf": [
               {
@@ -3260,13 +3268,13 @@
               }
             ]
           },
-          "cartons": {
-            "description": "The list of cartons contained on this pallet.",
+          "pieces": {
+            "description": "The list of pieces contained in this item.",
             "type": "array",
             "items": {
               "allOf": [
                 {
-                  "$ref": "#/components/schemas/carton"
+                  "$ref": "#/components/schemas/ltl_shipmentPiece"
                 }
               ]
             }
@@ -3287,91 +3295,10 @@
           }
         },
         "required": [
+          "packageType",
           "description",
           "freightClass",
           "quantity",
-          "declaredValue",
-          "dimensions",
-          "weight"
-        ]
-      },
-      "ltl_shipmentBox": {
-        "type": "object",
-        "properties": {
-          "description": {
-            "type": "string",
-            "description": "Name to represent what the box contains."
-          },
-          "sku": {
-            "type": "string",
-            "description": "Put your product SKU if you are shipping a given product.If the SKU has multiple boxes append a unique identifier to them like:-2,-3,-4"
-          },
-          "freightClass": {
-            "type": "string",
-            "description": "The [NMFC freight class](https://biz.nmfta.org/documents/ccsb/ccsb%20guidelines.pdf) for your freight."
-          },
-          "nmfcNumber": {
-            "type": "string",
-            "description": "The [NMFC commodity code](https://nmfta.org/) / item number."
-          },
-          "linearFeet": {
-            "type": "number",
-            "format": "double",
-            "description": "The total linear feet of the shipping item. units are feet."
-          },
-          "quantity": {
-            "type": "number",
-            "description": "Number of boxes with exact same weight,dimensions,and content."
-          },
-          "stackable": {
-            "type": "boolean",
-            "default": false,
-            "description": "This indicates whether or not this box can be safely stacked."
-          },
-          "declaredValue": {
-            "description": "Total Declared Shipment Value of the freight.",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ltl_balance"
-              }
-            ]
-          },
-          "dimensions": {
-            "description": "The dimensions of the package.",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/dimensions"
-              }
-            ]
-          },
-          "weight": {
-            "description": "The weight of the package.",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/weight"
-              }
-            ]
-          },
-          "shipmentNew": {
-            "type": "boolean",
-            "description": "This indicates whether the goods are new or not.",
-            "default": true
-          },
-          "hazmat": {
-            "type": "boolean",
-            "default": false,
-            "description": "Indicates whether the pallet contains hazardous material or not."
-          },
-          "hazmatClass": {
-            "type": "string",
-            "description": "Class of the hazardous material.[Click here to see more.](https://platform.gigacloudlogistics.com/docs)"
-          }
-        },
-        "required": [
-          "description",
-          "freightClass",
-          "quantity",
-          "declaredValue",
           "dimensions",
           "weight"
         ]
@@ -3381,7 +3308,7 @@
         "properties": {
           "code": {
             "type": "string",
-            "description": "The code for the accessorial service offered."
+            "description": "The code for the accessorial service offered. [Click here to see more](https://platform.gigacloudlogistics.com/docs/guide/ltl-ship/accessorial-services.html)."
           },
           "attributes": {
             "type": "object",
@@ -3440,24 +3367,13 @@
               }
             ]
           },
-          "pallets": {
-            "description": "Array of pallet to be included on a shipment.Each shipment must contain one pallet or one box.",
+          "itemList": {
+            "description": "Array of item to be included in a shipment.",
             "type": "array",
             "items": {
               "allOf": [
                 {
-                  "$ref": "#/components/schemas/ltl_shipmentPallet"
-                }
-              ]
-            }
-          },
-          "boxes": {
-            "description": "Array of box to be included on a shipment.Each shipment must contain one pallet or one box.",
-            "type": "array",
-            "items": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/ltl_shipmentBox"
+                  "$ref": "#/components/schemas/ltl_shipmentItem"
                 }
               ]
             }
@@ -3527,10 +3443,12 @@
             "description": "This object represents the monetary amount of the associated charge.",
             "properties": {
               "currency": {
-                "type": "string"
+                "type": "string",
+                "description": "Currency information. Currently only supports USD."
               },
               "value": {
-                "type": "number"
+                "type": "number",
+                "description": "The monetary amount."
               }
             }
           },
@@ -3539,7 +3457,7 @@
             "type": "string"
           },
           "type": {
-            "description": "This represents the type of the charge and will return `total`, `discount`, `accessorial`, `container`, or `uncategorized`.",
+            "description": "This represents the type of the charge and will return `TOTAL`, `DISCOUNT`, `ACCESSORIAL`, `CONTAINER`, or `UNCATEGORIZED`, etc.",
             "type": "string"
           },
           "rate": {
@@ -3583,12 +3501,7 @@
           },
           "serviceLevel": {
             "type": "string",
-            "enum": [
-              "STD",
-              "GSDS",
-              "NAN"
-            ],
-            "description": "service level code."
+            "description": "service level code. Valid values include `STD`, `GSDS`, or `NAN`, etc.\n\n > - STD : Standard Service \n > - GSDS : Guaranteed Service"
           },
           "shipper": {
             "description": "Origin information.",
@@ -3661,12 +3574,18 @@
             "type": "object",
             "properties": {
               "currency": {
-                "type": "string"
+                "type": "string",
+                "description": "Currency information. Currently only supports USD."
               },
               "value": {
-                "type": "number"
+                "type": "number",
+                "description": "The monetary amount."
               }
-            }
+            },
+            "required": [
+              "currency",
+              "value"
+            ]
           },
           "remark": {
             "type": "string",
@@ -3684,20 +3603,6 @@
           "netCharge"
         ]
       },
-      "waring": {
-        "type": "object",
-        "description": "This object represents any warnings returned by the error when the quote was created.",
-        "properties": {
-          "externalCode": {
-            "type": "string",
-            "description": "A code provided by the carrier associated with the message."
-          },
-          "message": {
-            "type": "string",
-            "description": "A description of the error provided by the carrier."
-          }
-        }
-      },
       "data": {
         "type": "object",
         "properties": {
@@ -3708,17 +3613,6 @@
               "allOf": [
                 {
                   "$ref": "#/components/schemas/quote"
-                }
-              ]
-            }
-          },
-          "warnings": {
-            "type": "array",
-            "description": "This object represents any warnings returned by the error when the quote was created.",
-            "items": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/waring"
                 }
               ]
             }
@@ -3749,6 +3643,135 @@
         "required": [
           "success",
           "data"
+        ]
+      },
+      "carton": {
+        "type": "object",
+        "properties": {
+          "dimensions": {
+            "description": "The dimensions of the carton.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/dimensions"
+              }
+            ]
+          },
+          "weight": {
+            "description": "The weight of the carton.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/weight"
+              }
+            ]
+          },
+          "freightClass": {
+            "type": "string",
+            "description": "The [NMFC freight class](https://biz.nmfta.org/documents/ccsb/ccsb%20guidelines.pdf) for your freight."
+          },
+          "nmfcNumber": {
+            "type": "string",
+            "description": "The [NMFC commodity code](https://nmfta.org/) / item number."
+          }
+        },
+        "required": [
+          "dimensions",
+          "weight"
+        ]
+      },
+      "ltl_shipmentPallet": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Name to represent what the box contains."
+          },
+          "sku": {
+            "type": "string",
+            "description": "Put your product SKU if you are shipping a given product.If the SKU has multiple boxes append a unique identifier to them like:-2,-3,-4"
+          },
+          "freightClass": {
+            "type": "string",
+            "description": "The [NMFC freight class](https://biz.nmfta.org/documents/ccsb/ccsb%20guidelines.pdf) for your freight."
+          },
+          "nmfcNumber": {
+            "type": "string",
+            "description": "The [NMFC commodity code](https://nmfta.org/) / item number."
+          },
+          "linearFeet": {
+            "type": "number",
+            "format": "double",
+            "description": "The total linear feet of the shipping item."
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Number of pallets that have the same Weight,Dimensions,and Content."
+          },
+          "cartonCount": {
+            "type": "number",
+            "description": "The number of cartons contained on this pallet."
+          },
+          "stackable": {
+            "type": "boolean",
+            "default": false,
+            "description": "This indicates whether or not this pallet can be safely stacked."
+          },
+          "declaredInfo": {
+            "description": "The declared value of the contained goods.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ltl_balance"
+              }
+            ]
+          },
+          "dimensions": {
+            "description": "The dimensions of the pallet.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/dimensions"
+              }
+            ]
+          },
+          "weight": {
+            "description": "The weight of the pallet.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/weight"
+              }
+            ]
+          },
+          "cartons": {
+            "description": "The list of cartons contained on this pallet.",
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/carton"
+                }
+              ]
+            }
+          },
+          "shipmentNew": {
+            "type": "boolean",
+            "description": "This indicates whether the goods are new or not.",
+            "default": true
+          },
+          "hazmat": {
+            "type": "boolean",
+            "default": false,
+            "description": "Indicates whether the pallet contains hazardous material or not."
+          },
+          "hazmatClass": {
+            "type": "string",
+            "description": "Class of the hazardous material.[Click here to see more.](https://platform.gigacloudlogistics.com/docs)"
+          }
+        },
+        "required": [
+          "description",
+          "freightClass",
+          "quantity",
+          "declaredInfo",
+          "dimensions",
+          "weight"
         ]
       },
       "ltl_shipment_request": {
@@ -3782,11 +3805,11 @@
               },
               "readyTime": {
                 "type": "string",
-                "description": "When the shipment is ready to be picked up at the Origin (start). HH:MMAM/PM.  <br/>Example: 09:00AM"
+                "description": "When the shipment is ready to be picked up at the Origin (start). The time will be represented in a 24-hour format.  <br/>Example: 09:00"
               },
               "closeTime": {
                 "type": "string",
-                "description": "The closing window of when the shipment can be picked up at the Origin (end). HH:MMAM/PM. <br/>Example: 05:00PM"
+                "description": "The closing window of when the shipment can be picked up at the Origin (end). The time will be represented in a 24-hour format. <br/>Example: 17:00"
               }
             },
             "required": [
@@ -3816,11 +3839,11 @@
               },
               "readyTime": {
                 "type": "string",
-                "description": "When the Destination is ready to begin receiving the shipment. HH:MMAM/PM.  <br/>Example: 09:00AM"
+                "description": "When the Destination is ready to begin receiving the shipment.The time will be represented in a 24-hour format.  <br/>Example: 09:00"
               },
               "closeTime": {
                 "type": "string",
-                "description": "The closing window of when the Destination can receive the shipment. HH:MMAM/PM. <br/>Example: 05:00PM"
+                "description": "The closing window of when the Destination can receive the shipment. The time will be represented in a 24-hour format. <br/>Example: 17:00"
               }
             },
             "required": [
@@ -3898,21 +3921,18 @@
             "description": "The phone number of a contact person at this address. The format of this phone number varies depending on the country.",
             "type": "string",
             "maxLength": 25,
-            "x-nullable": true,
             "example": "1234-123456789"
           },
           "companyName": {
             "description": "Specify contact company name. Maximum length is 35.",
             "type": "string",
             "maxLength": 35,
-            "x-nullable": true,
             "example": "1 Collection Point Name (Test 1)"
           },
           "emailAddress": {
             "description": "Specify contact email address. Maximum length is 40.",
             "type": "string",
             "maxLength": 40,
-            "x-nullable": true,
             "example": "TEST@TEST.COM"
           }
         },
@@ -3958,8 +3978,7 @@
             "description": "his is the combination of number, street name, etc. Maximum length per line is 35.",
             "type": "string",
             "maxLength": 35,
-            "example": "TEST",
-            "x-nullable": true
+            "example": "TEST"
           },
           "addressType": {
             "description": "Indicate this address type",
@@ -3969,8 +3988,7 @@
               "BUSINESS",
               "PARCELSHOP"
             ],
-            "example": "RESIDENTIAL",
-            "x-nullable": true
+            "example": "RESIDENTIAL"
           }
         },
         "required": [
@@ -4259,7 +4277,6 @@
           }
         },
         "description": "These are label specification details includes the image type, printer format, and label stock for label.",
-        "x-nullable": true,
         "properties": {
           "imageType": {
             "description": "Specify the image format used for a shipping document.",
@@ -4832,7 +4849,7 @@
             ],
             "description": "Indicate the dimensions of the package.\n\n - Dimensions are optional but when added, then all three dimensions must be indicated.\n - Dimensions are required with `CUSTOM_PACKAGE` package type."
           },
-          "declaredValue": {
+          "declaredInfo": {
             "type": "object",
             "description": "This is the Declared Value of any shipment.This is including, but not limited to any loss, damage, delay, misdelivery, any failure to provide information, or misdelivery of information related to the Shipment.",
             "properties": {
@@ -5232,7 +5249,7 @@
             "minLength": 1,
             "example": "JDXXXXXXXXXXXXXXXXX"
           },
-          "declaredValue": {
+          "declaredInfo": {
             "type": "object",
             "description": "This is the Declared Value of any shipment.This is including, but not limited to any loss, damage, delay, misdelivery, any failure to provide information, or misdelivery of information related to the Shipment.",
             "properties": {
