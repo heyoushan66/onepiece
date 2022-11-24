@@ -3598,7 +3598,6 @@
           "shipper",
           "recipient",
           "charges",
-          "estimateDeliveryDays",
           "pickupDate",
           "netCharge"
         ]
