@@ -860,7 +860,7 @@
         }
       }
     },
-    "/v-beta/ltl/quotes": {
+    "/v1/ltl/quotes": {
       "post": {
         "tags": [
           "LTL Shipping"
@@ -963,7 +963,7 @@
         }
       }
     },
-    "/v-beta/ltl/shipment": {
+    "/v1/ltl/shipment": {
       "post": {
         "tags": [
           "LTL Shipping"

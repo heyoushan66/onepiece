@@ -565,7 +565,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/503ErrorResp'
-  /v-beta/ltl/quotes:
+  /v1/ltl/quotes:
     post:
       tags:
         - LTL Shipping
@@ -633,7 +633,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/503ErrorResp'
-  /v-beta/ltl/shipment:
+  /v1/ltl/shipment:
     post:
       tags:
         - LTL Shipping
