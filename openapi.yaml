@@ -67,7 +67,7 @@ tags:
 servers:
   - url: http://sit.gateway.orsd.tech/gw
     description: Sandbox Server
-  - url: https://prod.com
+  - url: https://apis.gigacloudlogistics.com
     description: Production Server
 paths:
   /oauth/token:
