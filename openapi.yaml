@@ -1876,7 +1876,7 @@ components:
     CarrierDimensions:
       type: object
       properties:
-        unit:
+        units:
           description: The dimension units that are supported by GigaLogistics.
           type: string
           enum:
@@ -3470,10 +3470,9 @@ components:
     Dimensions:
       type: object
       properties:
-        unit:
+        units:
           description: The dimension units that are supported by GIGALOGISTICS.
           type: string
-          default: IN
           enum:
             - CM
             - IN
