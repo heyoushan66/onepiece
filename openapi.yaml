@@ -2283,7 +2283,6 @@ components:
         units:
           description: The dimension units that are supported by GIGALOGISTICS.
           type: string
-          default: IN
           enum:
             - CM
             - IN
@@ -3499,7 +3498,7 @@ components:
         - length
         - width
         - height
-        - unit
+        - units
     special_service:
       type: object
       description: >-
