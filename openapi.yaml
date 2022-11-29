@@ -1876,7 +1876,7 @@ components:
     CarrierDimensions:
       type: object
       properties:
-        units:
+        unit:
           description: The dimension units that are supported by GigaLogistics.
           type: string
           enum:
