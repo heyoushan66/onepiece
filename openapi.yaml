@@ -3304,7 +3304,7 @@ components:
       required:
         - imageType
         - labelStockType
-    LabelSpecification_dpd:
+    LabelSpecification_dpd_de:
       type: object
       discriminator:
         propertyName: imageType
@@ -3335,7 +3335,7 @@ components:
       type: object
       description: Indicate the label stock type used.
       allOf:
-        - $ref: '#/components/schemas/LabelSpecification_dpd'
+        - $ref: '#/components/schemas/LabelSpecification_dpd_de'
         - type: object
           properties:
             labelStockType:
@@ -3351,7 +3351,7 @@ components:
       type: object
       description: Indicate the label stock type used.
       allOf:
-        - $ref: '#/components/schemas/LabelSpecification_dpd'
+        - $ref: '#/components/schemas/LabelSpecification_dpd_de'
         - type: object
           properties:
             labelStockType:
@@ -3869,7 +3869,7 @@ components:
             - $ref: '#/components/schemas/LabelSpecification_gel'
             - $ref: '#/components/schemas/LabelSpecification_gls'
             - $ref: '#/components/schemas/LabelSpecification_whistl'
-            - $ref: '#/components/schemas/LabelSpecification_dpd'
+            - $ref: '#/components/schemas/LabelSpecification_dpd_de'
             - $ref: '#/components/schemas/LabelSpecification_dpd_uk'
             - $ref: '#/components/schemas/LabelSpecification_ups'
         itemLines:
@@ -4022,7 +4022,7 @@ components:
           enum:
             - FedEx
             - WHISTL
-            - DPD
+            - DPD_DE
             - DPD_UK
             - GLS
             - GEL
@@ -4057,7 +4057,7 @@ components:
             - $ref: '#/components/schemas/LabelSpecification_gel'
             - $ref: '#/components/schemas/LabelSpecification_gls'
             - $ref: '#/components/schemas/LabelSpecification_whistl'
-            - $ref: '#/components/schemas/LabelSpecification_dpd'
+            - $ref: '#/components/schemas/LabelSpecification_dpd_de'
             - $ref: '#/components/schemas/LabelSpecification_dpd_uk'
             - $ref: '#/components/schemas/LabelSpecification_ups'
         taxIndentifiers:
