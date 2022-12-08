@@ -3710,6 +3710,71 @@ components:
         - identifierType
         - issuing_authority
         - value
+    customsItems_dpd_uk:
+      type: object
+      required:
+        - referToItemTransactionId
+        - description
+        - quantity
+        - value
+        - harmonizedTariffCode
+        - countryOfOrigin
+        - weight
+      properties:
+        referToItemTransactionId:
+          type: string
+          description: refer to which package by ItemTransactionId.
+          example: test-xxxx-xxxxxxxx
+        description:
+          type: string
+          description: A description of the item.
+          example: item detailed description
+        quantity:
+          type: integer
+          description: The quantity of this item in the shipment.
+          example: 1
+        value:
+          type: object
+          required:
+            - amount
+            - currency
+          properties:
+            amount:
+              type: number
+              format: double
+              description: The monetary amount, in the specified currency.
+              example: 5.3
+            currency:
+              type: string
+              description: >-
+                The currencies that are supported by ShipEngine are the ones
+                that specified by ISO 4217:
+                https://www.iso.org/iso-4217-currency-codes.html
+              example: EUR
+        harmonizedTariffCode:
+          type: string
+          description: The Harmonized Tariff Code of this item.
+          example: 91234000
+        countryOfOrigin:
+          type: string
+          description: The two-letter ISO 3166-1 country code where this item originated.
+          example: UK
+        fabricContent:
+          type: string
+          description: Description of the product fabric being shipped.
+          example: Woven 100% silk
+        weight:
+          allOf:
+            - $ref: '#/components/schemas/Weight'
+          description: The unit weight of the customs items.
+        sku:
+          type: string
+          description: The SKU (Stock Keeping Unit) of the customs item.
+          example: SKU-TEST-001
+        skuDescription:
+          type: string
+          description: Description of the Custom Item's SKU.
+          example: item type simple description
     customs:
       type: object
       properties:
@@ -3736,68 +3801,8 @@ components:
           type: array
           description: Customs declarations for each item in the shipment.
           items:
-            type: object
-            required:
-              - quantity
-            properties:
-              referToItemTransactionId:
-                type: string
-                description: >-
-                  refer to which package by ItemTransactionId. DPD_UK is
-                  required.
-                example: test-xxxx-xxxxxxxx
-              description:
-                type: string
-                description: A description of the item.
-                example: item detailed description
-              quantity:
-                type: integer
-                description: The quantity of this item in the shipment.
-                example: 1
-              value:
-                type: object
-                required:
-                  - amount
-                  - currency
-                properties:
-                  amount:
-                    type: number
-                    format: double
-                    description: The monetary amount, in the specified currency.
-                    example: 5.3
-                  currency:
-                    type: string
-                    description: >-
-                      The currencies that are supported by ShipEngine are the
-                      ones that specified by ISO 4217:
-                      https://www.iso.org/iso-4217-currency-codes.html
-                    example: EUR
-              harmonizedTariffCode:
-                type: string
-                description: The Harmonized Tariff Code of this item.
-                example: 91234000
-              countryOfOrigin:
-                type: string
-                description: >-
-                  The two-letter ISO 3166-1 country code where this item
-                  originated.
-                example: UK
-              fabricContent:
-                type: string
-                description: Description of the product fabric being shipped.
-                example: Woven 100% silk
-              weight:
-                allOf:
-                  - $ref: '#/components/schemas/Weight'
-                description: The unit weight of the customs items.
-              sku:
-                type: string
-                description: The SKU (Stock Keeping Unit) of the customs item.
-                example: SKU-TEST-001
-              skuDescription:
-                type: string
-                description: Description of the Custom Item's SKU.
-                example: item type simple description
+            oneOf:
+              - $ref: '#/components/schemas/customsItems_dpd_uk'
     create_shipments_request_body:
       type: object
       properties:
@@ -3875,6 +3880,10 @@ components:
               - $ref: '#/components/schemas/ItemLine'
         taxIndentifiers:
           type: array
+          description: |-
+            Required combination:
+
+             - `DPD_UK`: EORI(SHIPPER) + IOSS(SHIPPER). 
           items:
             allOf:
               - $ref: '#/components/schemas/tax_indentifiers'
