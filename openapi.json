@@ -3167,6 +3167,10 @@
       "ltl_shipmentPiece": {
         "type": "object",
         "properties": {
+          "quantity": {
+            "type": "string",
+            "description": "Number of pieces that have the same Weight,Dimensions,and Content."
+          },
           "dimensions": {
             "description": "The dimensions of the piece.",
             "allOf": [
@@ -3193,6 +3197,7 @@
           }
         },
         "required": [
+          "quantity",
           "dimensions",
           "weight"
         ]
@@ -3232,16 +3237,12 @@
           },
           "quantity": {
             "type": "number",
-            "description": "Number of pallets that have the same Weight,Dimensions,and Content."
-          },
-          "pieceCount": {
-            "type": "number",
-            "description": "The number of pieces contained in this item."
+            "description": "Number of items that have the same Weight,Dimensions,and Content."
           },
           "stackable": {
             "type": "boolean",
             "default": false,
-            "description": "This indicates whether or not this pallet can be safely stacked."
+            "description": "This indicates whether or not this item can be safely stacked."
           },
           "declaredInfo": {
             "description": "The declared value of the contained goods.",
@@ -3252,7 +3253,7 @@
             ]
           },
           "dimensions": {
-            "description": "The dimensions of the pallet.",
+            "description": "The dimensions of the item.",
             "allOf": [
               {
                 "$ref": "#/components/schemas/dimensions"
@@ -3260,7 +3261,7 @@
             ]
           },
           "weight": {
-            "description": "The weight of the pallet.",
+            "description": "The weight of the item.",
             "allOf": [
               {
                 "$ref": "#/components/schemas/weight"
@@ -3286,7 +3287,7 @@
           "hazmat": {
             "type": "boolean",
             "default": false,
-            "description": "Indicates whether the pallet contains hazardous material or not."
+            "description": "Indicates whether the item contains hazardous material or not."
           },
           "hazmatClass": {
             "type": "string",
