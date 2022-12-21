@@ -10,7 +10,7 @@ info:
   x-logo:
     url: >-
       http://ar-logistics-hk-prod.oss-cn-hongkong.aliyuncs.com/logistics-parent/openapi/DJYClogo1.png
-  description: "This is an **example** API to demonstrate features of the OpenAPI specification.\r\n\r\n# Getting Started\r\n\r\nThis API definition is intended to to be a good starting point for\r\ndescribing your API in \r\n\r\n[OpenAPI/Swagger\r\nformat](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md).\r\n\r\nIt also demonstrates features of the\r\n[create-openapi-repo](https://github.com/Redocly/create-openapi-repo) tool\r\nand \r\n\r\nthe [Redoc](https://github.com/Redocly/Redoc) documentation engine. Beyond\r\nthe standard OpenAPI syntax, we use a few \r\n\r\n[vendor\r\nextensions](https://github.com/Redocly/Redoc/blob/master/docs/redoc-vendor-extensions.md)."
+  description: "This is an **example** API to demonstrate features of the OpenAPI specification.\r\n\r\n# Getting Started\r\n\r\nLearn how to [authenticate yourself to GIGALOGISTICS](https://platform.gigacloudlogistics.com/docs/guide/guides/oauth2.html), and then use our sandbox environment to kick the tires and get familiar with our API. If you run into any problems, then be sure to check the error handling guide for tips.\r\n\r\nHere are some step-by-step **tutorials** to get you started:\r\n\r\n- [Learn how to create your first shipping label](https://platform.gigacloudlogistics.com/docs/guide/shipping-labels/create-label.html)\r\n- [Learn how to list carriers](https://platform.gigacloudlogistics.com/docs/guide/guides/list-carriers.html)\r\n- [Learn how to list carrier services](https://platform.gigacloudlogistics.com/docs/guide/guides/list-carrier-service.html)"
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
@@ -22,7 +22,7 @@ tags:
       making an API request, or if you use an incorrect or expired key, then
       GIGALOGISTICS will respond with a `401 Unauthorized` error.<br> <br> Learn
       more about API keys in our [authentication
-      guide](https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html).
+      guide](https://platform.gigacloudlogistics.com/docs/guide/guides/oauth2.html).
   - name: Addresses
     description: >-
       No matter your shipping volume, failed deliveries and address change
@@ -3421,7 +3421,9 @@ components:
       type: object
       properties:
         imageType:
-          description: Specify the image format used for a shipping document.
+          description: >-
+            Specify the image format used for a shipping document. The label
+            size always A6.
           type: string
           enum:
             - PDF
@@ -4076,7 +4078,7 @@ components:
           externalDocs:
             description: Find more info here
             url: >-
-              https://platform.gigacloudlogistics.com/docs/guide/shipping/specify-carrier-service.html
+              https://platform.gigacloudlogistics.com/docs/guide/guides/list-carrier-service.html
           type: string
         shipper:
           allOf:
@@ -4700,5 +4702,5 @@ components:
         type: string
         description: >-
           Example: `Bearer XXX` <br> This indicates the
-          [authorization](http://127.0.0.1:8080/#section/Authentication) token
-          for the input request.
+          [authorization](https://heyoushan66.github.io/onepiece/#tag/Authentication)
+          token for the input request.
