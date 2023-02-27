@@ -4356,6 +4356,12 @@
             "maxLength": 25,
             "example": "1234-123456789"
           },
+          "phoneExtension": {
+            "description": "Specify contact phone extension. Maximum length is 6.",
+            "type": "string",
+            "maxLength": 6,
+            "example": 1234
+          },
           "companyName": {
             "description": "Specify contact company name. Maximum length is 35. \n\n > **Note:** Required if current carrier is GEL,DPD_UK, etc",
             "type": "string",
@@ -4472,8 +4478,14 @@
             "maxLength": 25,
             "example": "1234-123456789"
           },
+          "phoneExtension": {
+            "description": "Specify contact phone extension. Maximum length is 6.",
+            "type": "string",
+            "maxLength": 6,
+            "example": 1234
+          },
           "companyName": {
-            "description": "Specify contact company name. Maximum length is 35.\n\n > **Note:** Required if current carrier is DPD_DE, etc",
+            "description": "Specify contact company name. Maximum length is 35.\n\n > **Note:** Required if current carrier is DPD_UK, etc",
             "type": "string",
             "maxLength": 35,
             "example": "1 Collection Point Name (Test 1)"
@@ -4587,6 +4599,12 @@
             "type": "string",
             "maxLength": 25,
             "example": "1234-123456789"
+          },
+          "phoneExtension": {
+            "description": "Specify contact phone extension. Maximum length is 6.",
+            "type": "string",
+            "maxLength": 6,
+            "example": 1234
           },
           "companyName": {
             "description": "Specify contact company name. Maximum length is 35.",
@@ -6283,7 +6301,7 @@
             "type": "string",
             "description": "The name of a contact person at this address. This field may be set instead of - or in addition to - the `companyName` field.",
             "minLength": 1,
-            "maxLength": 25,
+            "maxLength": 35,
             "example": "CA1"
           },
           "phone": {
@@ -6293,48 +6311,61 @@
             "description": "The phone number of a contact person at this address. The format of this phone number varies depending on the country.",
             "example": 123456789
           },
+          "phoneExtension": {
+            "type": "string",
+            "maxLength": 6,
+            "description": "Specify contact phone extension. Maximum length is 6.",
+            "example": 1234
+          },
           "companyName": {
             "type": "string",
+            "maxLength": 35,
             "description": "If this is a business address, then the company name should be specified here.",
             "example": "John Doe"
           },
           "email": {
             "type": "string",
             "description": "This is the email address.",
-            "maxLength": 50,
+            "maxLength": 40,
             "example": "John Doe"
           },
           "addressLine1": {
             "type": "string",
             "minLength": 1,
+            "maxLength": 35,
             "description": "The first line of the street address. For some addresses, this may be the only line. Other addresses may require 2 or 3 lines.",
             "example": "1999 Bishop Grandin Blvd."
           },
           "addressLine2": {
             "type": "string",
+            "maxLength": 35,
             "description": "The second line of the street address.  For some addresses, this line may not be needed.",
             "example": "Unit 408."
           },
           "addressLine3": {
             "type": "string",
+            "maxLength": 35,
             "description": "The third line of the street address.  For some addresses, this line may not be needed.",
             "example": "Building #7"
           },
           "cityLocality": {
             "type": "string",
             "minLength": 1,
+            "maxLength": 35,
             "description": "The name of the city or locality",
             "example": "Winnipeg"
           },
           "stateProvince": {
             "type": "string",
             "minLength": 1,
+            "maxLength": 35,
             "description": "The state or province.  For some countries (including the U.S.) only abbreviations are allowed.  Other countries allow the full name or abbreviation.",
             "example": "Manitoba"
           },
           "postalCode": {
             "type": "string",
             "minLength": 1,
+            "maxLength": 10,
             "example": "56234",
             "description": "postal code"
           },
@@ -6353,7 +6384,6 @@
         },
         "required": [
           "name",
-          "phone",
           "addressLine1",
           "cityLocality",
           "stateProvince",
@@ -6415,7 +6445,8 @@
         "required": [
           "id",
           "name",
-          "type"
+          "type",
+          "originAddress"
         ]
       },
       "WhListSuccessResp": {
@@ -6492,7 +6523,8 @@
         "required": [
           "id",
           "name",
-          "type"
+          "type",
+          "originAddress"
         ]
       },
       "WhOneSuccessResp": {
