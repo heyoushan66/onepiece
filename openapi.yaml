@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.2023031401_Beta
+  version: 1.0.2023032101_Beta
   title: GigaLogistics API
   termsOfService: https://platform.gigacloudlogistics.com/docs/
   contact:
@@ -62,19 +62,30 @@ tags:
     description: |-
       This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.
 
-      ### Version: 1.0.2023031401_Beta (current)
+      ### Version: 1.0.2023031401_Beta
 
       #### Changes
 
       - [Create Shipments](https://heyoushan66.github.io/onepiece/#tag/Shipments/operation/createShipment) interface parameter adjustment
           - Add new field `streetLine3`
           > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, only applicable to FedEx, UPS. 
-          - update field `stateProvince`
+          - Update field `stateProvince`
           > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, Required when the carrier is FedEx, UPS, optional in other cases.
 
       - [Create Warehouse](https://heyoushan66.github.io/onepiece/#tag/Warehouses/operation/createWarehouse) interface parameter adjustment
           - update field `stateProvince`
           > Applicable to `originAddressre`, `returnAddress` field address information, only required when the country of the address is US.
+
+      ---
+
+      ### Version: 1.0.2023032101_Beta (current)
+
+      #### Changes
+
+      - [Create Shipments](https://heyoushan66.github.io/onepiece/#tag/Shipments/operation/createShipment) Interface parameter verification description adjustment
+          - Update field `paymentOption`
+          > Modify the verification information when using non-`SENDER` payment when the carrier is `FedEx` or `UPS`.
+          - Added the description information of the specific verification rules of each logistics company, supplemented additional auxiliary information about fields such as `serviceType`, `weight`, `dimensions`, `declaredInfo`, etc.
 servers:
   - url: http://sit.gateway.orsd.tech/gw
     description: Sandbox Server
@@ -1780,6 +1791,9 @@ components:
           example: Body of request cannot be null.
         serviceCode:
           description: service code
+          externalDocs:
+            url: https://platform.gigacloudlogistics.com/docs/guide/shipping/specify-carrier-service.html
+            description: Find more info here
           type: string
           minLength: 1
           example: test01
@@ -2050,12 +2064,12 @@ components:
           maxLength: 35
           example: ANTIOCH
         zipCode:
-          description: This is the postal code.
+          description: This is the postal code. Validity check exists.
           type: string
           maxLength: 10
           example: 65247
         addressType:
-          description: Indicate this address type
+          description: Indicate this address type, Only `RESIDENTIAL` means residential (private).
           type: string
           enum:
             - RESIDENTIAL
@@ -2380,7 +2394,7 @@ components:
           maxLength: 35
           example: TEST
         addressType:
-          description: Indicate this address type
+          description: Indicate this address type, Only `RESIDENTIAL` means residential (private).
           type: string
           enum:
             - RESIDENTIAL
@@ -3010,30 +3024,43 @@ components:
       type: object
       properties:
         personName:
-          description: The name of a contact person at this address.
+          description: |-
+            The name of a contact person at this address. The difference between each carrier is as follows.
+
+             > - **FedEx** : Either the companyName or personName is mandatory.
           type: string
           maxLength: 35
           example: 1 Collection Point Name (Test 1)
         phoneNumber:
-          description: The phone number of a contact person at this address. The format of this phone number varies depending on the country.
+          description: |-
+            The phone number of a contact person at this address. The format of this phone number varies depending on the country. The difference between each carrier is as follows.
+
+             > - **FedEx** : Required, Minimum length is 10 and supports maximum of 15 for certain countries using longer phone numbers.
+             > - **UPS** : Required, Maximum length is 15.
+             > - **DPD_UK** : Maximum length is 15.
           type: string
           maxLength: 25
           example: 1234-123456789
         phoneExtension:
-          description: Specify contact phone extension. Maximum length is 6.
+          description: Specify contact phone extension. Maximum length is 6. This field is only applicable to US, `UPS` supports up to 4 digits.
           type: string
           maxLength: 6
           example: 1234
         companyName:
           description: |-
-            Specify contact company name. Maximum length is 35. 
+            Specify contact company name. Maximum length is 35. The difference between each carrier is as follows.
 
-             > **Note:** Required if current carrier is GEL,DPD_UK, etc
+             > - **FedEx** : Either the companyName or personName is mandatory.
+             > - **GEL** : Required.
+             > - **DPD_UK** : Required.
           type: string
           maxLength: 35
           example: 1 Collection Point Name (Test 1)
         emailAddress:
-          description: Specify contact email address. Maximum length is 40.
+          description: |-
+            Specify contact email address. Maximum length is 40. The difference between each carrier is as follows.
+
+             > - **DPD_DE** : Minimum length is 5.
           type: string
           maxLength: 40
           example: TEST@TEST.COM
@@ -3054,12 +3081,19 @@ components:
           maxLength: 35
           example: TEST
         city:
-          description: The name of city, town of the recipient.Max length is 35.
+          description: |-
+            The name of city, town of the recipient.Max length is 35. The difference between each carrier is as follows.
+
+             > - **UPS** : Maximum length is 30.
           type: string
           maxLength: 35
           example: 155 COLLECTION TOWN
         zipCode:
-          description: This is the postal code.
+          description: |-
+            This is the postal code. Validity check exists. The difference between each carrier is as follows.
+
+             > - **DPD_DE** : Maximum length is 9.
+             > - **UPS** : Support 5 or 9 bits.
           type: string
           maxLength: 10
           example: SL7 1TB
@@ -3070,9 +3104,9 @@ components:
           example: 155 COLLECTION STREET 1
         streetLine2:
           description: |-
-            This is the combination of number, street name, etc. Maximum length per line is 35.
+            This is the combination of number, street name, etc. Maximum length per line is 35. The difference between each carrier is as follows.
 
-             > **Note:** Required if current carrier is DPD_DE, etc
+             > **DPD_DE** : Required.
           type: string
           maxLength: 35
           example: TEST2
@@ -3085,7 +3119,7 @@ components:
           maxLength: 35
           example: TEST3
         addressType:
-          description: Indicate this address type
+          description: Indicate this address type, Only `RESIDENTIAL` means residential (private).
           type: string
           enum:
             - RESIDENTIAL
@@ -3115,36 +3149,43 @@ components:
       type: object
       properties:
         personName:
-          description: The name of a contact person at this address.
+          description: |-
+            The name of a contact person at this address. The difference between each carrier is as follows.
+
+             > - **Evri** : Maximum length is 32.
+             > - **FedEx** : Either the companyName or personName is mandatory.
           type: string
           maxLength: 35
           example: 1 Collection Point Name (Test 1)
         phoneNumber:
           description: |-
-            The phone number of a contact person at this address. The format of this phone number varies depending on the country. 
+            The phone number of a contact person at this address. The format of this phone number varies depending on the country. The difference between each carrier is as follows.
 
-             > **Note:** If current carrier is DPD_UK then either phoneNumber or emailAddress must be specified.
+             > - **FedEx** : Required, Minimum length is 10 and supports maximum of 15 for certain countries using longer phone numbers.
+             > - **UPS** : Required, Maximum length is 15.
+             > - **DPD_UK** : Maximum length is 15. Either phoneNumber or emailAddress must be specified.
           type: string
           maxLength: 25
           example: 1234-123456789
         phoneExtension:
-          description: Specify contact phone extension. Maximum length is 6.
+          description: Specify contact phone extension. Maximum length is 6. This field is only applicable to US, `UPS` supports up to 4 digits.
           type: string
           maxLength: 6
           example: 1234
         companyName:
           description: |-
-            Specify contact company name. Maximum length is 35.
+            Specify contact company name. Maximum length is 35. The difference between each carrier is as follows.
 
-             > **Note:** Required if current carrier is DPD_UK, etc
+             > - **DPD_UK** : Required.
+             > - **FedEx** : Either the companyName or personName is mandatory.
           type: string
           maxLength: 35
           example: 1 Collection Point Name (Test 1)
         emailAddress:
           description: |-
-            Specify contact email address. Maximum length is 40.
+            Specify contact email address. Maximum length is 40. The difference between each carrier is as follows.
 
-             > **Note:** If current carrier is DPD_UK then either phoneNumber or emailAddress must be specified.
+             > **DPD_UK** : Either phoneNumber or emailAddress must be specified.
           type: string
           maxLength: 40
           example: TEST@TEST.COM
@@ -3165,25 +3206,36 @@ components:
           maxLength: 35
           example: TEST
         city:
-          description: The name of city, town of the recipient.Max length is 35.
+          description: |-
+            The name of city, town of the recipient.Max length is 35. The difference between each carrier is as follows.
+
+             > - **Evri** : Maximum length is 32.
           type: string
           maxLength: 35
           example: 155 COLLECTION TOWN
         zipCode:
-          description: This is the postal code.
+          description: |-
+            This is the postal code. Validity check exists. The difference between each carrier is as follows.
+
+             > - **DPD_DE** : Maximum length is 9.
+             > - **UPS** : Support 5 or 9 bits.
           type: string
           maxLength: 10
           example: SL7 1TB
         streetLine1:
-          description: This is the combination of number, street name, etc. Maximum length per line is 35.
+          description: |-
+            This is the combination of number, street name, etc. Maximum length per line is 35. The difference between each carrier is as follows.
+
+             > - **Evri** : Maximum length is 32.
           type: string
           maxLength: 35
           example: 155 COLLECTION STREET 1
         streetLine2:
           description: |-
-            This is the combination of number, street name, etc. Maximum length per line is 35.
+            This is the combination of number, street name, etc. Maximum length per line is 35. The difference between each carrier is as follows.
 
-             > **Note:** Required if current carrier is DPD_DE, etc
+             > - **Evri** : Maximum length is 32.
+             > - **DPD_DE** : Required.
           type: string
           maxLength: 35
           example: TEST
@@ -3196,7 +3248,7 @@ components:
           maxLength: 35
           example: TEST3
         addressType:
-          description: Indicate this address type
+          description: Indicate this address type, Only `RESIDENTIAL` means residential (private).
           type: string
           enum:
             - RESIDENTIAL
@@ -3222,7 +3274,7 @@ components:
       required:
         - contact
         - address
-    contact:
+    payor_contact:
       type: object
       properties:
         personName:
@@ -3231,12 +3283,15 @@ components:
           maxLength: 35
           example: 1 Collection Point Name (Test 1)
         phoneNumber:
-          description: The phone number of a contact person at this address. The format of this phone number varies depending on the country.
+          description: |-
+            The phone number of a contact person at this address. The format of this phone number varies depending on the country. The difference between each carrier is as follows.
+
+             > - **FedEx** : Minimum length is 10 and supports maximum of 15 for certain countries using longer phone numbers.
           type: string
           maxLength: 25
           example: 1234-123456789
         phoneExtension:
-          description: Specify contact phone extension. Maximum length is 6.
+          description: Specify contact phone extension. Maximum length is 6. This field is only applicable to US, `UPS` supports up to 4 digits.
           type: string
           maxLength: 6
           example: 1234
@@ -3250,39 +3305,55 @@ components:
           type: string
           maxLength: 40
           example: TEST@TEST.COM
-      required:
-        - personName
-    address:
+    payor_address:
       type: object
       properties:
         countryCode:
-          description: This is the two-letter country code.
+          description: |-
+            This is the two-letter country code. The difference between each carrier is as follows.
+
+             > **UPS** : Required when paymentType is THIRD_PARTY.
           type: string
           minLength: 2
           maxLength: 2
           example: GB
         stateOrProvinceCode:
-          description: This is a placeholder for state or province code. Required when used for FedEx.
+          description: |-
+            This is a placeholder for state or province code. Required when used for FedEx.
+
+             > **Note:** This field is only applicable if the carrier is FedEx.
           type: string
           maxLength: 35
           example: TEST
         city:
-          description: The name of city, town of the recipient.Max length is 35.
+          description: |-
+            The name of city, town of the recipient.Max length is 35.
+
+             > **Note:** This field is only applicable if the carrier is FedEx.
           type: string
           maxLength: 35
           example: 155 COLLECTION TOWN
         zipCode:
-          description: This is the postal code.
+          description: |-
+            This is the postal code. Validity check exists. The difference between each carrier is as follows.
+
+             > **UPS** : Required when paymentType is THIRD_PARTY or RECIPIENT.
           type: string
           maxLength: 10
           example: SL7 1TB
         streetLine1:
-          description: This is the combination of number, street name, etc. Maximum length per line is 35.
+          description: |-
+            This is the combination of number, street name, etc. Maximum length per line is 35.
+
+             > **Note:** This field is only applicable if the carrier is FedEx.
           type: string
           maxLength: 35
           example: 155 COLLECTION STREET 1
         streetLine2:
-          description: his is the combination of number, street name, etc. Maximum length per line is 35.
+          description: |-
+            This is the combination of number, street name, etc. Maximum length per line is 35. 
+
+             > **Note:** This field is only applicable if the carrier is FedEx.
           type: string
           maxLength: 35
           example: TEST
@@ -3295,29 +3366,24 @@ components:
           maxLength: 35
           example: TEST3
         addressType:
-          description: Indicate this address type
+          description: Indicate this address type, Only `RESIDENTIAL` means residential (private).
           type: string
           enum:
             - RESIDENTIAL
             - BUSINESS
             - PARCELSHOP
           example: RESIDENTIAL
-      required:
-        - countryCode
-        - city
-        - zipCode
-        - streetLine1
     payor:
       type: object
       properties:
         contact:
-          description: This is detailed information on physical location.
+          description: This is detailed information on physical location. This field is only applicable if the carrier is FedEx.
           allOf:
-            - $ref: '#/components/schemas/contact'
+            - $ref: '#/components/schemas/payor_contact'
         address:
-          description: Indicate the contact details for this shipment.
+          description: Indicate the contact details for this shipment. Required when the carrier is UPS and the paymentType is THIRD_PARTY or RECIPIENT.
           allOf:
-            - $ref: '#/components/schemas/address'
+            - $ref: '#/components/schemas/payor_address'
         accountNumber:
           type: string
           description: This field is used to bill shipping costs to a third party.
@@ -3347,6 +3413,40 @@ components:
           description: Payor is mandatory when the paymentType is `RECIPIENT`, `THIRD_PARTY` or `COLLECT`.
       required:
         - paymentType
+    contact:
+      type: object
+      properties:
+        personName:
+          description: The name of a contact person at this address.
+          type: string
+          maxLength: 35
+          example: 1 Collection Point Name (Test 1)
+        phoneNumber:
+          description: |-
+            The phone number of a contact person at this address. The format of this phone number varies depending on the country. The difference between each carrier is as follows.
+
+             > - **FedEx** : Minimum length is 10 and supports maximum of 15 for certain countries using longer phone numbers.
+             > - **UPS** : Required, Maximum length is 15.
+          type: string
+          maxLength: 25
+          example: 1234-123456789
+        phoneExtension:
+          description: Specify contact phone extension. Maximum length is 6. This field is only applicable to US, `UPS` supports up to 4 digits.
+          type: string
+          maxLength: 6
+          example: 1234
+        companyName:
+          description: Specify contact company name. Maximum length is 35.
+          type: string
+          maxLength: 35
+          example: 1 Collection Point Name (Test 1)
+        emailAddress:
+          description: Specify contact email address. Maximum length is 40.
+          type: string
+          maxLength: 40
+          example: TEST@TEST.COM
+      required:
+        - personName
     returnAddress:
       type: object
       properties:
@@ -3367,7 +3467,10 @@ components:
           maxLength: 35
           example: 155 COLLECTION TOWN
         zipCode:
-          description: This is the postal code.
+          description: |-
+            This is the postal code. Validity check exists. The difference between each carrier is as follows.
+
+             > - **UPS** : Support 5 or 9 bits.
           type: string
           maxLength: 10
           example: SL7 1TB
@@ -3377,23 +3480,17 @@ components:
           maxLength: 35
           example: 155 COLLECTION STREET 1
         streetLine2:
-          description: |-
-            This is the combination of number, street name, etc. Maximum length per line is 35.
-
-             > **Note:** Required if current carrier is DPD_DE, etc
+          description: This is the combination of number, street name, etc. Maximum length per line is 35.
           type: string
           maxLength: 35
           example: TEST
         streetLine3:
-          description: |-
-            This is the combination of number, street name, etc. Maximum length per line is 35.
-
-             > **Note:** This field is only applicable if the country is US.
+          description: This is the combination of number, street name, etc. Maximum length per line is 35.
           type: string
           maxLength: 35
           example: TEST3
         addressType:
-          description: Indicate this address type
+          description: Indicate this address type, Only `RESIDENTIAL` means residential (private).
           type: string
           enum:
             - RESIDENTIAL
@@ -3847,12 +3944,13 @@ components:
           description: Indicate the types of special services requested for the shipment.
           externalDocs:
             description: Find more info here
-            url: https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html
+            url: https://platform.gigacloudlogistics.com/docs/guide/shipping/dangerous.html
           type: array
           items:
             type: string
             enum:
               - DANGEROUS_GOODS
+              - PACKAGING
           example:
             - DANGEROUS_GOODS
         specialServiceAttributeList:
@@ -3865,14 +3963,14 @@ components:
                 description: click here to see Package Special Service Types
                 externalDocs:
                   description: Find more info here
-                  url: https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html
+                  url: https://platform.gigacloudlogistics.com/docs/guide/shipping/dangerous.html
                 type: string
                 example: age
               value:
                 description: click here to see Package Special Service Types
                 externalDocs:
                   description: Find more info here
-                  url: https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html
+                  url: https://platform.gigacloudlogistics.com/docs/guide/shipping/dangerous.html
                 type: string
                 example: '17'
             required:
@@ -3926,7 +4024,7 @@ components:
         packageCode:
           type: string
           default: CUSTOM_PACKAGE
-          description: The package type, such as `THICK_ENVELOPE`, `SMALL_FLAT_RATE_BOX`, `LARGE_PACKAGE`, etc. The code `CUSTOM_PACKAGE` indicates a custom or unknown package type.
+          description: The package type, such as `THICK_ENVELOPE`, `SMALL_FLAT_RATE_BOX`, `LARGE_PACKAGE`, etc. The code `CUSTOM_PACKAGE` indicates a custom or unknown package type. current version is not used.
           externalDocs:
             description: Find more info here
             url: https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html
@@ -3939,6 +4037,9 @@ components:
           allOf:
             - $ref: '#/components/schemas/Weight'
           description: These are the package weight details.
+          externalDocs:
+            description: Find more info here
+            url: https://platform.gigacloudlogistics.com/docs/guide/shipping/size-and-weight.html
         dimensions:
           allOf:
             - $ref: '#/components/schemas/Dimensions'
@@ -3949,6 +4050,9 @@ components:
              - Dimensions are required with `CUSTOM_PACKAGE` package type. 
 
              > **Note:** Required if current carrier is WHISTL, etc
+          externalDocs:
+            description: Find more info here
+            url: https://platform.gigacloudlogistics.com/docs/guide/shipping/size-and-weight.html
         declaredInfo:
           type: object
           description: This is the Declared Value of any shipment.This is including, but not limited to any loss, damage, delay, misdelivery, any failure to provide information, or misdelivery of information related to the Shipment.
@@ -3965,6 +4069,9 @@ components:
               type: number
               minimum: 0
               description: The monetary amount, in the specified currency.
+          externalDocs:
+            description: Find more info here
+            url: https://platform.gigacloudlogistics.com/docs/guide/shipping/declared-Info.html
         specialService:
           allOf:
             - $ref: '#/components/schemas/special_service'
@@ -4050,11 +4157,11 @@ components:
           example: test-xxxx-xxxxxxxx
         description:
           type: string
-          description: A description of the item.
+          description: A description of the item. Maximum length is 200.
           example: item detailed description
         quantity:
           type: integer
-          description: The quantity of this item in the shipment.
+          description: The quantity of this item in the shipment. Minimum length is 1, Maximum length is 99999.
           example: 1
         value:
           type: object
@@ -4065,7 +4172,7 @@ components:
             amount:
               type: number
               format: double
-              description: The monetary amount, in the specified currency.
+              description: The monetary amount, in the specified currency. Minimum length is 0.01, Maximum length is 9999999.99.
               example: 5.3
             currency:
               type: string
@@ -4073,7 +4180,7 @@ components:
               example: EUR
         harmonizedTariffCode:
           type: string
-          description: The Harmonized Tariff Code of this item.
+          description: The Harmonized Tariff Code of this item. Maximum length is 8.
           example: 91234000
         countryOfOrigin:
           type: string
@@ -4081,19 +4188,19 @@ components:
           example: UK
         fabricContent:
           type: string
-          description: Description of the product fabric being shipped.
+          description: Description of the product fabric being shipped. Maximum length is 200.
           example: Woven 100% silk
         weight:
           allOf:
             - $ref: '#/components/schemas/Weight'
-          description: The unit weight of the customs items.
+          description: The unit weight of the customs items. value Minimum length is 0.01, Maximum length is 9999999.99.
         sku:
           type: string
-          description: The SKU (Stock Keeping Unit) of the customs item.
+          description: The SKU (Stock Keeping Unit) of the customs item. Maximum length is 255.
           example: SKU-TEST-001
         skuDescription:
           type: string
-          description: Description of the Custom Item's SKU.
+          description: Description of the Custom Item's SKU. Maximum length is 40.
           example: item type simple description
     customs:
       type: object
@@ -4117,7 +4224,10 @@ components:
           description: Indicates what to do if a package is unable to be delivered.
         customsItems:
           type: array
-          description: Customs declarations for each item in the shipment.
+          description: |-
+            Customs declarations for each item in the shipment. The difference between each carrier is as follows.
+
+             > - **DPD_UK** : Required.
           items:
             oneOf:
               - $ref: '#/components/schemas/customsItems_dpd_uk'
@@ -4148,9 +4258,10 @@ components:
             - $ref: '#/components/schemas/recipient'
         paymentOption:
           description: |-
-            Specifies the payment details specifying the method and means of payment to carrier for providing shipping services.
+            Specifies the payment details specifying the method and means of payment to carrier for providing shipping services. The difference between each carrier is as follows.
 
-             >**Note:** Required if current carrier is FedEx.
+             > - **FedEx** : Required.
+             > - **UPS** : Required.
           allOf:
             - $ref: '#/components/schemas/payment_options'
         warehouseId:
@@ -4161,7 +4272,7 @@ components:
           description: 'The [warehouse](https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html) that the shipment is being shipped from. '
         returnAddress:
           type: object
-          description: The return address for this shipment. Defaults to the `shipper` address.
+          description: The return address for this shipment. Only applicable if the carrier is FedEx, UPS.
           allOf:
             - $ref: '#/components/schemas/returnInfo'
         signatureOption:
@@ -4184,7 +4295,7 @@ components:
             - $ref: '#/components/schemas/LabelSpecification_ups'
         multiplePieceShipping:
           type: object
-          description: In the case of Multiple-Piece Shipping, Indicates the tracking details of the package.
+          description: In the case of Multiple-Piece Shipping, Indicates the tracking details of the package. Only applicable if the carrier is FedEx.
           oneOf:
             - $ref: '#/components/schemas/mps_fedex'
         itemLines:
@@ -4199,14 +4310,17 @@ components:
         taxIdentifiers:
           type: array
           description: |-
-            Required combination:
+            The difference between each carrier is as follows.
 
-             - `DPD_UK`: EORI(SHIPPER) + IOSS(SHIPPER). 
+             > - **DPD_UK**: Required, Required combination: EORI(SHIPPER) + IOSS(SHIPPER). 
           items:
             allOf:
               - $ref: '#/components/schemas/tax_indentifiers'
         customs:
-          description: Customs information. This is usually only needed for international shipments.
+          description: |-
+            Customs information. This is usually only needed for international shipments. The difference between each carrier is as follows.
+
+             > - **DPD_UK** : Required.
           allOf:
             - $ref: '#/components/schemas/customs'
       required:

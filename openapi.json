@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "1.0.2023031401_Beta",
+    "version": "1.0.2023032101_Beta",
     "title": "GigaLogistics API",
     "termsOfService": "https://platform.gigacloudlogistics.com/docs/",
     "contact": {
@@ -61,7 +61,7 @@
     },
     {
       "name": "Version Change History",
-      "description": "This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.\n\n### Version: 1.0.2023031401_Beta (current)\n\n#### Changes\n\n- [Create Shipments](https://heyoushan66.github.io/onepiece/#tag/Shipments/operation/createShipment) interface parameter adjustment\n    - Add new field `streetLine3`\n    > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, only applicable to FedEx, UPS. \n    - update field `stateProvince`\n    > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, Required when the carrier is FedEx, UPS, optional in other cases.\n\n- [Create Warehouse](https://heyoushan66.github.io/onepiece/#tag/Warehouses/operation/createWarehouse) interface parameter adjustment\n    - update field `stateProvince`\n    > Applicable to `originAddressre`, `returnAddress` field address information, only required when the country of the address is US."
+      "description": "This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.\n\n### Version: 1.0.2023031401_Beta\n\n#### Changes\n\n- [Create Shipments](https://heyoushan66.github.io/onepiece/#tag/Shipments/operation/createShipment) interface parameter adjustment\n    - Add new field `streetLine3`\n    > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, only applicable to FedEx, UPS. \n    - Update field `stateProvince`\n    > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, Required when the carrier is FedEx, UPS, optional in other cases.\n\n- [Create Warehouse](https://heyoushan66.github.io/onepiece/#tag/Warehouses/operation/createWarehouse) interface parameter adjustment\n    - update field `stateProvince`\n    > Applicable to `originAddressre`, `returnAddress` field address information, only required when the country of the address is US.\n\n---\n\n### Version: 1.0.2023032101_Beta (current)\n\n#### Changes\n\n- [Create Shipments](https://heyoushan66.github.io/onepiece/#tag/Shipments/operation/createShipment) Interface parameter verification description adjustment\n    - Update field `paymentOption`\n    > Modify the verification information when using non-`SENDER` payment when the carrier is `FedEx` or `UPS`.\n    - Added the description information of the specific verification rules of each logistics company, supplemented additional auxiliary information about fields such as `serviceType`, `weight`, `dimensions`, `declaredInfo`, etc."
     }
   ],
   "servers": [
@@ -2662,6 +2662,10 @@
           },
           "serviceCode": {
             "description": "service code",
+            "externalDocs": {
+              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/specify-carrier-service.html",
+              "description": "Find more info here"
+            },
             "type": "string",
             "minLength": 1,
             "example": "test01"
@@ -3032,13 +3036,13 @@
             "example": "ANTIOCH"
           },
           "zipCode": {
-            "description": "This is the postal code.",
+            "description": "This is the postal code. Validity check exists.",
             "type": "string",
             "maxLength": 10,
             "example": 65247
           },
           "addressType": {
-            "description": "Indicate this address type",
+            "description": "Indicate this address type, Only `RESIDENTIAL` means residential (private).",
             "type": "string",
             "enum": [
               "RESIDENTIAL",
@@ -3441,7 +3445,7 @@
             "example": "TEST"
           },
           "addressType": {
-            "description": "Indicate this address type",
+            "description": "Indicate this address type, Only `RESIDENTIAL` means residential (private).",
             "type": "string",
             "enum": [
               "RESIDENTIAL",
@@ -4349,31 +4353,31 @@
         "type": "object",
         "properties": {
           "personName": {
-            "description": "The name of a contact person at this address.",
+            "description": "The name of a contact person at this address. The difference between each carrier is as follows.\n\n > - **FedEx** : Either the companyName or personName is mandatory.",
             "type": "string",
             "maxLength": 35,
             "example": "1 Collection Point Name (Test 1)"
           },
           "phoneNumber": {
-            "description": "The phone number of a contact person at this address. The format of this phone number varies depending on the country.",
+            "description": "The phone number of a contact person at this address. The format of this phone number varies depending on the country. The difference between each carrier is as follows.\n\n > - **FedEx** : Required, Minimum length is 10 and supports maximum of 15 for certain countries using longer phone numbers.\n > - **UPS** : Required, Maximum length is 15.\n > - **DPD_UK** : Maximum length is 15.",
             "type": "string",
             "maxLength": 25,
             "example": "1234-123456789"
           },
           "phoneExtension": {
-            "description": "Specify contact phone extension. Maximum length is 6.",
+            "description": "Specify contact phone extension. Maximum length is 6. This field is only applicable to US, `UPS` supports up to 4 digits.",
             "type": "string",
             "maxLength": 6,
             "example": 1234
           },
           "companyName": {
-            "description": "Specify contact company name. Maximum length is 35. \n\n > **Note:** Required if current carrier is GEL,DPD_UK, etc",
+            "description": "Specify contact company name. Maximum length is 35. The difference between each carrier is as follows.\n\n > - **FedEx** : Either the companyName or personName is mandatory.\n > - **GEL** : Required.\n > - **DPD_UK** : Required.",
             "type": "string",
             "maxLength": 35,
             "example": "1 Collection Point Name (Test 1)"
           },
           "emailAddress": {
-            "description": "Specify contact email address. Maximum length is 40.",
+            "description": "Specify contact email address. Maximum length is 40. The difference between each carrier is as follows.\n\n > - **DPD_DE** : Minimum length is 5.",
             "type": "string",
             "maxLength": 40,
             "example": "TEST@TEST.COM"
@@ -4400,13 +4404,13 @@
             "example": "TEST"
           },
           "city": {
-            "description": "The name of city, town of the recipient.Max length is 35.",
+            "description": "The name of city, town of the recipient.Max length is 35. The difference between each carrier is as follows.\n\n > - **UPS** : Maximum length is 30.",
             "type": "string",
             "maxLength": 35,
             "example": "155 COLLECTION TOWN"
           },
           "zipCode": {
-            "description": "This is the postal code.",
+            "description": "This is the postal code. Validity check exists. The difference between each carrier is as follows.\n\n > - **DPD_DE** : Maximum length is 9.\n > - **UPS** : Support 5 or 9 bits.",
             "type": "string",
             "maxLength": 10,
             "example": "SL7 1TB"
@@ -4418,7 +4422,7 @@
             "example": "155 COLLECTION STREET 1"
           },
           "streetLine2": {
-            "description": "This is the combination of number, street name, etc. Maximum length per line is 35.\n\n > **Note:** Required if current carrier is DPD_DE, etc",
+            "description": "This is the combination of number, street name, etc. Maximum length per line is 35. The difference between each carrier is as follows.\n\n > **DPD_DE** : Required.",
             "type": "string",
             "maxLength": 35,
             "example": "TEST2"
@@ -4430,7 +4434,7 @@
             "example": "TEST3"
           },
           "addressType": {
-            "description": "Indicate this address type",
+            "description": "Indicate this address type, Only `RESIDENTIAL` means residential (private).",
             "type": "string",
             "enum": [
               "RESIDENTIAL",
@@ -4476,31 +4480,31 @@
         "type": "object",
         "properties": {
           "personName": {
-            "description": "The name of a contact person at this address.",
+            "description": "The name of a contact person at this address. The difference between each carrier is as follows.\n\n > - **Evri** : Maximum length is 32.\n > - **FedEx** : Either the companyName or personName is mandatory.",
             "type": "string",
             "maxLength": 35,
             "example": "1 Collection Point Name (Test 1)"
           },
           "phoneNumber": {
-            "description": "The phone number of a contact person at this address. The format of this phone number varies depending on the country. \n\n > **Note:** If current carrier is DPD_UK then either phoneNumber or emailAddress must be specified.",
+            "description": "The phone number of a contact person at this address. The format of this phone number varies depending on the country. The difference between each carrier is as follows.\n\n > - **FedEx** : Required, Minimum length is 10 and supports maximum of 15 for certain countries using longer phone numbers.\n > - **UPS** : Required, Maximum length is 15.\n > - **DPD_UK** : Maximum length is 15. Either phoneNumber or emailAddress must be specified.",
             "type": "string",
             "maxLength": 25,
             "example": "1234-123456789"
           },
           "phoneExtension": {
-            "description": "Specify contact phone extension. Maximum length is 6.",
+            "description": "Specify contact phone extension. Maximum length is 6. This field is only applicable to US, `UPS` supports up to 4 digits.",
             "type": "string",
             "maxLength": 6,
             "example": 1234
           },
           "companyName": {
-            "description": "Specify contact company name. Maximum length is 35.\n\n > **Note:** Required if current carrier is DPD_UK, etc",
+            "description": "Specify contact company name. Maximum length is 35. The difference between each carrier is as follows.\n\n > - **DPD_UK** : Required.\n > - **FedEx** : Either the companyName or personName is mandatory.",
             "type": "string",
             "maxLength": 35,
             "example": "1 Collection Point Name (Test 1)"
           },
           "emailAddress": {
-            "description": "Specify contact email address. Maximum length is 40.\n\n > **Note:** If current carrier is DPD_UK then either phoneNumber or emailAddress must be specified.",
+            "description": "Specify contact email address. Maximum length is 40. The difference between each carrier is as follows.\n\n > **DPD_UK** : Either phoneNumber or emailAddress must be specified.",
             "type": "string",
             "maxLength": 40,
             "example": "TEST@TEST.COM"
@@ -4527,25 +4531,25 @@
             "example": "TEST"
           },
           "city": {
-            "description": "The name of city, town of the recipient.Max length is 35.",
+            "description": "The name of city, town of the recipient.Max length is 35. The difference between each carrier is as follows.\n\n > - **Evri** : Maximum length is 32.",
             "type": "string",
             "maxLength": 35,
             "example": "155 COLLECTION TOWN"
           },
           "zipCode": {
-            "description": "This is the postal code.",
+            "description": "This is the postal code. Validity check exists. The difference between each carrier is as follows.\n\n > - **DPD_DE** : Maximum length is 9.\n > - **UPS** : Support 5 or 9 bits.",
             "type": "string",
             "maxLength": 10,
             "example": "SL7 1TB"
           },
           "streetLine1": {
-            "description": "This is the combination of number, street name, etc. Maximum length per line is 35.",
+            "description": "This is the combination of number, street name, etc. Maximum length per line is 35. The difference between each carrier is as follows.\n\n > - **Evri** : Maximum length is 32.",
             "type": "string",
             "maxLength": 35,
             "example": "155 COLLECTION STREET 1"
           },
           "streetLine2": {
-            "description": "This is the combination of number, street name, etc. Maximum length per line is 35.\n\n > **Note:** Required if current carrier is DPD_DE, etc",
+            "description": "This is the combination of number, street name, etc. Maximum length per line is 35. The difference between each carrier is as follows.\n\n > - **Evri** : Maximum length is 32.\n > - **DPD_DE** : Required.",
             "type": "string",
             "maxLength": 35,
             "example": "TEST"
@@ -4557,7 +4561,7 @@
             "example": "TEST3"
           },
           "addressType": {
-            "description": "Indicate this address type",
+            "description": "Indicate this address type, Only `RESIDENTIAL` means residential (private).",
             "type": "string",
             "enum": [
               "RESIDENTIAL",
@@ -4599,7 +4603,7 @@
           "address"
         ]
       },
-      "contact": {
+      "payor_contact": {
         "type": "object",
         "properties": {
           "personName": {
@@ -4609,13 +4613,13 @@
             "example": "1 Collection Point Name (Test 1)"
           },
           "phoneNumber": {
-            "description": "The phone number of a contact person at this address. The format of this phone number varies depending on the country.",
+            "description": "The phone number of a contact person at this address. The format of this phone number varies depending on the country. The difference between each carrier is as follows.\n\n > - **FedEx** : Minimum length is 10 and supports maximum of 15 for certain countries using longer phone numbers.",
             "type": "string",
             "maxLength": 25,
             "example": "1234-123456789"
           },
           "phoneExtension": {
-            "description": "Specify contact phone extension. Maximum length is 6.",
+            "description": "Specify contact phone extension. Maximum length is 6. This field is only applicable to US, `UPS` supports up to 4 digits.",
             "type": "string",
             "maxLength": 6,
             "example": 1234
@@ -4632,47 +4636,44 @@
             "maxLength": 40,
             "example": "TEST@TEST.COM"
           }
-        },
-        "required": [
-          "personName"
-        ]
+        }
       },
-      "address": {
+      "payor_address": {
         "type": "object",
         "properties": {
           "countryCode": {
-            "description": "This is the two-letter country code.",
+            "description": "This is the two-letter country code. The difference between each carrier is as follows.\n\n > **UPS** : Required when paymentType is THIRD_PARTY.",
             "type": "string",
             "minLength": 2,
             "maxLength": 2,
             "example": "GB"
           },
           "stateOrProvinceCode": {
-            "description": "This is a placeholder for state or province code. Required when used for FedEx.",
+            "description": "This is a placeholder for state or province code. Required when used for FedEx.\n\n > **Note:** This field is only applicable if the carrier is FedEx.",
             "type": "string",
             "maxLength": 35,
             "example": "TEST"
           },
           "city": {
-            "description": "The name of city, town of the recipient.Max length is 35.",
+            "description": "The name of city, town of the recipient.Max length is 35.\n\n > **Note:** This field is only applicable if the carrier is FedEx.",
             "type": "string",
             "maxLength": 35,
             "example": "155 COLLECTION TOWN"
           },
           "zipCode": {
-            "description": "This is the postal code.",
+            "description": "This is the postal code. Validity check exists. The difference between each carrier is as follows.\n\n > **UPS** : Required when paymentType is THIRD_PARTY or RECIPIENT.",
             "type": "string",
             "maxLength": 10,
             "example": "SL7 1TB"
           },
           "streetLine1": {
-            "description": "This is the combination of number, street name, etc. Maximum length per line is 35.",
+            "description": "This is the combination of number, street name, etc. Maximum length per line is 35.\n\n > **Note:** This field is only applicable if the carrier is FedEx.",
             "type": "string",
             "maxLength": 35,
             "example": "155 COLLECTION STREET 1"
           },
           "streetLine2": {
-            "description": "his is the combination of number, street name, etc. Maximum length per line is 35.",
+            "description": "This is the combination of number, street name, etc. Maximum length per line is 35. \n\n > **Note:** This field is only applicable if the carrier is FedEx.",
             "type": "string",
             "maxLength": 35,
             "example": "TEST"
@@ -4684,7 +4685,7 @@
             "example": "TEST3"
           },
           "addressType": {
-            "description": "Indicate this address type",
+            "description": "Indicate this address type, Only `RESIDENTIAL` means residential (private).",
             "type": "string",
             "enum": [
               "RESIDENTIAL",
@@ -4693,30 +4694,24 @@
             ],
             "example": "RESIDENTIAL"
           }
-        },
-        "required": [
-          "countryCode",
-          "city",
-          "zipCode",
-          "streetLine1"
-        ]
+        }
       },
       "payor": {
         "type": "object",
         "properties": {
           "contact": {
-            "description": "This is detailed information on physical location.",
+            "description": "This is detailed information on physical location. This field is only applicable if the carrier is FedEx.",
             "allOf": [
               {
-                "$ref": "#/components/schemas/contact"
+                "$ref": "#/components/schemas/payor_contact"
               }
             ]
           },
           "address": {
-            "description": "Indicate the contact details for this shipment.",
+            "description": "Indicate the contact details for this shipment. Required when the carrier is UPS and the paymentType is THIRD_PARTY or RECIPIENT.",
             "allOf": [
               {
-                "$ref": "#/components/schemas/address"
+                "$ref": "#/components/schemas/payor_address"
               }
             ]
           },
@@ -4760,6 +4755,44 @@
           "paymentType"
         ]
       },
+      "contact": {
+        "type": "object",
+        "properties": {
+          "personName": {
+            "description": "The name of a contact person at this address.",
+            "type": "string",
+            "maxLength": 35,
+            "example": "1 Collection Point Name (Test 1)"
+          },
+          "phoneNumber": {
+            "description": "The phone number of a contact person at this address. The format of this phone number varies depending on the country. The difference between each carrier is as follows.\n\n > - **FedEx** : Minimum length is 10 and supports maximum of 15 for certain countries using longer phone numbers.\n > - **UPS** : Required, Maximum length is 15.",
+            "type": "string",
+            "maxLength": 25,
+            "example": "1234-123456789"
+          },
+          "phoneExtension": {
+            "description": "Specify contact phone extension. Maximum length is 6. This field is only applicable to US, `UPS` supports up to 4 digits.",
+            "type": "string",
+            "maxLength": 6,
+            "example": 1234
+          },
+          "companyName": {
+            "description": "Specify contact company name. Maximum length is 35.",
+            "type": "string",
+            "maxLength": 35,
+            "example": "1 Collection Point Name (Test 1)"
+          },
+          "emailAddress": {
+            "description": "Specify contact email address. Maximum length is 40.",
+            "type": "string",
+            "maxLength": 40,
+            "example": "TEST@TEST.COM"
+          }
+        },
+        "required": [
+          "personName"
+        ]
+      },
       "returnAddress": {
         "type": "object",
         "properties": {
@@ -4783,7 +4816,7 @@
             "example": "155 COLLECTION TOWN"
           },
           "zipCode": {
-            "description": "This is the postal code.",
+            "description": "This is the postal code. Validity check exists. The difference between each carrier is as follows.\n\n > - **UPS** : Support 5 or 9 bits.",
             "type": "string",
             "maxLength": 10,
             "example": "SL7 1TB"
@@ -4795,19 +4828,19 @@
             "example": "155 COLLECTION STREET 1"
           },
           "streetLine2": {
-            "description": "This is the combination of number, street name, etc. Maximum length per line is 35.\n\n > **Note:** Required if current carrier is DPD_DE, etc",
+            "description": "This is the combination of number, street name, etc. Maximum length per line is 35.",
             "type": "string",
             "maxLength": 35,
             "example": "TEST"
           },
           "streetLine3": {
-            "description": "This is the combination of number, street name, etc. Maximum length per line is 35.\n\n > **Note:** This field is only applicable if the country is US.",
+            "description": "This is the combination of number, street name, etc. Maximum length per line is 35.",
             "type": "string",
             "maxLength": 35,
             "example": "TEST3"
           },
           "addressType": {
-            "description": "Indicate this address type",
+            "description": "Indicate this address type, Only `RESIDENTIAL` means residential (private).",
             "type": "string",
             "enum": [
               "RESIDENTIAL",
@@ -5434,13 +5467,14 @@
             "description": "Indicate the types of special services requested for the shipment.",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html"
+              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/dangerous.html"
             },
             "type": "array",
             "items": {
               "type": "string",
               "enum": [
-                "DANGEROUS_GOODS"
+                "DANGEROUS_GOODS",
+                "PACKAGING"
               ]
             },
             "example": [
@@ -5457,7 +5491,7 @@
                   "description": "click here to see Package Special Service Types",
                   "externalDocs": {
                     "description": "Find more info here",
-                    "url": "https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html"
+                    "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/dangerous.html"
                   },
                   "type": "string",
                   "example": "age"
@@ -5466,7 +5500,7 @@
                   "description": "click here to see Package Special Service Types",
                   "externalDocs": {
                     "description": "Find more info here",
-                    "url": "https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html"
+                    "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/dangerous.html"
                   },
                   "type": "string",
                   "example": "17"
@@ -5532,7 +5566,7 @@
           "packageCode": {
             "type": "string",
             "default": "CUSTOM_PACKAGE",
-            "description": "The package type, such as `THICK_ENVELOPE`, `SMALL_FLAT_RATE_BOX`, `LARGE_PACKAGE`, etc. The code `CUSTOM_PACKAGE` indicates a custom or unknown package type.",
+            "description": "The package type, such as `THICK_ENVELOPE`, `SMALL_FLAT_RATE_BOX`, `LARGE_PACKAGE`, etc. The code `CUSTOM_PACKAGE` indicates a custom or unknown package type. current version is not used.",
             "externalDocs": {
               "description": "Find more info here",
               "url": "https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html"
@@ -5550,7 +5584,11 @@
                 "$ref": "#/components/schemas/Weight"
               }
             ],
-            "description": "These are the package weight details."
+            "description": "These are the package weight details.",
+            "externalDocs": {
+              "description": "Find more info here",
+              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/size-and-weight.html"
+            }
           },
           "dimensions": {
             "allOf": [
@@ -5558,7 +5596,11 @@
                 "$ref": "#/components/schemas/Dimensions"
               }
             ],
-            "description": "Indicate the dimensions of the package.\n\n - Dimensions are optional but when added, then all three dimensions must be indicated.\n - Dimensions are required with `CUSTOM_PACKAGE` package type. \n\n > **Note:** Required if current carrier is WHISTL, etc"
+            "description": "Indicate the dimensions of the package.\n\n - Dimensions are optional but when added, then all three dimensions must be indicated.\n - Dimensions are required with `CUSTOM_PACKAGE` package type. \n\n > **Note:** Required if current carrier is WHISTL, etc",
+            "externalDocs": {
+              "description": "Find more info here",
+              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/size-and-weight.html"
+            }
           },
           "declaredInfo": {
             "type": "object",
@@ -5579,6 +5621,10 @@
                 "minimum": 0,
                 "description": "The monetary amount, in the specified currency."
               }
+            },
+            "externalDocs": {
+              "description": "Find more info here",
+              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/declared-Info.html"
             }
           },
           "specialService": {
@@ -5671,12 +5717,12 @@
           },
           "description": {
             "type": "string",
-            "description": "A description of the item.",
+            "description": "A description of the item. Maximum length is 200.",
             "example": "item detailed description"
           },
           "quantity": {
             "type": "integer",
-            "description": "The quantity of this item in the shipment.",
+            "description": "The quantity of this item in the shipment. Minimum length is 1, Maximum length is 99999.",
             "example": 1
           },
           "value": {
@@ -5689,7 +5735,7 @@
               "amount": {
                 "type": "number",
                 "format": "double",
-                "description": "The monetary amount, in the specified currency.",
+                "description": "The monetary amount, in the specified currency. Minimum length is 0.01, Maximum length is 9999999.99.",
                 "example": 5.3
               },
               "currency": {
@@ -5701,7 +5747,7 @@
           },
           "harmonizedTariffCode": {
             "type": "string",
-            "description": "The Harmonized Tariff Code of this item.",
+            "description": "The Harmonized Tariff Code of this item. Maximum length is 8.",
             "example": 91234000
           },
           "countryOfOrigin": {
@@ -5711,7 +5757,7 @@
           },
           "fabricContent": {
             "type": "string",
-            "description": "Description of the product fabric being shipped.",
+            "description": "Description of the product fabric being shipped. Maximum length is 200.",
             "example": "Woven 100% silk"
           },
           "weight": {
@@ -5720,16 +5766,16 @@
                 "$ref": "#/components/schemas/Weight"
               }
             ],
-            "description": "The unit weight of the customs items."
+            "description": "The unit weight of the customs items. value Minimum length is 0.01, Maximum length is 9999999.99."
           },
           "sku": {
             "type": "string",
-            "description": "The SKU (Stock Keeping Unit) of the customs item.",
+            "description": "The SKU (Stock Keeping Unit) of the customs item. Maximum length is 255.",
             "example": "SKU-TEST-001"
           },
           "skuDescription": {
             "type": "string",
-            "description": "Description of the Custom Item's SKU.",
+            "description": "Description of the Custom Item's SKU. Maximum length is 40.",
             "example": "item type simple description"
           }
         }
@@ -5760,7 +5806,7 @@
           },
           "customsItems": {
             "type": "array",
-            "description": "Customs declarations for each item in the shipment.",
+            "description": "Customs declarations for each item in the shipment. The difference between each carrier is as follows.\n\n > - **DPD_UK** : Required.",
             "items": {
               "oneOf": [
                 {
@@ -5805,7 +5851,7 @@
             ]
           },
           "paymentOption": {
-            "description": "Specifies the payment details specifying the method and means of payment to carrier for providing shipping services.\n\n >**Note:** Required if current carrier is FedEx.",
+            "description": "Specifies the payment details specifying the method and means of payment to carrier for providing shipping services. The difference between each carrier is as follows.\n\n > - **FedEx** : Required.\n > - **UPS** : Required.",
             "allOf": [
               {
                 "$ref": "#/components/schemas/payment_options"
@@ -5824,7 +5870,7 @@
           },
           "returnAddress": {
             "type": "object",
-            "description": "The return address for this shipment. Defaults to the `shipper` address.",
+            "description": "The return address for this shipment. Only applicable if the carrier is FedEx, UPS.",
             "allOf": [
               {
                 "$ref": "#/components/schemas/returnInfo"
@@ -5877,7 +5923,7 @@
           },
           "multiplePieceShipping": {
             "type": "object",
-            "description": "In the case of Multiple-Piece Shipping, Indicates the tracking details of the package.",
+            "description": "In the case of Multiple-Piece Shipping, Indicates the tracking details of the package. Only applicable if the carrier is FedEx.",
             "oneOf": [
               {
                 "$ref": "#/components/schemas/mps_fedex"
@@ -5897,7 +5943,7 @@
           },
           "taxIdentifiers": {
             "type": "array",
-            "description": "Required combination:\n\n - `DPD_UK`: EORI(SHIPPER) + IOSS(SHIPPER). ",
+            "description": "The difference between each carrier is as follows.\n\n > - **DPD_UK**: Required, Required combination: EORI(SHIPPER) + IOSS(SHIPPER). ",
             "items": {
               "allOf": [
                 {
@@ -5907,7 +5953,7 @@
             }
           },
           "customs": {
-            "description": "Customs information. This is usually only needed for international shipments.",
+            "description": "Customs information. This is usually only needed for international shipments. The difference between each carrier is as follows.\n\n > - **DPD_UK** : Required.",
             "allOf": [
               {
                 "$ref": "#/components/schemas/customs"
