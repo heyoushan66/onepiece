@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "1.0.2023032101_Beta",
+    "version": "1.0.2023040301_Beta",
     "title": "GigaLogistics API",
     "termsOfService": "https://platform.gigacloudlogistics.com/docs/",
     "contact": {
@@ -49,7 +49,7 @@
     },
     {
       "name": "Tracking",
-      "description": "tracking"
+      "description": "Track packages with any one of our supported carrier accounts and create tracking events to keep your customers up to date. Easily integrate real-time tracking information for shipments into your application."
     },
     {
       "name": "LTL Shipping",
@@ -61,7 +61,7 @@
     },
     {
       "name": "Version Change History",
-      "description": "This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.\n\n### Version: 1.0.2023031401_Beta\n\n#### Changes\n\n- [Create Shipments](https://heyoushan66.github.io/onepiece/#tag/Shipments/operation/createShipment) interface parameter adjustment\n    - Add new field `streetLine3`\n    > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, only applicable to FedEx, UPS. \n    - Update field `stateProvince`\n    > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, Required when the carrier is FedEx, UPS, optional in other cases.\n\n- [Create Warehouse](https://heyoushan66.github.io/onepiece/#tag/Warehouses/operation/createWarehouse) interface parameter adjustment\n    - update field `stateProvince`\n    > Applicable to `originAddressre`, `returnAddress` field address information, only required when the country of the address is US.\n\n---\n\n### Version: 1.0.2023032101_Beta (current)\n\n#### Changes\n\n- [Create Shipments](https://heyoushan66.github.io/onepiece/#tag/Shipments/operation/createShipment) Interface parameter verification description adjustment\n    - Update field `paymentOption`\n    > Modify the verification information when using non-`SENDER` payment when the carrier is `FedEx` or `UPS`.\n    - Added the description information of the specific verification rules of each logistics company, supplemented additional auxiliary information about fields such as `serviceType`, `weight`, `dimensions`, `declaredInfo`, etc."
+      "description": "This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.\n\n### Version: 1.0.2023031401_Beta\n\n#### Changes\n\n- [Create Shipments](https://heyoushan66.github.io/onepiece/#tag/Shipments/operation/createShipment) interface parameter adjustment\n    - Add new field `streetLine3`\n    > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, only applicable to FedEx, UPS. \n    - Update field `stateProvince`\n    > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, Required when the carrier is FedEx, UPS, optional in other cases.\n\n- [Create Warehouse](https://heyoushan66.github.io/onepiece/#tag/Warehouses/operation/createWarehouse) interface parameter adjustment\n    - update field `stateProvince`\n    > Applicable to `originAddressre`, `returnAddress` field address information, only required when the country of the address is US.\n\n---\n\n### Version: 1.0.2023032101_Beta\n\n#### Changes\n\n- [Create Shipments](https://heyoushan66.github.io/onepiece/#tag/Shipments/operation/createShipment) Interface parameter verification description adjustment\n    - Update field `paymentOption`\n    > Modify the verification information when using non-`SENDER` payment when the carrier is `FedEx` or `UPS`.\n    - Added the description information of the specific verification rules of each logistics company, supplemented additional auxiliary information about fields such as `serviceType`, `weight`, `dimensions`, `declaredInfo`, etc.\n\n---\n\n### Version: 1.0.2023040301_Beta (current)\n\n#### Changes\n\n- Add Interface [Track Document](https://heyoushan66.github.io/onepiece/#tag/Tracking/operation/getTrackDocument)\n    - See the interface description for details"
     }
   ],
   "servers": [
@@ -1899,6 +1899,99 @@
           }
         }
       }
+    },
+    "/cloud-ship-service/v1/track/document": {
+      "get": {
+        "tags": [
+          "Tracking"
+        ],
+        "summary": "Track Document",
+        "description": "This endpoint helps you to request a letter that includes the recipient's signature as a proof of delivery. Signature Proof of Delivery is the only document supported by this endpoint.",
+        "operationId": "getTrackDocument",
+        "security": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "The giga waybill number issued by the logistics center.",
+                  "example": "GCL1234567890120"
+                }
+              }
+            }
+          },
+          "description": "It is used to receive the request body of giga waybill number array type. The maximum acceptable upper line is a group of 500."
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTrackingDocumentResp"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/400ErrorResp"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/401ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/403ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/500ErrorResp"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/503ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -3175,7 +3268,7 @@
                 "$ref": "#/components/schemas/Dimensions"
               }
             ],
-            "description": "Indicate the dimensions of the package.\n\n - Dimensions are optional but when added, then all three dimensions must be indicated.\n - Dimensions are required with `CUSTOM_PACKAGE` package type."
+            "description": "Indicate the dimensions of the package.\n\n - Dimensions are optional but when added, then all three dimensions must be indicated.\n - ~~Dimensions are required with `CUSTOM_PACKAGE` package type.~~"
           },
           "declaredInfo": {
             "type": "object",
@@ -4404,7 +4497,7 @@
             "example": "TEST"
           },
           "city": {
-            "description": "The name of city, town of the recipient.Max length is 35. The difference between each carrier is as follows.\n\n > - **UPS** : Maximum length is 30.",
+            "description": "The name of city, town of the shipper. Max length is 35. The difference between each carrier is as follows.\n\n > - **UPS** : Maximum length is 30.",
             "type": "string",
             "maxLength": 35,
             "example": "155 COLLECTION TOWN"
@@ -5596,7 +5689,7 @@
                 "$ref": "#/components/schemas/Dimensions"
               }
             ],
-            "description": "Indicate the dimensions of the package.\n\n - Dimensions are optional but when added, then all three dimensions must be indicated.\n - Dimensions are required with `CUSTOM_PACKAGE` package type. \n\n > **Note:** Required if current carrier is WHISTL, etc",
+            "description": "Indicate the dimensions of the package.\n\n - Dimensions are optional but when added, then all three dimensions must be indicated.\n - ~~Dimensions are required with `CUSTOM_PACKAGE` package type~~. \n\n > **Note:** Required if current carrier is WHISTL, etc",
             "externalDocs": {
               "description": "Find more info here",
               "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/size-and-weight.html"
@@ -6617,6 +6710,41 @@
         "required": [
           "success",
           "data"
+        ]
+      },
+      "GetTrackingDocumentResp": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "example": true,
+            "default": true
+          },
+          "gigaTrackingNumber": {
+            "description": "The GIGA tracking number for the package. A string that uniquely identifies the shipment.",
+            "type": "string",
+            "example": "GCL1234567890120"
+          },
+          "fileInfo": {
+            "description": "URL and type of shipping document/label. key indicates the type, currently `1` indicates POD, value is the url path.",
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "format": "int32"
+            },
+            "example": {
+              "1": "https://xxxxx.pdf"
+            }
+          },
+          "errorMsg": {
+            "description": "The reason for the data not being queried.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "success",
+          "gigaTrackingNumber"
         ]
       }
     },

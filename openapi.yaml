@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.2023032101_Beta
+  version: 1.0.2023040301_Beta
   title: GigaLogistics API
   termsOfService: https://platform.gigacloudlogistics.com/docs/
   contact:
@@ -38,7 +38,7 @@ tags:
   - name: Shipments
     description: Shipments are at the center of the GIGALOGISTICS API. A shipment is the first step in creating a shipping label, or creating a manifest. It's also essential for getting shipping rates.
   - name: Tracking
-    description: tracking
+    description: Track packages with any one of our supported carrier accounts and create tracking events to keep your customers up to date. Easily integrate real-time tracking information for shipments into your application.
   - name: LTL Shipping
     description: Ltl shipping.
   - name: Error Codes
@@ -78,7 +78,7 @@ tags:
 
       ---
 
-      ### Version: 1.0.2023032101_Beta (current)
+      ### Version: 1.0.2023032101_Beta
 
       #### Changes
 
@@ -86,6 +86,15 @@ tags:
           - Update field `paymentOption`
           > Modify the verification information when using non-`SENDER` payment when the carrier is `FedEx` or `UPS`.
           - Added the description information of the specific verification rules of each logistics company, supplemented additional auxiliary information about fields such as `serviceType`, `weight`, `dimensions`, `declaredInfo`, etc.
+
+      ---
+
+      ### Version: 1.0.2023040301_Beta (current)
+
+      #### Changes
+
+      - Add Interface [Track Document](https://heyoushan66.github.io/onepiece/#tag/Tracking/operation/getTrackDocument)
+          - See the interface description for details
 servers:
   - url: http://sit.gateway.orsd.tech/gw
     description: Sandbox Server
@@ -1202,6 +1211,63 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/503ErrorResp'
+  /cloud-ship-service/v1/track/document:
+    get:
+      tags:
+        - Tracking
+      summary: Track Document
+      description: This endpoint helps you to request a letter that includes the recipient's signature as a proof of delivery. Signature Proof of Delivery is the only document supported by this endpoint.
+      operationId: getTrackDocument
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                description: The giga waybill number issued by the logistics center.
+                example: GCL1234567890120
+        description: It is used to receive the request body of giga waybill number array type. The maximum acceptable upper line is a group of 500.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetTrackingDocumentResp'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400ErrorResp'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403ErrorResp'
+        '500':
+          description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500ErrorResp'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/503ErrorResp'
 components:
   schemas:
     authorization:
@@ -2184,7 +2250,7 @@ components:
             Indicate the dimensions of the package.
 
              - Dimensions are optional but when added, then all three dimensions must be indicated.
-             - Dimensions are required with `CUSTOM_PACKAGE` package type.
+             - ~~Dimensions are required with `CUSTOM_PACKAGE` package type.~~
         declaredInfo:
           type: object
           description: This is the Declared Value of any shipment.This is including, but not limited to any loss, damage, delay, misdelivery, any failure to provide information, or misdelivery of information related to the Shipment.
@@ -3082,7 +3148,7 @@ components:
           example: TEST
         city:
           description: |-
-            The name of city, town of the recipient.Max length is 35. The difference between each carrier is as follows.
+            The name of city, town of the shipper. Max length is 35. The difference between each carrier is as follows.
 
              > - **UPS** : Maximum length is 30.
           type: string
@@ -4047,7 +4113,7 @@ components:
             Indicate the dimensions of the package.
 
              - Dimensions are optional but when added, then all three dimensions must be indicated.
-             - Dimensions are required with `CUSTOM_PACKAGE` package type. 
+             - ~~Dimensions are required with `CUSTOM_PACKAGE` package type~~. 
 
              > **Note:** Required if current carrier is WHISTL, etc
           externalDocs:
@@ -4787,6 +4853,32 @@ components:
       required:
         - success
         - data
+    GetTrackingDocumentResp:
+      type: object
+      properties:
+        success:
+          description: Used to judge whether it is successful.
+          type: boolean
+          example: true
+          default: true
+        gigaTrackingNumber:
+          description: The GIGA tracking number for the package. A string that uniquely identifies the shipment.
+          type: string
+          example: GCL1234567890120
+        fileInfo:
+          description: URL and type of shipping document/label. key indicates the type, currently `1` indicates POD, value is the url path.
+          type: object
+          additionalProperties:
+            type: string
+            format: int32
+          example:
+            '1': https://xxxxx.pdf
+        errorMsg:
+          description: The reason for the data not being queried.
+          type: string
+      required:
+        - success
+        - gigaTrackingNumber
   parameters:
     Authorization:
       name: Authorization
