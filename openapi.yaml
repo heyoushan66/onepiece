@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.2023040301_Beta
+  version: 1.0.2023051101_Beta
   title: GigaLogistics API
   termsOfService: https://platform.gigacloudlogistics.com/docs/
   contact:
@@ -22,6 +22,11 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: http://sit.gateway.orsd.tech/gw
+    description: Sandbox Server
+  - url: https://apis.gigacloudlogistics.com
+    description: Production Server
 tags:
   - name: Authentication
     description: To authenticate yourself to GIGALOGISTICS, you need to include an `Authorization` header in each API call. If you don't include a key when making an API request, or if you use an incorrect or expired key, then GIGALOGISTICS will respond with a `401 Unauthorized` error.<br> <br> Learn more about API keys in our [authentication guide](https://platform.gigacloudlogistics.com/docs/guide/guides/oauth2.html).
@@ -89,17 +94,29 @@ tags:
 
       ---
 
-      ### Version: 1.0.2023040301_Beta (current)
+      ### Version: 1.0.2023040301_Beta
 
       #### Changes
 
       - Add Interface [Track Document](https://heyoushan66.github.io/onepiece/#tag/Tracking/operation/getTrackDocument)
           - See the interface description for details
-servers:
-  - url: http://sit.gateway.orsd.tech/gw
-    description: Sandbox Server
-  - url: https://apis.gigacloudlogistics.com
-    description: Production Server
+
+      ---
+
+      ### Version: 1.0.20230511_Beta (current)
+
+      #### Changes
+
+      - Add Interface [Create Shipments asynchronously](http://192.168.30.173:8080/#tag/Shipments/operation/CreateShipmentsAsync)
+          - See the interface description for details
+      - Add Interface [Retrieve Async Shipments Result](http://192.168.30.173:8080/#tag/Shipments/operation/AsyncRetrieveShipmentsResult)
+          - See the interface description for details
+
+      - [Create Shipments](http://192.168.30.173:8080/#tag/Shipments/operation/createShipment) Interface parameter verification description adjustment
+          - Update field `phoneNumber`
+          > Modify the description of this field. When the operator is `FedEx`, add a special case description. For details, please refer to the interface document. The main scope of change `shipper`, `recipient`, `payor` objects.
+          - Update field `customerReference`
+          > Modify the restrictions of each logistics company for ref1~ref5 in this field.
 paths:
   /oauth/token:
     post:
@@ -148,7 +165,7 @@ paths:
         - $ref: '#/components/parameters/Authorization'
         - name: countryCode
           in: path
-          description: This is the two-letter country code.
+          description: This is the two-letter country code. [Find more info here](https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html)
           required: true
           schema:
             type: string
@@ -840,6 +857,143 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/503ErrorResp'
+  /cloud-ship-service/v1/shipment/async:
+    post:
+      tags:
+        - Shipments
+      summary: Create Shipments asynchronously
+      description: If you want to quickly create invoice information, and you are not in a hurry to get the creation result, This endpoint helps you to process shipments asynchronously.
+      operationId: CreateShipmentsAsync
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+        - name: transactionId
+          in: header
+          required: true
+          schema:
+            description: This element allows you to assign a unique identifier to your transaction. This element is also returned in the reply and helps you match the request to the reply.
+            type: string
+            minLength: 1
+            maxLength: 50
+            example: XXXX_XXX123XXXXX
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/create_shipments_request_body'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncShipmentSuccessResp'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400ErrorResp'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403ErrorResp'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/429ErrorResp'
+        '500':
+          description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500ErrorResp'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/503ErrorResp'
+  /cloud-ship-service/v1/shipment/asyncResult:
+    get:
+      tags:
+        - Shipments
+      summary: Retrieve Async Shipments Result
+      description: This endpoint helps you to process confirmed shipments asynchronously and produce results based on unique id. Cooperate `Create Shipments` interface used together.
+      operationId: AsyncRetrieveShipmentsResult
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                description: The unique identifier generated by the `Create Shipments` interface.
+                example: 6887945876680704
+        description: A collection of unique identifiers generated by the `Create Shipments` interface. The maximum acceptable upper line is a group of 40.
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResp'
+        '207':
+          description: The request contained several errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartSuccessResp'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400ErrorResp'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/401ErrorResp'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403ErrorResp'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/429ErrorResp'
+        '500':
+          description: Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500ErrorResp'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/503ErrorResp'
   /cloud-ship-service/v1/shipment/cancel:
     put:
       tags:
@@ -1322,6 +1476,9 @@ components:
           description: This is ISO alpha 2 country code.
           type: string
           example: US
+          externalDocs:
+            description: Find more info here
+            url: https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html
         stateOrProvinceCode:
           description: This is state or province code.
           type: string
@@ -1573,6 +1730,9 @@ components:
           description: The two-letter code used to identify a country.
           type: string
           example: US
+          externalDocs:
+            description: Find more info here
+            url: https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html
         stateOrProvinceCode:
           description: This is the state or province code. Format and presence of this field will vary, depending on country.
           type: string
@@ -1599,6 +1759,9 @@ components:
           description: The two-letter code used to identify a country.
           type: string
           example: US
+          externalDocs:
+            description: Find more info here
+            url: https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html
         stateOrProvinceCode:
           description: This is the state or province code. Format and presence of this element will vary, depending on country.
           maxLength: 2
@@ -1669,6 +1832,9 @@ components:
           description: The two-letter code used to identify a country.
           type: string
           example: US
+          externalDocs:
+            description: Find more info here
+            url: https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html
         stateOrProvinceCode:
           description: This is the state or province code. Format and presence of this field will vary, depending on country.
           type: string
@@ -2119,6 +2285,9 @@ components:
           minLength: 2
           maxLength: 2
           example: US
+          externalDocs:
+            description: Find more info here
+            url: https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html
         stateOrProvinceCode:
           description: This is a placeholder for state or province code.
           type: string
@@ -2424,6 +2593,9 @@ components:
           minLength: 2
           maxLength: 2
           example: GB
+          externalDocs:
+            description: Find more info here
+            url: https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html
         stateOrProvinceCode:
           description: This is a placeholder for state or province code.
           type: string
@@ -3102,6 +3274,7 @@ components:
             The phone number of a contact person at this address. The format of this phone number varies depending on the country. The difference between each carrier is as follows.
 
              > - **FedEx** : Required, Minimum length is 10 and supports maximum of 15 for certain countries using longer phone numbers.
+             >   Note: For US and CA, a phone number must have exactly 10 digits, plus an optional leading country code of '1' or '+1'. Example: 918xxxxx890
              > - **UPS** : Required, Maximum length is 15.
              > - **DPD_UK** : Maximum length is 15.
           type: string
@@ -3141,6 +3314,9 @@ components:
           minLength: 2
           maxLength: 2
           example: GB
+          externalDocs:
+            description: Find more info here
+            url: https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html
         stateOrProvinceCode:
           description: This is a placeholder for state or province code. Required when used for US.
           type: string
@@ -3228,6 +3404,7 @@ components:
             The phone number of a contact person at this address. The format of this phone number varies depending on the country. The difference between each carrier is as follows.
 
              > - **FedEx** : Required, Minimum length is 10 and supports maximum of 15 for certain countries using longer phone numbers.
+             >   Note: For US and CA, a phone number must have exactly 10 digits, plus an optional leading country code of '1' or '+1'. Example: 918xxxxx890
              > - **UPS** : Required, Maximum length is 15.
              > - **DPD_UK** : Maximum length is 15. Either phoneNumber or emailAddress must be specified.
           type: string
@@ -3266,6 +3443,9 @@ components:
           minLength: 2
           maxLength: 2
           example: GB
+          externalDocs:
+            description: Find more info here
+            url: https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html
         stateOrProvinceCode:
           description: This is a placeholder for state or province code. Required when used for US.
           type: string
@@ -3349,10 +3529,11 @@ components:
           maxLength: 35
           example: 1 Collection Point Name (Test 1)
         phoneNumber:
-          description: |-
+          description: |
             The phone number of a contact person at this address. The format of this phone number varies depending on the country. The difference between each carrier is as follows.
 
-             > - **FedEx** : Minimum length is 10 and supports maximum of 15 for certain countries using longer phone numbers.
+             > - **FedEx** : Required, Minimum length is 10 and supports maximum of 15 for certain countries using longer phone numbers.
+             >   Note: For US and CA, a phone number must have exactly 10 digits, plus an optional leading country code of '1' or '+1'. Example: 918xxxxx890
           type: string
           maxLength: 25
           example: 1234-123456789
@@ -3383,6 +3564,9 @@ components:
           minLength: 2
           maxLength: 2
           example: GB
+          externalDocs:
+            description: Find more info here
+            url: https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html
         stateOrProvinceCode:
           description: |-
             This is a placeholder for state or province code. Required when used for FedEx.
@@ -3491,7 +3675,8 @@ components:
           description: |-
             The phone number of a contact person at this address. The format of this phone number varies depending on the country. The difference between each carrier is as follows.
 
-             > - **FedEx** : Minimum length is 10 and supports maximum of 15 for certain countries using longer phone numbers.
+             > - **FedEx** : Required, Minimum length is 10 and supports maximum of 15 for certain countries using longer phone numbers.
+             >   Note: For US and CA, a phone number must have exactly 10 digits, plus an optional leading country code of '1' or '+1'. Example: 918xxxxx890
              > - **UPS** : Required, Maximum length is 15.
           type: string
           maxLength: 25
@@ -3522,6 +3707,9 @@ components:
           minLength: 2
           maxLength: 2
           example: GB
+          externalDocs:
+            description: Find more info here
+            url: https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html
         stateOrProvinceCode:
           description: This is a placeholder for state or province code. Required when used for US.
           type: string
@@ -4049,24 +4237,47 @@ components:
       properties:
         ref1:
           type: string
-          description: '> **Note:** Required if current carrier is WHISTL, etc'
-          minLength: 1
+          description: |
+            > The difference between each carrier is as follows.
+             > - **FedEx** : Maximum length is 40. FedEx Label Field: Purchase Order Number Reference.
+             > - **UPS** : Maximum length is 35. UPS Label Field: Customer Reference.
+             > - **GEL** : Maximum length is 100. GEL Label Field: Special Delivery Requirements.
+             > - **DPD_DE** : Maximum length is 35. DPD DE Label Field: Customer Reference.
+             > - **DPD_UK** : Maximum length is 25. DPD UK Label Field: Customer Reference.
+             > - **EVRI** : Maximum length is 32. Evri Label Field: Delivery Reference.
+             > - **GLS** : Maximum length is 50. GLS Label Field: Customer Reference.
+             > - **WHISTL** : Required, Maximum length is 35. Whistl Label Field: Customer Reference.
           example: RB1-UB-20220221-18853
         ref2:
           type: string
-          minLength: 1
+          description: |
+            > The difference between each carrier is as follows.
+             > - **FedEx** : Maximum length is 40. FedEx Label Field: Invoice Number Reference.
+             > - **UPS** : Maximum length is 35. UPS Label Field: Customer Reference.
+             > - **GEL** : Maximum length is 100. GEL Label Field: Invoice Information.
+             > - **DPD_DE** : Maximum length is 35. DPD DE Label Field: Customer Reference.
+             > - **DPD_UK** : Maximum length is 25. DPD UK Label Field: Customer Reference.
+             > - **GLS** : Maximum length is 50. GLS Label Field: Customer Reference.
+             > - **WHISTL** : Maximum length is 35. Whistl Label Field: Customer Reference.
           example: W44616989
         ref3:
           type: string
-          minLength: 1
+          description: |
+            > The difference between each carrier is as follows.
+             > - **FedEx** : Maximum length is 40. FedEx Label Field: Customer Reference.
+             > - **DPD_UK** : Maximum length is 25. DPD UK Label Field: Customer Reference.
           example: W44616989
         ref4:
           type: string
-          minLength: 1
+          description: |
+            > The difference between each carrier is as follows.
+             > - **FedEx** : Maximum length is 40. FedEx Label Field: Depot Reference.
           example: W44616989
         ref5:
           type: string
-          minLength: 1
+          description: |
+            > The difference between each carrier is as follows.
+             > - **FedEx** : Maximum length is 20. FedEx Label Field: RMA Number Reference.
           example: W44616989
     ItemLine:
       type: object
@@ -4615,6 +4826,21 @@ components:
           allOf:
             - $ref: '#/components/schemas/Data'
             - $ref: '#/components/schemas/failData'
+      required:
+        - success
+        - data
+    AsyncShipmentSuccessResp:
+      type: object
+      properties:
+        success:
+          description: Used to judge whether it is successful.
+          type: boolean
+          example: true
+          default: true
+        data:
+          description: A unique identifier for subsequent asynchronously fetched results.
+          type: string
+          example: 6887945876680704
       required:
         - success
         - data
