@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.2023051101_Beta
+  version: 1.0.2023051601
   title: GigaLogistics API
   termsOfService: https://platform.gigacloudlogistics.com/docs/
   contact:
@@ -23,8 +23,10 @@ info:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 servers:
-  - url: http://sit.gateway.orsd.tech/gw
+  - url: http://uat.gateway.orsd.tech/gw
     description: Sandbox Server
+  - url: http://outer.pre-release.hk.gateway.orsd.tech/gw
+    description: Pre-Release Server
   - url: https://apis.gigacloudlogistics.com
     description: Production Server
 tags:
@@ -67,7 +69,7 @@ tags:
     description: |-
       This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.
 
-      ### Version: 1.0.2023031401_Beta
+      ### Version: 1.0.2023031401
 
       #### Changes
 
@@ -83,7 +85,7 @@ tags:
 
       ---
 
-      ### Version: 1.0.2023032101_Beta
+      ### Version: 1.0.2023032101
 
       #### Changes
 
@@ -94,7 +96,7 @@ tags:
 
       ---
 
-      ### Version: 1.0.2023040301_Beta
+      ### Version: 1.0.2023040301
 
       #### Changes
 
@@ -103,7 +105,7 @@ tags:
 
       ---
 
-      ### Version: 1.0.20230511_Beta (current)
+      ### Version: 1.0.2023051101
 
       #### Changes
 
@@ -117,6 +119,15 @@ tags:
           > Modify the description of this field. When the operator is `FedEx`, add a special case description. For details, please refer to the interface document. The main scope of change `shipper`, `recipient`, `payor` objects.
           - Update field `customerReference`
           > Modify the restrictions of each logistics company for ref1~ref5 in this field.
+
+      ---
+
+      ### Version: 1.0.2023051601 (current)
+
+      #### Changes
+
+      - Adjust version number information.
+      - Modify the address of the `sandbox environment` and add the address of the `pre-release environment`.
 paths:
   /oauth/token:
     post:
