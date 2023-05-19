@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.2023051601
+  version: 1.0.2023051901
   title: GigaLogistics API
   termsOfService: https://platform.gigacloudlogistics.com/docs/
   contact:
@@ -66,7 +66,7 @@ tags:
        | <br><font face='Verdana' color=#160E0C size=2>**FULL_FAILED_ERROR**</font><br /><br><font face='Georgia' color=#595555 size=3>Batch request completely failed exception.</font><br><br>                                        | <font face='Verdana' color=#160E0C size=2>500 Internal Server Error</font>
        | <br><font face='Verdana' color=#160E0C size=2>**SYS_ERROR**</font><br /><br><font face='Georgia' color=#595555 size=3>Request could not be executed due to an internal server error.</font><br><br>                            | <font face='Verdana' color=#160E0C size=2>500 Internal Server Error</font>
   - name: Version Change History
-    description: |-
+    description: |
       This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.
 
       ### Version: 1.0.2023031401
@@ -122,12 +122,22 @@ tags:
 
       ---
 
-      ### Version: 1.0.2023051601 (current)
+      ### Version: 1.0.2023051601
 
       #### Changes
 
       - Adjust version number information.
       - Modify the address of the `sandbox environment` and add the address of the `pre-release environment`.
+
+      ---
+
+      ### Version: 1.0.2023051901 (current)
+
+      #### Changes
+
+      - [Create Shipments](https://heyoushan66.github.io/onepiece/#tag/Shipments/operation/createShipment) interface parameter adjustment
+          - Update field `streetLine2`
+          > Adjust `shipper.streetLine2` and `recipient.streetLine2` for DPD_DE to be non-required
 paths:
   /oauth/token:
     post:
@@ -3356,10 +3366,7 @@ components:
           maxLength: 35
           example: 155 COLLECTION STREET 1
         streetLine2:
-          description: |-
-            This is the combination of number, street name, etc. Maximum length per line is 35. The difference between each carrier is as follows.
-
-             > **DPD_DE** : Required.
+          description: This is the combination of number, street name, etc. Maximum length per line is 35. The difference between each carrier is as follows.
           type: string
           maxLength: 35
           example: TEST2
@@ -3492,7 +3499,6 @@ components:
             This is the combination of number, street name, etc. Maximum length per line is 35. The difference between each carrier is as follows.
 
              > - **Evri** : Maximum length is 32.
-             > - **DPD_DE** : Required.
           type: string
           maxLength: 35
           example: TEST
