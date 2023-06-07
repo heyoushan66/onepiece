@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.2023052501
+  version: 1.0.2023060701
   title: GigaLogistics API
   termsOfService: https://platform.gigacloudlogistics.com/docs/
   contact:
@@ -66,42 +66,49 @@ tags:
        | <br><font face='Verdana' color=#160E0C size=2>**FULL_FAILED_ERROR**</font><br /><br><font face='Georgia' color=#595555 size=3>Batch request completely failed exception.</font><br><br>                                        | <font face='Verdana' color=#160E0C size=2>500 Internal Server Error</font>
        | <br><font face='Verdana' color=#160E0C size=2>**SYS_ERROR**</font><br /><br><font face='Georgia' color=#595555 size=3>Request could not be executed due to an internal server error.</font><br><br>                            | <font face='Verdana' color=#160E0C size=2>500 Internal Server Error</font>
   - name: Version Change History
-    description: |
+    description: |-
       This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.
 
-      ### Version: 1.0.2023031401
+      ### Version: 1.0.2023060701 (current)
 
       #### Changes
 
       - [Create Shipments](onepiece/#tag/Shipments/operation/createShipment) interface parameter adjustment
-          - Add new field `streetLine3`
-          > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, only applicable to FedEx, UPS. 
           - Update field `stateProvince`
-          > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, Required when the carrier is FedEx, UPS, optional in other cases.
-
-      - [Create Warehouse](onepiece/#tag/Warehouses/operation/createWarehouse) interface parameter adjustment
-          - update field `stateProvince`
-          > Applicable to `originAddressre`, `returnAddress` field address information, only required when the country of the address is US.
+          > Applicable to the address information of the `paymentOption` fields, When the logistics company removes the required verification for **FedEx**.
+          - Update field `accountNumber`
+          > Applicable to the payor information of the `paymentOption` fields, When the logistics company is **UPS**, this field must be 6 digits.
 
       ---
 
-      ### Version: 1.0.2023032101
+      ### Version: 1.0.2023052501
 
       #### Changes
 
-      - [Create Shipments](onepiece/#tag/Shipments/operation/createShipment) Interface parameter verification description adjustment
-          - Update field `paymentOption`
-          > Modify the verification information when using non-`SENDER` payment when the carrier is `FedEx` or `UPS`.
-          - Added the description information of the specific verification rules of each logistics company, supplemented additional auxiliary information about fields such as `serviceType`, `weight`, `dimensions`, `declaredInfo`, etc.
+      - [Create Shipments](onepiece/#tag/Shipments/operation/createShipment) interface parameter adjustment
+          - Add new field `instructions`
+          > Applicable to the address information of the `shipper.address`fields, only applicable to GLS. 
+          - Add new field `instructions`
+          > Applicable to the address information of the `recipient.address` fields, only applicable to DPD_DE, DPD_UK, GLS. 
 
       ---
 
-      ### Version: 1.0.2023040301
+      ### Version: 1.0.2023051901
 
       #### Changes
 
-      - Add Interface [Track Document](onepiece/#tag/Tracking/operation/getTrackDocument)
-          - See the interface description for details
+      - [Create Shipments](onepiece/#tag/Shipments/operation/createShipment) interface parameter adjustment
+          - Update field `streetLine2`
+          > Adjust `shipper.streetLine2` and `recipient.streetLine2` for DPD_DE to be non-required
+
+      ---
+
+      ### Version: 1.0.2023051601
+
+      #### Changes
+
+      - Adjust version number information.
+      - Modify the address of the `sandbox environment` and add the address of the `pre-release environment`.
 
       ---
 
@@ -122,34 +129,39 @@ tags:
 
       ---
 
-      ### Version: 1.0.2023051601
+      ### Version: 1.0.2023040301
 
       #### Changes
 
-      - Adjust version number information.
-      - Modify the address of the `sandbox environment` and add the address of the `pre-release environment`.
+      - Add Interface [Track Document](onepiece/#tag/Tracking/operation/getTrackDocument)
+          - See the interface description for details
 
       ---
 
-      ### Version: 1.0.2023051901
+      ### Version: 1.0.2023032101
+
+      #### Changes
+
+      - [Create Shipments](onepiece/#tag/Shipments/operation/createShipment) Interface parameter verification description adjustment
+          - Update field `paymentOption`
+          > Modify the verification information when using non-`SENDER` payment when the carrier is `FedEx` or `UPS`.
+          - Added the description information of the specific verification rules of each logistics company, supplemented additional auxiliary information about fields such as `serviceType`, `weight`, `dimensions`, `declaredInfo`, etc.
+
+      ---
+
+      ### Version: 1.0.2023031401
 
       #### Changes
 
       - [Create Shipments](onepiece/#tag/Shipments/operation/createShipment) interface parameter adjustment
-          - Update field `streetLine2`
-          > Adjust `shipper.streetLine2` and `recipient.streetLine2` for DPD_DE to be non-required
+          - Add new field `streetLine3`
+          > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, only applicable to FedEx, UPS. 
+          - Update field `stateProvince`
+          > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, Required when the carrier is FedEx, UPS, optional in other cases.
 
-      ---
-
-      ### Version: 1.0.2023052501 (current)
-
-      #### Changes
-
-      - [Create Shipments](onepiece/#tag/Shipments/operation/createShipment) interface parameter adjustment
-          - Add new field `instructions`
-          > Applicable to the address information of the `shipper.address`fields, only applicable to GLS. 
-          - Add new field `instructions`
-          > Applicable to the address information of the `recipient.address` fields, only applicable to DPD_DE, DPD_UK, GLS. 
+      - [Create Warehouse](onepiece/#tag/Warehouses/operation/createWarehouse) interface parameter adjustment
+          - update field `stateProvince`
+          > Applicable to `originAddressre`, `returnAddress` field address information, only required when the country of the address is US.
 paths:
   /oauth/token:
     post:
@@ -3616,7 +3628,7 @@ components:
             url: https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html
         stateOrProvinceCode:
           description: |-
-            This is a placeholder for state or province code. Required when used for FedEx.
+            This is a placeholder for state or province code.
 
              > **Note:** This field is only applicable if the carrier is FedEx.
           type: string
@@ -3683,7 +3695,10 @@ components:
             - $ref: '#/components/schemas/payor_address'
         accountNumber:
           type: string
-          description: This field is used to bill shipping costs to a third party.
+          description: |-
+            This field is used to bill shipping costs to a third party. The difference between each carrier is as follows.
+
+             > **UPS**: The number of digits must be 6.
       required:
         - accountNumber
     payment_options:
