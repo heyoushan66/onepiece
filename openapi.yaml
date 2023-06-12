@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.2023060701
+  version: 1.0.20230601201_Bate
   title: GigaLogistics API
   termsOfService: https://platform.gigacloudlogistics.com/docs/
   contact:
@@ -69,7 +69,24 @@ tags:
     description: |-
       This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.
 
-      ### Version: 1.0.2023060701 (current)
+      ### Version: 1.0.20230601201_Bate (current)
+
+      #### Changes
+
+      - [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment
+          - Update field `shipper`
+          > This field is optional when the logistics company is **WHISTL**.
+          > Add a description of the restrictions on this field for each logistics company.
+          - Update field `recipient`
+          > Add a description of the restrictions on this field for each logistics company.
+          - Update field `itemTransactionId`
+          > Applicable to `itemLines` object Add description information of this field.
+          - Update field `dimensions`
+          > Applicable to `itemLines` objects Required when the logistics company is **FedEx**.
+
+      ---
+
+      ### Version: 1.0.2023060701
 
       #### Changes
 
@@ -2464,7 +2481,6 @@ components:
             Indicate the dimensions of the package.
 
              - Dimensions are optional but when added, then all three dimensions must be indicated.
-             - ~~Dimensions are required with `CUSTOM_PACKAGE` package type.~~
         declaredInfo:
           type: object
           description: This is the Declared Value of any shipment.This is including, but not limited to any loss, damage, delay, misdelivery, any failure to provide information, or misdelivery of information related to the Shipment.
@@ -3428,12 +3444,18 @@ components:
       properties:
         contact:
           description: Indicate the contact details for this shipment.
+          externalDocs:
+            description: Find more info here
+            url: http://192.168.30.173:8088/docs/guide/shipping/shipper/shipper-contact.html
           allOf:
             - $ref: '#/components/schemas/shipperContact'
         address:
           description: This is detailed information on physical location.
           allOf:
             - $ref: '#/components/schemas/shipperAddress'
+          externalDocs:
+            description: Find more info here
+            url: http://192.168.30.173:8088/docs/guide/shipping/shipper/shipper-address.html
       required:
         - contact
         - address
@@ -3572,10 +3594,16 @@ components:
           description: Indicate the contact details for this shipment.
           allOf:
             - $ref: '#/components/schemas/recipientContact'
+          externalDocs:
+            description: Find more info here
+            url: http://192.168.30.173:8088/docs/guide/shipping/recipent/recipent-contact.html
         address:
           description: This is detailed information on physical location.
           allOf:
             - $ref: '#/components/schemas/recipientAddress'
+          externalDocs:
+            description: Find more info here
+            url: http://192.168.30.173:8088/docs/guide/shipping/recipent/recipent-address.html
       required:
         - contact
         - address
@@ -4345,7 +4373,10 @@ components:
       type: object
       properties:
         itemTransactionId:
-          description: This element allows you to assign a unique identifier to your package. This element is also returned in the reply and helps you match the request to the reply.
+          description: |-
+            This element allows you to assign a unique identifier to your package. This element is also returned in the reply and helps you match the request to the reply.
+
+             > **Note:** The itemTransactionId is consistent with the business unique identifier used in the interface for getGigaTrackNumberBatch API, which will affect the uniqueness of giga tracking numbers.
           type: string
           minLength: 1
           maxLength: 50
@@ -4388,7 +4419,7 @@ components:
              - Dimensions are optional but when added, then all three dimensions must be indicated.
              - ~~Dimensions are required with `CUSTOM_PACKAGE` package type~~. 
 
-             > **Note:** Required if current carrier is WHISTL, etc
+             > **Note:** Required if current carrier is WHISTL, FedEx.
           externalDocs:
             description: Find more info here
             url: https://platform.gigacloudlogistics.com/docs/guide/shipping/size-and-weight.html
@@ -4590,7 +4621,7 @@ components:
           description: |-
             The shipment's origin address. If you frequently ship from the same  , consider creating a warehouse. Then you can simply specify the `warehouseId` rather than the complete address each time.
 
-             > **Note:** Either `warehouseId` or `shipper` must be specified.However, for some carriers, there is no need to fill in shipper information which is maintained in the carrier‘s management system. For example: EVRI, etc.
+             > **Note:** Either `warehouseId` or `shipper` must be specified.However, for some carriers, there is no need to fill in shipper information which is maintained in the carrier‘s management system. For example: EVRI, WHISTL.
         recipient:
           description: The recipient's mailing address
           allOf:
