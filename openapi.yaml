@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.20230601201_Bate
+  version: 1.0.20230601501_Bate
   title: GigaLogistics API
   termsOfService: https://platform.gigacloudlogistics.com/docs/
   contact:
@@ -69,7 +69,7 @@ tags:
     description: |-
       This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.
 
-      ### Version: 1.0.20230601201_Bate (current)
+      ### Version: 1.0.20230601501_Bate (current)
 
       #### Changes
 
@@ -83,6 +83,8 @@ tags:
           > Applicable to `itemLines` object Add description information of this field.
           - Update field `dimensions`
           > Applicable to `itemLines` objects Required when the logistics company is **FedEx**.
+          - Update field `phoneNumber`
+          > Applicable to the contact information of the `paymentOption` fields, When the logistics company removes the required verification for **FedEx**.
 
       ---
 
@@ -3323,107 +3325,61 @@ components:
       type: object
       properties:
         personName:
-          description: |-
-            The name of a contact person at this address. The difference between each carrier is as follows.
-
-             > - **FedEx** : Either the companyName or personName is mandatory.
+          description: 'The name of a contact person at this address. '
           type: string
-          maxLength: 35
           example: 1 Collection Point Name (Test 1)
         phoneNumber:
-          description: |-
-            The phone number of a contact person at this address. The format of this phone number varies depending on the country. The difference between each carrier is as follows.
-
-             > - **FedEx** : Required, Minimum length is 10 and supports maximum of 15 for certain countries using longer phone numbers.
-             >   Note: For US and CA, a phone number must have exactly 10 digits, plus an optional leading country code of '1' or '+1'. Example: 918xxxxx890
-             > - **UPS** : Required, Maximum length is 15.
-             > - **DPD_UK** : Maximum length is 15.
+          description: The phone number of a contact person at this address. The format of this phone number varies depending on the country.
           type: string
-          maxLength: 25
           example: 1234-123456789
         phoneExtension:
-          description: Specify contact phone extension. Maximum length is 6. This field is only applicable to US, `UPS` supports up to 4 digits.
+          description: Specify contact phone extension.
           type: string
-          maxLength: 6
           example: 1234
         companyName:
-          description: |-
-            Specify contact company name. Maximum length is 35. The difference between each carrier is as follows.
-
-             > - **FedEx** : Either the companyName or personName is mandatory.
-             > - **GEL** : Required.
-             > - **DPD_UK** : Required.
+          description: 'Specify contact company name. '
           type: string
-          maxLength: 35
           example: 1 Collection Point Name (Test 1)
         emailAddress:
-          description: |-
-            Specify contact email address. Maximum length is 40. The difference between each carrier is as follows.
-
-             > - **DPD_DE** : Minimum length is 5.
+          description: Specify contact email address.
           type: string
-          maxLength: 40
           example: TEST@TEST.COM
-      required:
-        - personName
     shipperAddress:
       type: object
       properties:
         countryCode:
           description: This is the two-letter country code.
           type: string
-          minLength: 2
-          maxLength: 2
           example: GB
           externalDocs:
             description: Find more info here
             url: https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html
         stateOrProvinceCode:
-          description: This is a placeholder for state or province code. Required when used for US.
+          description: This is a placeholder for state or province code.
           type: string
-          maxLength: 35
           example: TEST
         city:
-          description: |-
-            The name of city, town of the shipper. Max length is 35. The difference between each carrier is as follows.
-
-             > - **UPS** : Maximum length is 30.
+          description: 'The name of city, town of the shipper. '
           type: string
-          maxLength: 35
           example: 155 COLLECTION TOWN
         zipCode:
-          description: |-
-            This is the postal code. Validity check exists. The difference between each carrier is as follows.
-
-             > - **DPD_DE** : Maximum length is 9.
-             > - **UPS** : Support 5 or 9 bits.
+          description: 'This is the postal code. Validity check exists. '
           type: string
-          maxLength: 10
           example: SL7 1TB
         streetLine1:
-          description: This is the combination of number, street name, etc. Maximum length per line is 35.
+          description: This is the combination of number, street name, etc.
           type: string
-          maxLength: 35
           example: 155 COLLECTION STREET 1
         streetLine2:
-          description: This is the combination of number, street name, etc. Maximum length per line is 35. The difference between each carrier is as follows.
+          description: 'This is the combination of number, street name, etc. '
           type: string
-          maxLength: 35
           example: TEST2
         streetLine3:
-          description: |-
-            This is the combination of number, street name, etc. Maximum length per line is 35.
-
-             > **Note:** This field is only applicable if the country is US.
+          description: 'This is the combination of number, street name, etc. '
           type: string
-          maxLength: 35
           example: TEST3
         instructions:
-          description: |
-            This is the address remarks, such as fill in house number.
-
-             > **Note:** This field is only apply for **GLS**.
-             > - **GLS** : Maximum length is 40.
+          description: This is the address remarks, such as fill in house number.
           type: string
           example: Haseneggstrasse 29
         addressType:
@@ -3434,23 +3390,18 @@ components:
             - BUSINESS
             - PARCELSHOP
           example: RESIDENTIAL
-      required:
-        - countryCode
-        - city
-        - zipCode
-        - streetLine1
     shipper:
       type: object
       properties:
         contact:
-          description: Indicate the contact details for this shipment.
+          description: Indicate the contact details for this shipment. The requirements for mandatory fields and field length limitations may vary across different carriers.
           externalDocs:
             description: Find more info here
             url: http://192.168.30.173:8088/docs/guide/shipping/shipper/shipper-contact.html
           allOf:
             - $ref: '#/components/schemas/shipperContact'
         address:
-          description: This is detailed information on physical location.
+          description: This is detailed information on physical location. The requirements for mandatory fields and field length limitations may vary across different carriers.
           allOf:
             - $ref: '#/components/schemas/shipperAddress'
           externalDocs:
@@ -3463,57 +3414,31 @@ components:
       type: object
       properties:
         personName:
-          description: |-
-            The name of a contact person at this address. The difference between each carrier is as follows.
-
-             > - **Evri** : Maximum length is 32.
-             > - **FedEx** : Either the companyName or personName is mandatory.
+          description: 'The name of a contact person at this address. '
           type: string
-          maxLength: 35
           example: 1 Collection Point Name (Test 1)
         phoneNumber:
-          description: |-
-            The phone number of a contact person at this address. The format of this phone number varies depending on the country. The difference between each carrier is as follows.
-
-             > - **FedEx** : Required, Minimum length is 10 and supports maximum of 15 for certain countries using longer phone numbers.
-             >   Note: For US and CA, a phone number must have exactly 10 digits, plus an optional leading country code of '1' or '+1'. Example: 918xxxxx890
-             > - **UPS** : Required, Maximum length is 15.
-             > - **DPD_UK** : Maximum length is 15. Either phoneNumber or emailAddress must be specified.
+          description: The phone number of a contact person at this address. The format of this phone number varies depending on the country.
           type: string
-          maxLength: 25
           example: 1234-123456789
         phoneExtension:
-          description: Specify contact phone extension. Maximum length is 6. This field is only applicable to US, `UPS` supports up to 4 digits.
+          description: Specify contact phone extension.
           type: string
-          maxLength: 6
           example: 1234
         companyName:
-          description: |-
-            Specify contact company name. Maximum length is 35. The difference between each carrier is as follows.
-
-             > - **DPD_UK** : Required.
-             > - **FedEx** : Either the companyName or personName is mandatory.
+          description: 'Specify contact company name. '
           type: string
-          maxLength: 35
           example: 1 Collection Point Name (Test 1)
         emailAddress:
-          description: |-
-            Specify contact email address. Maximum length is 40. The difference between each carrier is as follows.
-
-             > **DPD_UK** : Either phoneNumber or emailAddress must be specified.
+          description: Specify contact email address.
           type: string
-          maxLength: 40
           example: TEST@TEST.COM
-      required:
-        - personName
     recipientAddress:
       type: object
       properties:
         countryCode:
           description: This is the two-letter country code.
           type: string
-          minLength: 2
-          maxLength: 2
           example: GB
           externalDocs:
             description: Find more info here
@@ -3521,57 +3446,29 @@ components:
         stateOrProvinceCode:
           description: This is a placeholder for state or province code. Required when used for US.
           type: string
-          maxLength: 35
           example: TEST
         city:
-          description: |-
-            The name of city, town of the recipient.Max length is 35. The difference between each carrier is as follows.
-
-             > - **Evri** : Maximum length is 32.
+          description: The name of city, town of the recipient.
           type: string
-          maxLength: 35
           example: 155 COLLECTION TOWN
         zipCode:
-          description: |-
-            This is the postal code. Validity check exists. The difference between each carrier is as follows.
-
-             > - **DPD_DE** : Maximum length is 9.
-             > - **UPS** : Support 5 or 9 bits.
+          description: 'This is the postal code. Validity check exists. '
           type: string
-          maxLength: 10
           example: SL7 1TB
         streetLine1:
-          description: |-
-            This is the combination of number, street name, etc. Maximum length per line is 35. The difference between each carrier is as follows.
-
-             > - **Evri** : Maximum length is 32.
+          description: 'This is the combination of number, street name, etc. '
           type: string
-          maxLength: 35
           example: 155 COLLECTION STREET 1
         streetLine2:
-          description: |-
-            This is the combination of number, street name, etc. Maximum length per line is 35. The difference between each carrier is as follows.
-
-             > - **Evri** : Maximum length is 32.
+          description: 'This is the combination of number, street name, etc. '
           type: string
-          maxLength: 35
           example: TEST
         streetLine3:
-          description: |-
-            This is the combination of number, street name, etc. Maximum length per line is 35.
-
-             > **Note:** This field is only applicable if the country is US.
+          description: 'This is the combination of number, street name, etc. '
           type: string
-          maxLength: 35
           example: TEST3
         instructions:
-          description: |
-            This is the address remarks, such as fill in house number.
-
-             > **Note:** This field is only apply for **DPD_DE** / **DPD_UK** / **GLS**.
-             > - **DPD_DE** : Maximum length is 35.
-             > - **DPD_UK** : Maximum length is 50.
-             > - **GLS** : Maximum length is 40.
+          description: This is the address remarks, such as fill in house number.
           type: string
           example: Haseneggstrasse 29
         addressType:
@@ -3582,23 +3479,18 @@ components:
             - BUSINESS
             - PARCELSHOP
           example: RESIDENTIAL
-      required:
-        - countryCode
-        - city
-        - zipCode
-        - streetLine1
     recipient:
       type: object
       properties:
         contact:
-          description: Indicate the contact details for this shipment.
+          description: Indicate the contact details for this shipment. The requirements for mandatory fields and field length limitations may vary across different carriers.
           allOf:
             - $ref: '#/components/schemas/recipientContact'
           externalDocs:
             description: Find more info here
             url: http://192.168.30.173:8088/docs/guide/shipping/recipent/recipent-contact.html
         address:
-          description: This is detailed information on physical location.
+          description: This is detailed information on physical location. The requirements for mandatory fields and field length limitations may vary across different carriers.
           allOf:
             - $ref: '#/components/schemas/recipientAddress'
           externalDocs:
@@ -3616,11 +3508,7 @@ components:
           maxLength: 35
           example: 1 Collection Point Name (Test 1)
         phoneNumber:
-          description: |
-            The phone number of a contact person at this address. The format of this phone number varies depending on the country. The difference between each carrier is as follows.
-
-             > - **FedEx** : Required, Minimum length is 10 and supports maximum of 15 for certain countries using longer phone numbers.
-             >   Note: For US and CA, a phone number must have exactly 10 digits, plus an optional leading country code of '1' or '+1'. Example: 918xxxxx890
+          description: The phone number of a contact person at this address. The format of this phone number varies depending on the country.
           type: string
           maxLength: 25
           example: 1234-123456789
