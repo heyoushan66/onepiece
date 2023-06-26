@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.20230601501_Bate
+  version: 1.0.20230602601_Bate
   title: GigaLogistics API
   termsOfService: https://platform.gigacloudlogistics.com/docs/
   contact:
@@ -69,7 +69,7 @@ tags:
     description: |-
       This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.
 
-      ### Version: 1.0.20230601501_Bate (current)
+      ### Version: 1.0.2023062601_Bate (current)
 
       #### Changes
 
@@ -83,6 +83,8 @@ tags:
           > Applicable to `itemLines` object Add description information of this field.
           - Update field `dimensions`
           > Applicable to `itemLines` objects Required when the logistics company is **FedEx**.
+          - Update field `payor`
+          > Applicable to the payor information of the `paymentOption` fields, Adjust the description.
           - Update field `phoneNumber`
           > Applicable to the contact information of the `paymentOption` fields, When the logistics company removes the required verification for **FedEx**.
 
@@ -3631,14 +3633,17 @@ components:
             Specifies the payment Type.
 
              > **Note**: The payment type `COLLECT` is applicable only for FedEx Ground shipments.
-          externalDocs:
-            url: https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html
-            description: Find more info here
         payor:
           type: object
           allOf:
             - $ref: '#/components/schemas/payor'
-          description: Payor is mandatory when the paymentType is `RECIPIENT`, `THIRD_PARTY` or `COLLECT`.
+          description: |-
+            Payor is mandatory when the paymentType is `RECIPIENT`, `THIRD_PARTY` or `COLLECT`.
+
+             > **Note：**
+               > - For the paymentType `RECIPIENT`, `THIRD_PARTY`, and `COLLECT`, the accountNumber is mandatory for FedEx in the United States.
+             > - For the paymentType `RECIPIENT` in UPS in the United States, both the zipCode and accountNumber are mandatory.
+             > - For the paymentType `THIRD_PARTY` in UPS in the United States, the zipCode, countryCode, and accountNumber are mandatory.
       required:
         - paymentType
     contact:
