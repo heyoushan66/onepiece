@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.20230602601_Bate
+  version: 1.0.20230602901
   title: GigaLogistics API
   termsOfService: https://platform.gigacloudlogistics.com/docs/
   contact:
@@ -69,7 +69,7 @@ tags:
     description: |-
       This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.
 
-      ### Version: 1.0.2023062601_Bate (current)
+      ### Version: 1.0.2023062901 (current)
 
       #### Changes
 
@@ -87,6 +87,8 @@ tags:
           > Applicable to the payor information of the `paymentOption` fields, Adjust the description.
           - Update field `phoneNumber`
           > Applicable to the contact information of the `paymentOption` fields, When the logistics company removes the required verification for **FedEx**.
+          - Update field `labelSpecification`
+          > Add external link documentation for each logistics company label.
 
       ---
 
@@ -3399,7 +3401,7 @@ components:
           description: Indicate the contact details for this shipment. The requirements for mandatory fields and field length limitations may vary across different carriers.
           externalDocs:
             description: Find more info here
-            url: http://192.168.30.173:8088/docs/guide/shipping/shipper/shipper-contact.html
+            url: https://platform.gigacloudlogistics.com/docs/guide/shipping/shipper/shipper-contact.html
           allOf:
             - $ref: '#/components/schemas/shipperContact'
         address:
@@ -3408,7 +3410,7 @@ components:
             - $ref: '#/components/schemas/shipperAddress'
           externalDocs:
             description: Find more info here
-            url: http://192.168.30.173:8088/docs/guide/shipping/shipper/shipper-address.html
+            url: https://platform.gigacloudlogistics.com/docs/guide/shipping/shipper/shipper-address.html
       required:
         - contact
         - address
@@ -3490,14 +3492,14 @@ components:
             - $ref: '#/components/schemas/recipientContact'
           externalDocs:
             description: Find more info here
-            url: http://192.168.30.173:8088/docs/guide/shipping/recipent/recipent-contact.html
+            url: https://platform.gigacloudlogistics.com/docs/guide/shipping/recipent/recipent-contact.html
         address:
           description: This is detailed information on physical location. The requirements for mandatory fields and field length limitations may vary across different carriers.
           allOf:
             - $ref: '#/components/schemas/recipientAddress'
           externalDocs:
             description: Find more info here
-            url: http://192.168.30.173:8088/docs/guide/shipping/recipent/recipent-address.html
+            url: https://platform.gigacloudlogistics.com/docs/guide/shipping/recipent/recipent-address.html
       required:
         - contact
         - address
@@ -4556,6 +4558,9 @@ components:
             - $ref: '#/components/schemas/LabelSpecification_dpd_de'
             - $ref: '#/components/schemas/LabelSpecification_dpd_uk'
             - $ref: '#/components/schemas/LabelSpecification_ups'
+          externalDocs:
+            url: https://platform.gigacloudlogistics.com/docs/guide/shipping-labels/label-description.html
+            description: Find more info here
         multiplePieceShipping:
           type: object
           description: In the case of Multiple-Piece Shipping, Indicates the tracking details of the package. Only applicable if the carrier is FedEx.
