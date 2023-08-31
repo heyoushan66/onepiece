@@ -1443,10 +1443,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/503ErrorResp'
   /cloud_tracking_service/v1/tracking/register:
-    get:
+    post:
       tags:
         - Tracking
-      summary: Start Tracking a Package
+      summary: Start Tracking
       description: >-
         Allows you to subscribe to tracking updates for a package. You specify
         the carrier_code and tracking_number of the package, and receive

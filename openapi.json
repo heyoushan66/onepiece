@@ -2224,11 +2224,11 @@
       }
     },
     "/cloud_tracking_service/v1/tracking/register": {
-      "get": {
+      "post": {
         "tags": [
           "Tracking"
         ],
-        "summary": "Start Tracking a Package",
+        "summary": "Start Tracking",
         "description": "Allows you to subscribe to tracking updates for a package. You specify the carrier_code and tracking_number of the package, and receive notifications via webhooks whenever the shipping status changes. The maximum number of subscriptions for a group is 600.",
         "operationId": "registerTrackNum",
         "security": [],
