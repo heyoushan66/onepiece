@@ -5564,8 +5564,10 @@ components:
             Custom label, with a maximum limit of 65535 bytes, can be filled
             with notes, descriptions, data identifiers, and other information.
 
-             >**Note:** When generating Excel statistical files using `tag`, please ensure proper data formatting. In this context, the **key** value corresponds to the Excel column headers.  Be cautious to avoid duplicate **key** values, as duplicates will result in only one column being generated.
-          example: '{"name":"Alice","age":25,"city":"New York"}'
+             >**Note:** When using `tag` to generate an Excel statistical file, please ensure that the data format is correct. In this context, the **columnName** value corresponds to the Excel column heading. **sort** specifies Excel column sorting. **value** displays data in a table. Be careful to avoid duplicate **sort** values, as duplicates will result in only one column being generated.
+          example: >-
+            [{"sort":0,"columnName":"运单号","value":"test001"},{"sort":1,"columnName":"物流公司","value":"test"},{"sort":2,"columnName":"订单号","value":"t2001"},{"sort":3,"columnName":"备注","value":"test"},{"sort":4,"columnName":"店铺","value":"t4"},{"sort":9,"columnName":"发货日期","value":"2023-05-26
+            19:30:25"}]
         param:
           example: xxxx
           type: string
