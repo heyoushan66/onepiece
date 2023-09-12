@@ -1442,7 +1442,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/503ErrorResp'
-  /cloud_tracking_service/v1/tracking/register:
+  /cloud-tracking-service/v1/tracking/register:
     post:
       tags:
         - Tracking
