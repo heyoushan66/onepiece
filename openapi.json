@@ -2512,7 +2512,7 @@
           "Tracking"
         ],
         "summary": "Track by Tracking Number",
-        "description": "This endpoint provides customers package tracking information based on a tracking number for various shipping services.",
+        "description": "This endpoint enables customers to retrieve package tracking information by submitting a real-time request to the logistics company. The request is based on a tracking number and supports various shipping services.",
         "operationId": "getTrackInfo",
         "security": [],
         "parameters": [
@@ -2605,7 +2605,7 @@
           "Tracking"
         ],
         "summary": "History Track by Tracking Number",
-        "description": "This endpoint provides customers with package history (without actually initiating a request to the logistics company) tracking information based on the tracking numbers of various shipping services.",
+        "description": "This endpoint allows customers to access package history information, providing tracking details without initiating a request to the logistics company. The tracking information is based on the tracking numbers associated with various shipping services.",
         "operationId": "getHistoryTrackInfo",
         "security": [],
         "parameters": [
@@ -2698,7 +2698,7 @@
           "Tracking"
         ],
         "summary": "Manual push by Tracking Number",
-        "description": "After successfully submitting the interface, the corresponding logistics order number will enter the task queue and be pushed by global scheduling.",
+        "description": "After successfully submitting the interface, the corresponding tracking number will enter the task queue, and the push to your [webhook](https://platform.gigacloudlogistics.com/docs/guide/track/create-webhook.html) interface will be initiated by the global scheduler.",
         "operationId": "pushTracking",
         "security": [],
         "parameters": [
@@ -7941,11 +7941,6 @@
                         "type": "object",
                         "description": "Event collection node.",
                         "properties": {
-                          "postalCode": {
-                            "description": "Placeholder to specify postal code for the address. Postal Code is required for postal-aware countries.",
-                            "type": "string",
-                            "example": 98101
-                          },
                           "city": {
                             "description": "The name of the city, town, etc.",
                             "type": "string",
