@@ -2324,7 +2324,11 @@
           "Tracking"
         ],
         "summary": "Start Tracking",
-        "description": "Allows you to subscribe to tracking updates for a package. You specify the carrier_code and tracking_number of the package, and receive notifications via webhooks whenever the shipping status changes. The maximum number of subscriptions for a group is 600.",
+        "description": "Allows you to subscribe to tracking updates for a package. You specify the carrier_code and tracking_number of the package, and receive notifications via [webhooks](https://platform.gigacloudlogistics.com/docs/guide/track/create-webhook.html) whenever the shipping status changes. The maximum number of subscriptions for a group is 600.",
+        "externalDocs": {
+          "url": "https://platform.gigacloudlogistics.com/docs/guide/track/track-package.html#considerations",
+          "description": "Find more info here"
+        },
         "operationId": "registerTrackNum",
         "security": [],
         "parameters": [
@@ -7640,7 +7644,11 @@
             "example": "xxxx",
             "type": "string",
             "maxLength": 10,
-            "description": "Additional tracking parameters for the logistics tracking number (some carriers with specific requirements might need postal code or order date to query package information)."
+            "description": "Additional tracking parameters for the logistics tracking number (some carriers with specific requirements might need postal code or order date to query package information).",
+            "externalDocs": {
+              "url": "https://platform.gigacloudlogistics.com/docs/guide/track/track-package.html#considerations",
+              "description": "Click to view rules"
+            }
           },
           "shipFrom": {
             "type": "string",
