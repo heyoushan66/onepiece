@@ -2512,7 +2512,7 @@
           "Tracking"
         ],
         "summary": "Track by Tracking Number",
-        "description": "This endpoint enables customers to retrieve package tracking information by submitting a real-time request to the logistics company. The request is based on a tracking number and supports various shipping services.",
+        "description": "This endpoint enables customers to retrieve package tracking information by submitting a real-time request to the logistics company.",
         "operationId": "getTrackInfo",
         "security": [],
         "parameters": [
@@ -2605,7 +2605,7 @@
           "Tracking"
         ],
         "summary": "History Track by Tracking Number",
-        "description": "This endpoint allows customers to access package history information, providing tracking details without initiating a request to the logistics company. The tracking information is based on the tracking numbers associated with various shipping services.",
+        "description": "This endpoint allows customers to access package history information, providing tracking details without initiating a request to the logistics company.",
         "operationId": "getHistoryTrackInfo",
         "security": [],
         "parameters": [
