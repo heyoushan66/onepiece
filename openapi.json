@@ -82,7 +82,7 @@
       "description": "Production Server"
     },
     {
-      "url": "http://outer.us.gateway.orsd.tech",
+      "url": "http://outer.us.gateway.orsd.tech/gw",
       "description": "US Production Server"
     }
   ],

@@ -78,7 +78,7 @@ servers:
     description: Pre-Release Server
   - url: https://apis.gigacloudlogistics.com
     description: Production Server
-  - url: http://outer.us.gateway.orsd.tech
+  - url: http://outer.us.gateway.orsd.tech/gw
     description: US Production Server
 paths:
   /oauth/token:
