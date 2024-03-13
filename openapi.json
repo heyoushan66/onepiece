@@ -1089,9 +1089,9 @@
         "tags": [
           "LTL Shipping"
         ],
-        "summary": "Book Shipment",
+        "summary": "Create Shipment",
         "description": "This API endpoint is used to book a shipment.",
-        "operationId": "bootShipment",
+        "operationId": "ltlCreateShipment",
         "security": [],
         "parameters": [
           {
@@ -1129,7 +1129,316 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ltl_shipment_response"
+                  "$ref": "#/components/schemas/ltl_success_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/400ErrorResp"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/401ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/403ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/500ErrorResp"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/503ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cloud-ship-service/v1/ltl/shipment/async": {
+      "post": {
+        "tags": [
+          "LTL Shipping"
+        ],
+        "summary": "Create Shipment Async",
+        "description": "This API endpoint is used to create a shipment asynchronously.",
+        "operationId": "createShipmentAsync",
+        "security": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "name": "transactionId",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "description": "This element allows you to assign a unique identifier to your transaction. This element is also returned in the reply and helps you match the request to the reply.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 50,
+              "example": "XXXX_XXX123XXXXX"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ltl_shipment_request"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ltl_shipment_success_async"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/400ErrorResp"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/401ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/403ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/500ErrorResp"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/503ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cloud-ship-service/v1/ltl/shipment/asyncResult": {
+      "get": {
+        "tags": [
+          "LTL Shipping"
+        ],
+        "summary": "Retrieve Async Shipments Result",
+        "description": "This endpoint helps you to process confirmed shipments asynchronously and produce results based on unique id. Cooperate `Create Shipments` interface used together.",
+        "operationId": "LTLAsyncRetrieveShipmentsResult",
+        "security": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "The unique identifier generated by the `Create Shipments` interface.",
+                  "example": 6887945876680704
+                }
+              }
+            }
+          },
+          "description": "A collection of unique identifiers generated by the `Create Shipments` interface. The maximum acceptable upper line is a group of 40."
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ltl_success_response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/400ErrorResp"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/401ErrorResp"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/403ErrorResp"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/429ErrorResp"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/500ErrorResp"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/503ErrorResp"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cloud-ship-service/v1/ltl/pickup": {
+      "post": {
+        "tags": [
+          "LTL Shipping"
+        ],
+        "summary": "Pickup Request",
+        "description": "This API endpoint is used to schedule a pickup with a carrier.",
+        "operationId": "pickup",
+        "security": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Authorization"
+          },
+          {
+            "name": "transactionId",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "description": "This element allows you to assign a unique identifier to your transaction. This element is also returned in the reply and helps you match the request to the reply.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 50,
+              "example": "XXXX_XXX123XXXXX"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ltl_pickup_request"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ltl_pickup_response"
                 }
               }
             }
@@ -4909,45 +5218,152 @@
           "data"
         ]
       },
-      "carton": {
+      "ltl_shipment_contact": {
         "type": "object",
+        "description": "The information for the contact person.",
         "properties": {
-          "dimensions": {
-            "description": "The dimensions of the carton.",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/dimensions"
-              }
-            ]
-          },
-          "weight": {
-            "description": "The weight of the carton.",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/weight"
-              }
-            ]
-          },
-          "freightClass": {
+          "personName": {
+            "description": "The name of a contact person at this address.",
             "type": "string",
-            "description": "The [NMFC freight class](https://biz.nmfta.org/documents/ccsb/ccsb%20guidelines.pdf) for your freight."
+            "example": "1 Collection Point Name (Test 1)"
           },
-          "nmfcNumber": {
+          "phoneNumber": {
+            "description": "The phone number of a contact person at this address. PhoneNumber consist of 10 digits,with a 3-digit area.",
             "type": "string",
-            "description": "The [NMFC commodity code](https://nmfta.org/) / item number."
+            "example": 6269128886
+          },
+          "phoneExtension": {
+            "description": "Specify contact phone extension.",
+            "type": "string"
+          },
+          "companyName": {
+            "description": "Specify contact company name.",
+            "type": "string",
+            "example": "Gigacloud AT1"
+          },
+          "emailAddress": {
+            "description": "Specify contact email address. Maximum length is 40.",
+            "type": "string",
+            "maxLength": 40,
+            "example": "TEST@TEST.COM"
           }
         },
         "required": [
-          "dimensions",
-          "weight"
+          "phoneNumber",
+          "personName",
+          "emailAddress"
         ]
       },
-      "ltl_shipmentPallet": {
+      "ltl_shipment_address": {
+        "type": "object",
+        "description": "The address of the contact person.",
+        "properties": {
+          "countryCode": {
+            "description": "Country abbreviations.<br/>Example: `USA`",
+            "type": "string",
+            "example": "USA"
+          },
+          "stateOrProvinceCode": {
+            "description": "This is a placeholder for state or province code.",
+            "type": "string",
+            "example": "GA"
+          },
+          "city": {
+            "description": "The name of city, town of the recipient.",
+            "type": "string",
+            "example": "LITHIA SPRINGS"
+          },
+          "zipCode": {
+            "description": "This is the postal code.",
+            "type": "string",
+            "example": 30122
+          },
+          "streetLine1": {
+            "description": "The first line of the street address. For some addresses, this may be the only line. Other addresses may require 2 or 3 lines.",
+            "type": "string",
+            "example": "850 Douglas Hills Rd, Suit 100"
+          },
+          "streetLine2": {
+            "description": "The second line of the street address. For some addresses, this line may not be needed.",
+            "type": "string",
+            "example": "TEST"
+          },
+          "streetLine3": {
+            "description": "The third line of the street address. For some addresses, this line may not be needed.",
+            "type": "string",
+            "example": "TEST"
+          },
+          "addressType": {
+            "description": "Indicate this address type, Only `RESIDENTIAL` means residential (private).",
+            "type": "string",
+            "enum": [
+              "RESIDENTIAL",
+              "BUSINESS",
+              "PARCELSHOP"
+            ],
+            "example": "RESIDENTIAL"
+          }
+        },
+        "required": [
+          "countryCode",
+          "stateOrProvinceCode",
+          "city",
+          "zipCode",
+          "streetLine1"
+        ]
+      },
+      "ltl_shipment_payor": {
         "type": "object",
         "properties": {
+          "type": {
+            "type": "string",
+            "description": "The type of billing. Valid values include `C`, `S`, or `T`.\n\n - `C` : consignee\n - `S` : shipper\n - `T` : third_party\n\n > **Note:** This item is required when the logistics company is RRTS or ESTES."
+          },
+          "terms": {
+            "type": "string",
+            "description": "The payment terms. Valid values include `P`, `C`.\n\n - `P` : prepaid\n - `C` : collect\n\n > **Note:** This item is required when the logistics company is RRTS or ESTES."
+          },
+          "account": {
+            "type": "string",
+            "description": "The account number to bill for this pickup."
+          },
+          "address": {
+            "description": "The address of the location.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ltl_shipment_address"
+              }
+            ]
+          },
+          "contact": {
+            "description": "The information for the contact person.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ltl_shipment_contact"
+              }
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "terms",
+          "contact"
+        ]
+      },
+      "ltl_shipment_itemLine": {
+        "type": "object",
+        "properties": {
+          "packageType": {
+            "type": "string",
+            "enum": [
+              "PALLET",
+              "BOX"
+            ],
+            "description": "The code for this package type."
+          },
           "description": {
             "type": "string",
-            "description": "Name to represent what the box contains."
+            "description": "The description of the item(s) in this container."
           },
           "sku": {
             "type": "string",
@@ -4961,23 +5377,76 @@
             "type": "string",
             "description": "The [NMFC commodity code](https://nmfta.org/) / item number."
           },
-          "linearFeet": {
-            "type": "number",
-            "format": "double",
-            "description": "The total linear feet of the shipping item."
+          "dimensions": {
+            "description": "The dimensions of the container.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/dimensions"
+              }
+            ]
+          },
+          "weight": {
+            "description": "The weight of the container.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/weight"
+              }
+            ]
           },
           "quantity": {
             "type": "number",
-            "description": "Number of pallets that have the same Weight,Dimensions,and Content."
+            "description": "Number of individual pieces for the line item being described."
           },
-          "cartonCount": {
+          "declaredInfo": {
+            "description": "The declared value of the contained goods.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ltl_balance"
+              }
+            ]
+          }
+        },
+        "required": [
+          "quantity",
+          "weight",
+          "dimensions"
+        ]
+      },
+      "ltl_shipment_item": {
+        "type": "object",
+        "properties": {
+          "packageType": {
+            "type": "string",
+            "enum": [
+              "PALLET",
+              "BOX"
+            ],
+            "description": "The code for this package type."
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the item(s) in this container."
+          },
+          "sku": {
+            "type": "string",
+            "description": "Put your product SKU if you are shipping a given product."
+          },
+          "freightClass": {
+            "type": "string",
+            "description": "The [NMFC freight class](https://biz.nmfta.org/documents/ccsb/ccsb%20guidelines.pdf) for your freight."
+          },
+          "nmfcNumber": {
+            "type": "string",
+            "description": "The [NMFC commodity code](https://nmfta.org/) / item number."
+          },
+          "quantity": {
             "type": "number",
-            "description": "The number of cartons contained on this pallet."
+            "description": "The number of packages of this type."
           },
           "stackable": {
             "type": "boolean",
             "default": false,
-            "description": "This indicates whether or not this pallet can be safely stacked."
+            "description": "Indicates whether or not this package can be safely stacked."
           },
           "declaredInfo": {
             "description": "The declared value of the contained goods.",
@@ -4988,7 +5457,7 @@
             ]
           },
           "dimensions": {
-            "description": "The dimensions of the pallet.",
+            "description": "The dimensions of the handling unit.",
             "allOf": [
               {
                 "$ref": "#/components/schemas/dimensions"
@@ -4996,33 +5465,25 @@
             ]
           },
           "weight": {
-            "description": "The weight of the pallet.",
+            "description": "The weight of the handling unit.",
             "allOf": [
               {
                 "$ref": "#/components/schemas/weight"
               }
             ]
           },
-          "cartons": {
-            "description": "The list of cartons contained on this pallet.",
+          "pieces": {
             "type": "array",
-            "items": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/carton"
-                }
-              ]
-            }
-          },
-          "shipmentNew": {
-            "type": "boolean",
-            "description": "This indicates whether the goods are new or not.",
-            "default": true
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ltl_shipment_itemLine"
+              }
+            ]
           },
           "hazmat": {
             "type": "boolean",
             "default": false,
-            "description": "Indicates whether the pallet contains hazardous material or not."
+            "description": "Indicates whether the handling unit contains hazardous material or not."
           },
           "hazmatClass": {
             "type": "string",
@@ -5030,12 +5491,29 @@
           }
         },
         "required": [
+          "packageType",
           "description",
           "freightClass",
           "quantity",
-          "declaredInfo",
           "dimensions",
           "weight"
+        ]
+      },
+      "reference_number": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Indicates the name of the reference number being provided."
+          },
+          "value": {
+            "type": "string",
+            "description": "Additional reference number that correlates to the additional reference name."
+          }
+        },
+        "required": [
+          "type",
+          "value"
         ]
       },
       "ltl_shipment_request": {
@@ -5045,9 +5523,19 @@
             "type": "string",
             "description": "The carrier account that is billed for the shipping charges."
           },
-          "quoteId": {
+          "pickupDate": {
             "type": "string",
-            "description": "A unique ID used to identify the quote created to schedule this pickup. This may be used to create a BOL"
+            "example": "2024-05-10",
+            "description": "Ready for pick up date (YYYY-MM-DD). <br/> Example: 2024-05-10"
+          },
+          "deliveryDate": {
+            "type": "string",
+            "example": "2024-05-10",
+            "description": "Ready for delivery up date (YYYY-MM-DD). <br/> Example: 2022-05-10"
+          },
+          "serviceType": {
+            "type": "string",
+            "description": "The carrier service used to ship the package"
           },
           "shipper": {
             "type": "object",
@@ -5056,14 +5544,14 @@
               "contact": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/ltl_contact"
+                    "$ref": "#/components/schemas/ltl_shipment_contact"
                   }
                 ]
               },
               "address": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/ltl_address"
+                    "$ref": "#/components/schemas/ltl_shipment_address"
                   }
                 ]
               },
@@ -5078,9 +5566,7 @@
             },
             "required": [
               "contact",
-              "address",
-              "readyTime",
-              "closeTime"
+              "address"
             ]
           },
           "recipient": {
@@ -5090,9 +5576,325 @@
               "contact": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/ltl_contact"
+                    "$ref": "#/components/schemas/ltl_shipment_contact"
                   }
                 ]
+              },
+              "address": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ltl_shipment_address"
+                  }
+                ]
+              },
+              "readyTime": {
+                "type": "string",
+                "example": "09:00",
+                "description": "When the Destination is ready to begin receiving the shipment.The time will be represented in a 24-hour format.  <br/>Example: 09:00"
+              },
+              "closeTime": {
+                "type": "string",
+                "example": "17:00",
+                "description": "The closing window of when the Destination can receive the shipment. The time will be represented in a 24-hour format. <br/>Example: 17:00"
+              }
+            },
+            "required": [
+              "contact",
+              "address"
+            ]
+          },
+          "payor": {
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ltl_shipment_payor"
+              }
+            ]
+          },
+          "handlingUnits": {
+            "description": "Array of handling units to be included on a shipment.For example,pallets,boxes.",
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/ltl_shipment_item"
+                }
+              ]
+            }
+          },
+          "documentOptions": {
+            "description": "Options for bol and label.",
+            "type": "object",
+            "properties": {
+              "bol": {
+                "type": "object",
+                "description": "Options for bol",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Indicates whether or not you want the image of the Bill Of Lading PDF returned in the response."
+                  },
+                  "imageType": {
+                    "type": "string",
+                    "default": "PDF",
+                    "description": "Specify the image format used for a shipping document.",
+                    "enum": [
+                      "PDF"
+                    ]
+                  }
+                }
+              },
+              "shippingLabel": {
+                "type": "object",
+                "description": "Options for shipping label",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "description": "Indicates whether or not you want the image of the shipping labels PDF returned in the response.",
+                    "default": true
+                  },
+                  "imageType": {
+                    "type": "string",
+                    "default": "PDF",
+                    "description": "Specify the image format used for a shipping document.",
+                    "enum": [
+                      "PDF"
+                    ]
+                  },
+                  "format": {
+                    "type": "string",
+                    "description": "Specifies the printer format type for the labels.\n\n Required when documentOptions.shippingLabel.enabled is true.\n\n - `Avery`: 3-1/3 x 4 (6 labels per sheet)\n\n - `Letter`: Standard letter sheet\n\n - `Zebra`: 4 x 6 (1 label per sheet)",
+                    "enum": [
+                      "Avery",
+                      "Letter",
+                      "Zebra"
+                    ]
+                  },
+                  "quantity": {
+                    "type": "number",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "Specifies the quantity of labels desired.\n\n Required when documentOptions.shippingLabel.enabled is true."
+                  },
+                  "position": {
+                    "type": "number",
+                    "description": "Conditionally Required.\n\n Specifies the starting position for the shipping labels.\n\n Required when documentOptions.shippingLabel is `Avery`.",
+                    "enum": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      5,
+                      6
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "notifications": {
+            "type": "array",
+            "description": "Include if you want notifications of shipment movements by email",
+            "items": {
+              "type": "string",
+              "example": "test@test.com"
+            }
+          },
+          "accessorials": {
+            "type": "array",
+            "description": "The accessorial services.",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/accessorials"
+                }
+              ]
+            }
+          },
+          "referenceNumbers": {
+            "type": "array",
+            "description": "List of reference numbers",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/reference_number"
+                }
+              ]
+            }
+          },
+          "specialInstructions": {
+            "type": "array",
+            "example": "Take care of parcels",
+            "description": "List any special instructions you wish to pass to the carrier.",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "carrierId",
+          "pickupDate",
+          "serviceCode",
+          "recipient",
+          "shipper"
+        ]
+      },
+      "ltl_shipment_response": {
+        "type": "object",
+        "properties": {
+          "transactionId": {
+            "type": "string",
+            "description": "The transaction id you specified."
+          },
+          "carrierId": {
+            "type": "string",
+            "description": "The carrier account that is billed for the shipping charges."
+          },
+          "carrierCode": {
+            "type": "string",
+            "description": "Return the code of a Carrier operating company",
+            "enum": [
+              "ESTES",
+              "CEVA"
+            ]
+          },
+          "serviceType": {
+            "type": "string",
+            "description": "The carrier service used to ship the package"
+          },
+          "gigaTrackingNumber": {
+            "type": "string",
+            "description": "The GIGA tracking number for the shipment. A string that uniquely identifies the shipment"
+          },
+          "proNumber": {
+            "type": "string",
+            "description": "PRO number"
+          },
+          "documents": {
+            "type": "array",
+            "description": "An array of document objects.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "contentType": {
+                  "type": "string",
+                  "description": "Indicates the type of document.",
+                  "enum": [
+                    "bol",
+                    "label"
+                  ]
+                },
+                "fileUrl": {
+                  "type": "string",
+                  "description": "The URL of the document.\n\n > **Note:** When fileUrl is null, fileBase64 must have a value, otherwise, when fileUrl is not empty, fileBase64 is null"
+                },
+                "fileBase64": {
+                  "type": "string",
+                  "description": "The base64-encoded document."
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "transactionId",
+          "carrierId",
+          "carrierCode",
+          "serviceType",
+          "gigaTrackingNumber",
+          "proNumber"
+        ]
+      },
+      "ltl_success_response": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "example": true,
+            "default": true
+          },
+          "data": {
+            "description": "The descriptive data of the requested shipment.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ltl_shipment_response"
+              }
+            ]
+          }
+        },
+        "required": [
+          "success",
+          "data"
+        ]
+      },
+      "ltl_shipment_success_async": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "example": true,
+            "default": true
+          },
+          "data": {
+            "description": "A unique identifier for subsequent asynchronously fetched results.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "success",
+          "data"
+        ]
+      },
+      "ltl_pickup_request": {
+        "type": "object",
+        "description": "Complete details to create a new pickup request.",
+        "properties": {
+          "carrierId": {
+            "type": "string",
+            "description": "The carrier account that is billed for the shipping charges."
+          },
+          "requestAction": {
+            "type": "string",
+            "default": "LL",
+            "description": "This is the pickup action to perform. If the request is for Estes to pick up a full trailer, choose HE (to indicate empty) or HL (to indicate loaded). If you need Estes to drop off an empty trailer, choose SE. If the request is for a pickup of freight from your dock that is not a trailer-load, then pass LL (or don’t pass this element, and it will default to LL). If Estes must call to set up an appointment before arriving, then pass AP. Valid values are listed below: `AP`:Appointment required \n\n `HE`:LTL hook empty \n\n `HL`:LTL hook loaded \n\n `LL`:LTL live load \n\n `SE`:LTL spot/drop empty",
+            "enum": [
+              "AP",
+              "HE",
+              "HL",
+              "LL",
+              "SE"
+            ]
+          },
+          "paymentTerms": {
+            "type": "string",
+            "description": "These are the requested payment terms to apply to any resulting shipments picked up.\n\n `COL`: Collect\n\n `PPD`: Prepaid",
+            "enum": [
+              "COL",
+              "PPD"
+            ]
+          },
+          "pickupDate": {
+            "type": "string",
+            "description": "Ready for pick up date (YYYY-MM-DD). <br/> Example: 2024-05-10"
+          },
+          "pickupStartTime": {
+            "type": "string",
+            "description": "When the shipment is ready to be picked up at the Origin (start). The time will be represented in a 24-hour format.  <br/>Example: 09:00"
+          },
+          "pickupEndTime": {
+            "type": "string",
+            "description": "The closing window of when the shipment can be picked up at the Origin (end). The time will be represented in a 24-hour format. <br/>Example: 17:00"
+          },
+          "shipper": {
+            "type": "object",
+            "description": "The address and contact details for the location where freight will be picked up.",
+            "properties": {
+              "shipperName": {
+                "type": "string",
+                "maxLength": 30
               },
               "address": {
                 "allOf": [
@@ -5101,76 +5903,200 @@
                   }
                 ]
               },
-              "readyTime": {
-                "type": "string",
-                "description": "When the Destination is ready to begin receiving the shipment.The time will be represented in a 24-hour format.  <br/>Example: 09:00"
-              },
-              "closeTime": {
-                "type": "string",
-                "description": "The closing window of when the Destination can receive the shipment. The time will be represented in a 24-hour format. <br/>Example: 17:00"
+              "contact": {
+                "type": "object",
+                "properties": {
+                  "personName": {
+                    "description": "The name of a contact person at this address.",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 30,
+                    "example": "1 Collection Point Name (Test 1)"
+                  },
+                  "phoneNumber": {
+                    "description": "The phone number of a contact person at this address. PhoneNumber consist of 10 digits,with a 3-digit area.",
+                    "type": "string",
+                    "minLength": 10,
+                    "maxLength": 10,
+                    "example": 6269128886
+                  },
+                  "emailAddress": {
+                    "description": "Specify contact email address. Maximum length is 40.Required when receiveNotifications is true.",
+                    "type": "string",
+                    "maxLength": 52,
+                    "example": "TEST@TEST.COM"
+                  },
+                  "receiveNotifications": {
+                    "type": "boolean",
+                    "description": "Whether to receive notifications by email."
+                  }
+                },
+                "required": [
+                  "personName",
+                  "receiveNotifications"
+                ]
               }
             },
             "required": [
-              "contact",
-              "address",
-              "readyTime",
-              "closeTime"
+              "shipperName",
+              "address"
             ]
           },
-          "pallets": {
-            "description": "Array of pallet to be included on a shipment.",
+          "totalPieces": {
+            "type": "number",
+            "description": "Total number of pieces"
+          },
+          "totalWeight": {
+            "type": "number",
+            "description": "Total weight of shipment"
+          },
+          "totalHandlingUnits": {
+            "type": "number",
+            "description": "Total numbers of handling unit"
+          },
+          "trailer": {
             "type": "array",
+            "description": "Booked trailer information",
+            "items": {
+              "type": "object",
+              "properties": {
+                "length": {
+                  "type": "string",
+                  "description": "Trailer length specification in feet.",
+                  "enum": [
+                    "20",
+                    "28",
+                    "40",
+                    "45",
+                    "48",
+                    "53"
+                  ]
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Types of trailers.\n\n `CT`: Straight Container\n\n `LG`: Lift Gate\n\n `RD`: Roll Door\n\n `SD`: Side Door\n\n `ST`: Swing Door Truck",
+                  "enum": [
+                    "CT",
+                    "LG",
+                    "RD",
+                    "SD",
+                    "ST"
+                  ]
+                }
+              }
+            }
+          },
+          "referenceNumbers": {
+            "type": "array",
+            "description": "List of reference numbers",
             "items": {
               "allOf": [
                 {
-                  "$ref": "#/components/schemas/ltl_shipmentPallet"
+                  "$ref": "#/components/schemas/reference_number"
                 }
+              ]
+            }
+          },
+          "commodities": {
+            "type": "array",
+            "description": "commodities",
+            "items": {
+              "type": "object",
+              "properties": {
+                "packageCode": {
+                  "type": "string",
+                  "description": "The code for this package type. \n\n `BD`:Bundles\n\n `BG`:Bags\n\n `BK`:Buckets\n\n `BL`:Bales\n\n `BR`:Barrels\n\n `BX`:Boxes\n\n `CN`:Cans\n\n `CR`:Crates\n\n `CS`:Cases\n\n `CT`:Cartons\n\n `CY`:Cylinders\n\n `DR`:Drums\n\n `JC`:Jerrican\n\n `KT`:Kits\n\n `PC`:Pieces\n\n `PK`:Packages\n\n `PL`:Pails\n\n `PT`:Pallets\n\n `RE`:Reels\n\n `RL`:Rolls\n\n `SK`:Skids\n\n `TL`:Truckload\n\n `TO`:Totes\n\n ",
+                  "enum": [
+                    "BD",
+                    "BG",
+                    "BK",
+                    "BL",
+                    "BR",
+                    "BX",
+                    "CN",
+                    "CR",
+                    "CS",
+                    "CT",
+                    "CY",
+                    "DR",
+                    "JC",
+                    "KT",
+                    "PC",
+                    "PK",
+                    "PL",
+                    "PT",
+                    "RE",
+                    "RL",
+                    "SK",
+                    "TL",
+                    "TO"
+                  ]
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Description of goods",
+                  "minLength": 1,
+                  "maxLength": 35
+                },
+                "pieces": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 999999,
+                  "description": "The number of pieces of transport handling equipment (pallets, boxes, cases, etc.) in this consignment."
+                },
+                "weight": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 45000,
+                  "description": "The declared total weight of the shipment. The unit is pounds."
+                },
+                "nmfcNumber": {
+                  "type": "string",
+                  "description": "nmfcNumber"
+                }
+              },
+              "required": [
+                "packageCode",
+                "description",
+                "pieces",
+                "weight"
               ]
             }
           }
         },
         "required": [
           "carrierId",
-          "quoteId",
-          "recipient",
-          "shipper"
+          "shipper",
+          "pickupDate",
+          "pickupStartTime",
+          "pickupEndTime",
+          "totalWeight",
+          "totalHandlingUnits"
         ]
       },
-      "ltl_shipment_response": {
+      "ltl_pickup_response": {
         "type": "object",
         "properties": {
-          "bolNumber": {
-            "type": "string",
-            "description": ""
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "example": true,
+            "default": true
           },
-          "documents": {
-            "type": "array",
-            "description": "An array of document objects. For pickup requests this documents array will only include the Bill of Lading.",
-            "items": {
-              "type": "object",
-              "properties": {
-                "format": {
-                  "type": "string",
-                  "description": "The format of the document which will always be pdf for pickup responses. The base64-encoded image string will be in this format once decoded.",
-                  "example": "pdf"
-                },
-                "type": {
-                  "type": "string",
-                  "description": "The type will always be bill_of_lading in the ltl shipment response.",
-                  "example": "bill_of_lading"
-                },
-                "fileBase64": {
-                  "type": "string",
-                  "description": "The base64-encoded bill of lading document."
-                },
-                "fileUrl": {
-                  "type": "string",
-                  "description": "The URL of the shipping document/label."
-                }
+          "data": {
+            "description": "The descriptive data of the requested shipment.",
+            "type": "object",
+            "properties": {
+              "requestNumber": {
+                "type": "string"
               }
             }
           }
-        }
+        },
+        "required": [
+          "success",
+          "data"
+        ]
       },
       "shipperContact": {
         "type": "object",
