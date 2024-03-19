@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.20240122_Beta
+  version: 1.0.20240315_Beta
   title: GigaLogistics API
   termsOfService: https://platform.gigacloudlogistics.com/docs/
   contact:
@@ -70,7 +70,7 @@ tags:
        | <br><font face='Verdana' color=#160E0C size=2>**FULL_FAILED_ERROR**</font><br /><br><font face='Georgia' color=#595555 size=3>Batch request completely failed exception.</font><br><br>                                        | <font face='Verdana' color=#160E0C size=2>500 Internal Server Error</font>
        | <br><font face='Verdana' color=#160E0C size=2>**SYS_ERROR**</font><br /><br><font face='Georgia' color=#595555 size=3>Request could not be executed due to an internal server error.</font><br><br>                            | <font face='Verdana' color=#160E0C size=2>500 Internal Server Error</font>
   - name: Version Change History
-    description: "This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.\r\n\r\n### Version: 1.0.20240122_Beta (current)\r\n\r\n#### Changes\r\n- Update Interface [Manual push by Tracking Number](#tag/Tracking/operation/pushTracking)\r\n  - Add webhook callback signature verification functionality. [Click to view details](https://platform.gigacloudlogistics.com/docs/guide/track/create-webhook.html).\r\n- Add the address of the **Development Sandbox Server** environment, used for internal debugging and collaboration among developers. Please note that the tokens and carrierIds for each environment are distinct. Contact us to obtain them.\r\n---\r\n\r\n### Version: 1.0.20240111\r\n\r\n#### Changes\r\n\r\n- [Track Document](#tag/Tracking/operation/getTrackDocument) interface parameter adjustment\r\n  - Adjust the interface parameter request from batch to individual parameter requests.\r\n- Add the address for the US Production Server environment. Please be aware that when connecting to US nodes, a different token is required. Please reach out to us for obtaining the correct one.\r\n---\r\n\r\n### Version: 1.0.2023122801\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n  - Update field `shipper`, `returnAddress`\r\n  > shipper.contact.companyName, returnAddress.contact.companyName, added maxmum 35 character limit.\r\n- Add Interface [Restart Tracking](#tag/Tracking/operation/restartTrackNum)\r\n    - See the interface description for details\r\n- Add Interface [History Track by Tracking Number](#tag/Tracking/operation/getHistoryTrackInfo)\r\n    - See the interface description for details\r\n- Add Interface [Manual push by Tracking Number](#tag/Tracking/operation/pushTracking)\r\n    - See the interface description for details\r\n- \r\n\r\n---\r\n\r\n### Version: 1.0.2023091402\r\n\r\n#### Changes\r\n\r\n- Add the address of the development sandbox server environment, used for internal debugging and collaboration among developers. Please note that the tokens and carrierIds for each environment are distinct. Contact us to obtain them.\r\n- \r\n\r\n---\r\n\r\n### Version: 1.0.2023083101_Beta\r\n\r\n#### Changes\r\n\r\n- Add Interface [Start Tracking a Package](#tag/Tracking/operation/registerTrackNum)\r\n    - See the interface description for details\r\n\r\n---\r\n\r\n### Version: 1.0.2023082401\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Update field `shipper`, `recipient`\r\n    > shipper.address.city, shipper.contact.companyName, shipper.contact.personName, recipient.address.city, \r\n    recipient.contact.companyName, recipient.contact.personName added minimum 3 character limit.\r\n\r\n---\r\n\r\n### Version: 1.0.2023072701\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface adjustment\r\n    - Update field `phoneNumber`\r\n    > Adjust `recipient.contact.phoneNumber` for GEL to be conditional required\r\n    - config timeout\r\n    > config connect timeout with 60s\r\n\r\n---\r\n\r\n### Version: 1.0.2023070601\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Update field `emailAddress`\r\n    > Adjust `recipient.contact.emailAddress` for DPD_UK to be non-required\r\n\r\n---\r\n\r\n### Version: 1.0.2023062901\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Update field `shipper`\r\n    > This field is optional when the logistics company is **WHISTL**.\r\n    > Add a description of the restrictions on this field for each logistics company.\r\n    - Update field `recipient`\r\n    > Add a description of the restrictions on this field for each logistics company.\r\n    - Update field `itemTransactionId`\r\n    > Applicable to `itemLines` object Add description information of this field.\r\n    - Update field `dimensions`\r\n    > Applicable to `itemLines` objects Required when the logistics company is **FedEx**.\r\n    - Update field `payor`\r\n    > Applicable to the payor information of the `paymentOption` fields, Adjust the description.\r\n    - Update field `phoneNumber`\r\n    > Applicable to the contact information of the `paymentOption` fields, When the logistics company removes the required verification for **FedEx**.\r\n    - Update field `labelSpecification`\r\n    > Add external link documentation for each logistics company label.\r\n\r\n---\r\n\r\n### Version: 1.0.2023060701\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Update field `stateProvince`\r\n    > Applicable to the address information of the `paymentOption` fields, When the logistics company removes the required verification for **FedEx**.\r\n    - Update field `accountNumber`\r\n    > Applicable to the payor information of the `paymentOption` fields, When the logistics company is **UPS**, this field must be 6 digits.\r\n\r\n---\r\n\r\n### Version: 1.0.2023052501\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Add new field `instructions`\r\n    > Applicable to the address information of the `shipper.address`fields, only applicable to GLS. \r\n    - Add new field `instructions`\r\n    > Applicable to the address information of the `recipient.address` fields, only applicable to DPD_DE, DPD_UK, GLS. \r\n\r\n---\r\n\r\n### Version: 1.0.2023051901\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Update field `streetLine2`\r\n    > Adjust `shipper.streetLine2` and `recipient.streetLine2` for DPD_DE to be non-required\r\n\r\n---\r\n\r\n### Version: 1.0.2023051601\r\n\r\n#### Changes\r\n\r\n- Adjust version number information.\r\n- Modify the address of the `sandbox environment` and add the address of the `pre-release environment`.\r\n\r\n---\r\n\r\n### Version: 1.0.2023051101\r\n\r\n#### Changes\r\n\r\n- Add Interface [Create Shipments asynchronously](#tag/Shipments/operation/CreateShipmentsAsync)\r\n    - See the interface description for details\r\n- Add Interface [Retrieve Async Shipments Result](#tag/Shipments/operation/AsyncRetrieveShipmentsResult)\r\n    - See the interface description for details\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) Interface parameter verification description adjustment\r\n    - Update field `phoneNumber`\r\n    > Modify the description of this field. When the operator is `FedEx`, add a special case description. For details, please refer to the interface document. The main scope of change `shipper`, `recipient`, `payor` objects.\r\n    - Update field `customerReference`\r\n    > Modify the restrictions of each logistics company for ref1~ref5 in this field.\r\n\r\n---\r\n\r\n### Version: 1.0.2023040301\r\n\r\n#### Changes\r\n\r\n- Add Interface [Track Document](#tag/Tracking/operation/getTrackDocument)\r\n    - See the interface description for details\r\n\r\n---\r\n\r\n### Version: 1.0.2023032101\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) Interface parameter verification description adjustment\r\n    - Update field `paymentOption`\r\n    > Modify the verification information when using non-`SENDER` payment when the carrier is `FedEx` or `UPS`.\r\n    - Added the description information of the specific verification rules of each logistics company, supplemented additional auxiliary information about fields such as `serviceType`, `weight`, `dimensions`, `declaredInfo`, etc.\r\n\r\n---\r\n\r\n### Version: 1.0.2023031401\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Add new field `streetLine3`\r\n    > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, only applicable to FedEx, UPS. \r\n    - Update field `stateProvince`\r\n    > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, Required when the carrier is FedEx, UPS, optional in other cases.\r\n\r\n- [Create Warehouse](#tag/Warehouses/operation/createWarehouse) interface parameter adjustment\r\n    - update field `stateProvince`\r\n    > Applicable to `originAddressre`, `returnAddress` field address information, only required when the country of the address is US."
+    description: "This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.\r\n\r\n### Version: 1.0.20240315_Beta (current)\r\n\r\n#### Changes\r\n- Update Interface [Validate Address](#tag/Addresses/operation/AdvcStreetLevel)\r\n  - The interface structure has been adjusted from individual to batch, with the addition of the `clientReferenceId` field for matching responses in batch requests. \r\n  - A new rate limiting policy has been implemented for this interface, allowing a maximum of **2400** transactions per minute for each carrierID.\r\n---\r\n\r\n### Version: 1.0.20240122\r\n\r\n#### Changes\r\n- Update Interface [Manual push by Tracking Number](#tag/Tracking/operation/pushTracking)\r\n  - Add webhook callback signature verification functionality. [Click to view details](https://platform.gigacloudlogistics.com/docs/guide/track/create-webhook.html).\r\n- Add the address of the **Development Sandbox Server** environment, used for internal debugging and collaboration among developers. Please note that the tokens and carrierIds for each environment are distinct. Contact us to obtain them.\r\n---\r\n\r\n### Version: 1.0.20240111\r\n\r\n#### Changes\r\n\r\n- [Track Document](#tag/Tracking/operation/getTrackDocument) interface parameter adjustment\r\n  - Adjust the interface parameter request from batch to individual parameter requests.\r\n- Add the address for the US Production Server environment. Please be aware that when connecting to US nodes, a different token is required. Please reach out to us for obtaining the correct one.\r\n---\r\n\r\n### Version: 1.0.2023122801\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n  - Update field `shipper`, `returnAddress`\r\n  > shipper.contact.companyName, returnAddress.contact.companyName, added maxmum 35 character limit.\r\n- Add Interface [Restart Tracking](#tag/Tracking/operation/restartTrackNum)\r\n    - See the interface description for details\r\n- Add Interface [History Track by Tracking Number](#tag/Tracking/operation/getHistoryTrackInfo)\r\n    - See the interface description for details\r\n- Add Interface [Manual push by Tracking Number](#tag/Tracking/operation/pushTracking)\r\n    - See the interface description for details\r\n- \r\n\r\n---\r\n\r\n### Version: 1.0.2023091402\r\n\r\n#### Changes\r\n\r\n- Add the address of the development sandbox server environment, used for internal debugging and collaboration among developers. Please note that the tokens and carrierIds for each environment are distinct. Contact us to obtain them.\r\n- \r\n\r\n---\r\n\r\n### Version: 1.0.2023083101_Beta\r\n\r\n#### Changes\r\n\r\n- Add Interface [Start Tracking a Package](#tag/Tracking/operation/registerTrackNum)\r\n    - See the interface description for details\r\n\r\n---\r\n\r\n### Version: 1.0.2023082401\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Update field `shipper`, `recipient`\r\n    > shipper.address.city, shipper.contact.companyName, shipper.contact.personName, recipient.address.city, \r\n    recipient.contact.companyName, recipient.contact.personName added minimum 3 character limit.\r\n\r\n---\r\n\r\n### Version: 1.0.2023072701\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface adjustment\r\n    - Update field `phoneNumber`\r\n    > Adjust `recipient.contact.phoneNumber` for GEL to be conditional required\r\n    - config timeout\r\n    > config connect timeout with 60s\r\n\r\n---\r\n\r\n### Version: 1.0.2023070601\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Update field `emailAddress`\r\n    > Adjust `recipient.contact.emailAddress` for DPD_UK to be non-required\r\n\r\n---\r\n\r\n### Version: 1.0.2023062901\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Update field `shipper`\r\n    > This field is optional when the logistics company is **WHISTL**.\r\n    > Add a description of the restrictions on this field for each logistics company.\r\n    - Update field `recipient`\r\n    > Add a description of the restrictions on this field for each logistics company.\r\n    - Update field `itemTransactionId`\r\n    > Applicable to `itemLines` object Add description information of this field.\r\n    - Update field `dimensions`\r\n    > Applicable to `itemLines` objects Required when the logistics company is **FedEx**.\r\n    - Update field `payor`\r\n    > Applicable to the payor information of the `paymentOption` fields, Adjust the description.\r\n    - Update field `phoneNumber`\r\n    > Applicable to the contact information of the `paymentOption` fields, When the logistics company removes the required verification for **FedEx**.\r\n    - Update field `labelSpecification`\r\n    > Add external link documentation for each logistics company label.\r\n\r\n---\r\n\r\n### Version: 1.0.2023060701\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Update field `stateProvince`\r\n    > Applicable to the address information of the `paymentOption` fields, When the logistics company removes the required verification for **FedEx**.\r\n    - Update field `accountNumber`\r\n    > Applicable to the payor information of the `paymentOption` fields, When the logistics company is **UPS**, this field must be 6 digits.\r\n\r\n---\r\n\r\n### Version: 1.0.2023052501\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Add new field `instructions`\r\n    > Applicable to the address information of the `shipper.address`fields, only applicable to GLS. \r\n    - Add new field `instructions`\r\n    > Applicable to the address information of the `recipient.address` fields, only applicable to DPD_DE, DPD_UK, GLS. \r\n\r\n---\r\n\r\n### Version: 1.0.2023051901\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Update field `streetLine2`\r\n    > Adjust `shipper.streetLine2` and `recipient.streetLine2` for DPD_DE to be non-required\r\n\r\n---\r\n\r\n### Version: 1.0.2023051601\r\n\r\n#### Changes\r\n\r\n- Adjust version number information.\r\n- Modify the address of the `sandbox environment` and add the address of the `pre-release environment`.\r\n\r\n---\r\n\r\n### Version: 1.0.2023051101\r\n\r\n#### Changes\r\n\r\n- Add Interface [Create Shipments asynchronously](#tag/Shipments/operation/CreateShipmentsAsync)\r\n    - See the interface description for details\r\n- Add Interface [Retrieve Async Shipments Result](#tag/Shipments/operation/AsyncRetrieveShipmentsResult)\r\n    - See the interface description for details\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) Interface parameter verification description adjustment\r\n    - Update field `phoneNumber`\r\n    > Modify the description of this field. When the operator is `FedEx`, add a special case description. For details, please refer to the interface document. The main scope of change `shipper`, `recipient`, `payor` objects.\r\n    - Update field `customerReference`\r\n    > Modify the restrictions of each logistics company for ref1~ref5 in this field.\r\n\r\n---\r\n\r\n### Version: 1.0.2023040301\r\n\r\n#### Changes\r\n\r\n- Add Interface [Track Document](#tag/Tracking/operation/getTrackDocument)\r\n    - See the interface description for details\r\n\r\n---\r\n\r\n### Version: 1.0.2023032101\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) Interface parameter verification description adjustment\r\n    - Update field `paymentOption`\r\n    > Modify the verification information when using non-`SENDER` payment when the carrier is `FedEx` or `UPS`.\r\n    - Added the description information of the specific verification rules of each logistics company, supplemented additional auxiliary information about fields such as `serviceType`, `weight`, `dimensions`, `declaredInfo`, etc.\r\n\r\n---\r\n\r\n### Version: 1.0.2023031401\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Add new field `streetLine3`\r\n    > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, only applicable to FedEx, UPS. \r\n    - Update field `stateProvince`\r\n    > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, Required when the carrier is FedEx, UPS, optional in other cases.\r\n\r\n- [Create Warehouse](#tag/Warehouses/operation/createWarehouse) interface parameter adjustment\r\n    - update field `stateProvince`\r\n    > Applicable to `originAddressre`, `returnAddress` field address information, only required when the country of the address is US."
 servers:
   - url: http://sit.gateway.orsd.tech/gw
     description: Development Sandbox Server
@@ -256,6 +256,8 @@ paths:
         the outcome of validatation and resolution of the input address. An
         address is stated as resolved when the input address matches the known
         reference data. Currently only Fedex supports this feature.
+
+         > **Note:** This interface imposes a throttling limit of 2400 requests per minute for a single carrierId.
       operationId: AdvcStreetLevel
       security: []
       parameters:
@@ -2427,59 +2429,82 @@ components:
           description: The carrier account that is billed for the shipping charges.
           type: string
           example: GLSXXXXXXXXX
-        countryCode:
-          description: The two-letter code used to identify a country.
-          type: string
-          example: US
-          externalDocs:
-            description: Find more info here
-            url: >-
-              https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html
-        stateOrProvinceCode:
+        advcStreetDetail:
           description: >-
-            This is the state or province code. Format and presence of this
-            field will vary, depending on country.
-          type: string
-          example: CA
-        city:
-          description: Indicate the name of city, town, etc.
-          type: string
-          example: MADAWASKA
-        zipcode:
-          description: >-
-            Identification code of a region (usally small) for easier and
-            accurate mail/package delivery. The format and presence of this
-            field may vary depending on the country.
-          type: string
-          example: '04756'
-        street1:
-          description: >-
-            The first line of the street address. For some addresses, this may
-            be the only line. Other addresses may require 2 or 3 lines.
-             - At least one line is required for a valid physical address; empty lines should not be included.
-             - Maximum up to three lines & no error check if entered more than this limit.
-             - Recommended limit per line is 35 characters.
-          type: string
-          example: 7372 PARKRIDGE BLVD
-        street2:
-          description: >-
-            The second line of the street address. For some addresses, this line
-            may not be needed.
-          type: string
-          example: APT 286, 2903 sprank
-        street3:
-          description: >-
-            The third line of the street address. For some addresses, this line
-            may not be needed.
-          type: string
+            Indicate the address to be validated and resolved. This includes the
+            address details, such as streetline, state or province code, country
+            code and postal code.
+
+             > Note: Up to 100 of these can be submitted in a single request.
+          type: array
+          items:
+            type: object
+            properties:
+              clientReferenceId:
+                description: >-
+                  Client Reference Id. This element is also returned in the
+                  reply and helps you match the request to the reply.
+                type: string
+                example: test-01
+                maxLength: 50
+              countryCode:
+                description: The two-letter code used to identify a country.
+                type: string
+                example: US
+                externalDocs:
+                  description: Find more info here
+                  url: >-
+                    https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html
+              stateOrProvinceCode:
+                description: >-
+                  This is the state or province code. Format and presence of
+                  this field will vary, depending on country.
+                type: string
+                example: CA
+              city:
+                description: Indicate the name of city, town, etc.
+                type: string
+                example: MADAWASKA
+              zipcode:
+                description: >-
+                  Identification code of a region (usally small) for easier and
+                  accurate mail/package delivery. The format and presence of
+                  this field may vary depending on the country.
+                type: string
+                example: '04756'
+              street1:
+                description: >-
+                  The first line of the street address. For some addresses, this
+                  may be the only line. Other addresses may require 2 or 3
+                  lines.
+                   - At least one line is required for a valid physical address; empty lines should not be included.
+                   - Maximum up to three lines & no error check if entered more than this limit.
+                   - Recommended limit per line is 35 characters.
+                type: string
+                example: 7372 PARKRIDGE BLVD
+              street2:
+                description: >-
+                  The second line of the street address. For some addresses,
+                  this line may not be needed.
+                type: string
+                example: APT 286, 2903 sprank
+              street3:
+                description: >-
+                  The third line of the street address. For some addresses, this
+                  line may not be needed.
+                type: string
+            required:
+              - carrierId
+              - clientReferenceId
+              - carrierCode
+              - countryCode
+              - stateOrProvinceCode
+              - zipcode
+              - city
+              - street1
       required:
         - carrierId
-        - carrierCode
-        - countryCode
-        - stateOrProvinceCode
-        - zipcode
-        - city
-        - street1
+        - advcStreetDetail
     advcToken:
       type: object
       properties:
@@ -2490,9 +2515,16 @@ components:
           description: Indicates the changed value.
           type: string
           example: SAN JUAN
-    fedex_advc_street_level:
+    fedex_advc_street_detail:
       type: object
       properties:
+        clientReferenceId:
+          description: >-
+            Client Reference Id. This element is also returned in the reply and
+            helps you match the request to the reply.
+          type: string
+          maxLength: 50
+          example: test-01
         streetLinesToken:
           description: Indicates the resolved street address lines.
           type: array
@@ -2628,6 +2660,41 @@ components:
             description: Find more info here
             url: >-
               https://developer.fedex.com/api/en-us/guides/api-reference.html#addressattributes
+      required:
+        - clientReferenceId
+    fedex_advc_street_level:
+      type: object
+      properties:
+        resolvedAddress:
+          description: >-
+            Indicates the list of resolved addresses. The detailed resolved
+            address includes city, state, postal information, and resolution
+            method.
+          type: array
+          items:
+            $ref: '#/components/schemas/fedex_advc_street_detail'
+        alerts:
+          description: >-
+            Indicates API Alerts includes alert type, alert code, and alert
+            message that is received when the address is resolved.
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                description: Indicates the API alert code.
+              message:
+                type: string
+                description: Indicates the API alert message.
+              alertType:
+                type: string
+                enum:
+                  - NOTE
+                  - WARNING
+                description: Indicates the API alert type.
+      required:
+        - resolvedAddress
     streetAdvcSuccessResp:
       type: object
       properties:
@@ -3368,7 +3435,7 @@ components:
           format: double
           maxLength: 0
           description: Insurable total product value for the items.
-          example: 0
+          example: 10
       required:
         - currency
         - amount
@@ -3414,6 +3481,7 @@ components:
         units:
           description: The dimension units that are supported by GIGALOGISTICS.
           type: string
+          example: IN
           enum:
             - CM
             - IN
@@ -3572,20 +3640,23 @@ components:
       properties:
         code:
           type: string
+          example: RES
           description: >-
             The code for the accessorial service offered. [Click here to see
             more](https://platform.gigacloudlogistics.com/docs/guide/ltl-ship/accessorial-services.html).
         attributes:
-          type: object
+          type: array
           description: >-
             Some carriers require additional supplemental information about an
             accessorial service like name or phone. These requirements are
             outlined here.
-          properties:
-            key:
-              type: string
-            value:
-              type: string
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              value:
+                type: string
     request_spot_quote:
       type: object
       properties:
@@ -3843,9 +3914,9 @@ components:
       description: The address of the contact person.
       properties:
         countryCode:
-          description: 'Country abbreviations.<br/>Example: `USA`'
+          description: 'Country abbreviations.<br/>Example: `US`'
           type: string
-          example: USA
+          example: US
         stateOrProvinceCode:
           description: This is a placeholder for state or province code.
           type: string
@@ -3897,6 +3968,7 @@ components:
       properties:
         type:
           type: string
+          example: S
           description: |-
             The type of billing. Valid values include `C`, `S`, or `T`.
 
@@ -3907,6 +3979,7 @@ components:
              > **Note:** This item is required when the logistics company is RRTS or ESTES.
         terms:
           type: string
+          example: P
           description: |-
             The payment terms. Valid values include `P`, `C`.
 
@@ -3916,6 +3989,7 @@ components:
              > **Note:** This item is required when the logistics company is RRTS or ESTES.
         account:
           type: string
+          example: '123456'
           description: The account number to bill for this pickup.
         address:
           description: The address of the location.
@@ -3934,63 +4008,77 @@ components:
       properties:
         packageType:
           type: string
+          example: BOX
           enum:
             - PALLET
             - BOX
           description: The code for this package type.
         description:
           type: string
+          example: description
           description: The description of the item(s) in this container.
         sku:
           type: string
+          example: WH123456
           description: >-
             Put your product SKU if you are shipping a given product.If the SKU
             has multiple boxes append a unique identifier to them like:-2,-3,-4
         freightClass:
           type: string
-          description: >-
-            The [NMFC freight
-            class](https://biz.nmfta.org/documents/ccsb/ccsb%20guidelines.pdf)
-            for your freight.
+          example: '65'
+          description: The NMFC freight class for your freight.
         nmfcNumber:
           type: string
           description: The [NMFC commodity code](https://nmfta.org/) / item number.
         dimensions:
-          description: The dimensions of the container.
+          description: |-
+            The dimensions of the container.
+
+             > **Note** Either weight or dimensions is required.
           allOf:
             - $ref: '#/components/schemas/dimensions'
         weight:
-          description: The weight of the container.
+          description: |-
+            The weight of the container.
+
+             > **Note** Either weight or dimensions is required.
           allOf:
             - $ref: '#/components/schemas/weight'
         quantity:
           type: number
+          example: 1
           description: Number of individual pieces for the line item being described.
         declaredInfo:
           description: The declared value of the contained goods.
           allOf:
             - $ref: '#/components/schemas/ltl_balance'
       required:
+        - description
         - quantity
         - weight
-        - dimensions
+        - packageType
+        - freightClass
     ltl_shipment_item:
       type: object
       properties:
         packageType:
           type: string
+          example: BOX
           enum:
             - PALLET
             - BOX
           description: The code for this package type.
         description:
           type: string
+          example: BT2345*2
           description: The description of the item(s) in this container.
         sku:
           type: string
+          example: WH123456
           description: Put your product SKU if you are shipping a given product.
         freightClass:
           type: string
+          example: '65'
           description: >-
             The [NMFC freight
             class](https://biz.nmfta.org/documents/ccsb/ccsb%20guidelines.pdf)
@@ -4000,27 +4088,37 @@ components:
           description: The [NMFC commodity code](https://nmfta.org/) / item number.
         quantity:
           type: number
+          example: 1
           description: The number of packages of this type.
         stackable:
           type: boolean
           default: false
+          example: false
           description: Indicates whether or not this package can be safely stacked.
         declaredInfo:
           description: The declared value of the contained goods.
           allOf:
             - $ref: '#/components/schemas/ltl_balance'
         dimensions:
-          description: The dimensions of the handling unit.
+          description: |-
+            The dimensions of the handling unit.
+
+             > **Note:** Either weight or dimensions is required.
           allOf:
             - $ref: '#/components/schemas/dimensions'
         weight:
-          description: The weight of the handling unit.
+          description: |-
+            The weight of the handling unit.
+
+             > **Note:** Either weight or dimensions is required.
           allOf:
             - $ref: '#/components/schemas/weight'
         pieces:
           type: array
-          allOf:
-            - $ref: '#/components/schemas/ltl_shipment_itemLine'
+          description: The list of pieces contained in this handling unit.
+          items:
+            allOf:
+              - $ref: '#/components/schemas/ltl_shipment_itemLine'
         hazmat:
           type: boolean
           default: false
@@ -4034,19 +4132,33 @@ components:
             more.](https://platform.gigacloudlogistics.com/docs)
       required:
         - packageType
-        - description
-        - freightClass
         - quantity
-        - dimensions
-        - weight
+        - pieces
     reference_number:
       type: object
       properties:
         type:
           type: string
-          description: Indicates the name of the reference number being provided.
+          example: quoteID
+          description: |-
+            Indicates the name of the reference number being provided.
+
+             Valid values:
+
+             `pro`: Shipper's pre-assigned PRO number for carrier.If not provided, one will be auto assigned by carrier.
+
+             `quoteID`: Carrier Rate Quote ID.
+
+             `shipmentId`: Shipment Id (SID) number for the shipment.
+
+             `masterBol`: Master Bill of Lading number for the shipment.
+
+             `bol`: Bill of Lading number(s) for the shipment.
+
+             `po`: Purchase Number. 
         value:
           type: string
+          example: '98357607'
           description: >-
             Additional reference number that correlates to the additional
             reference name.
@@ -4059,6 +4171,7 @@ components:
         carrierId:
           type: string
           description: The carrier account that is billed for the shipping charges.
+          example: GCL-xxxxxxxxxxx
         pickupDate:
           type: string
           example: '2024-05-10'
@@ -4070,6 +4183,7 @@ components:
         serviceType:
           type: string
           description: The carrier service used to ship the package
+          example: ESTES_STANDAR
         shipper:
           type: object
           description: >-
@@ -4088,12 +4202,14 @@ components:
                 When the shipment is ready to be picked up at the Origin
                 (start). The time will be represented in a 24-hour format. 
                 <br/>Example: 09:00
+              example: '09:00'
             closeTime:
               type: string
               description: >-
                 The closing window of when the shipment can be picked up at the
                 Origin (end). The time will be represented in a 24-hour format.
                 <br/>Example: 17:00
+              example: '17:00'
           required:
             - contact
             - address
@@ -4149,12 +4265,14 @@ components:
                 enabled:
                   type: boolean
                   default: true
+                  example: true
                   description: >-
                     Indicates whether or not you want the image of the Bill Of
                     Lading PDF returned in the response.
                 imageType:
                   type: string
                   default: PDF
+                  example: PDF
                   description: Specify the image format used for a shipping document.
                   enum:
                     - PDF
@@ -4168,14 +4286,17 @@ components:
                     Indicates whether or not you want the image of the shipping
                     labels PDF returned in the response.
                   default: true
+                  example: true
                 imageType:
                   type: string
                   default: PDF
                   description: Specify the image format used for a shipping document.
+                  example: PDF
                   enum:
                     - PDF
                 format:
                   type: string
+                  example: Zebra
                   description: |-
                     Specifies the printer format type for the labels.
 
@@ -4194,12 +4315,14 @@ components:
                   type: number
                   minimum: 1
                   maximum: 100
+                  example: 1
                   description: |-
                     Specifies the quantity of labels desired.
 
                      Required when documentOptions.shippingLabel.enabled is true.
                 position:
                   type: number
+                  example: 1
                   description: |-
                     Conditionally Required.
 
@@ -4233,16 +4356,18 @@ components:
               - $ref: '#/components/schemas/reference_number'
         specialInstructions:
           type: array
-          example: Take care of parcels
           description: List any special instructions you wish to pass to the carrier.
           items:
             type: string
+            example: Take care of parcels
       required:
         - carrierId
+        - serviceType
         - pickupDate
         - serviceCode
         - recipient
         - shipper
+        - handlingUnits
     ltl_shipment_response:
       type: object
       properties:
