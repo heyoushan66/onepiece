@@ -2435,7 +2435,7 @@ components:
             address details, such as streetline, state or province code, country
             code and postal code.
 
-             > Note: Up to 100 of these can be submitted in a single request.
+             > Note: Up to 50 of these can be submitted in a single request.
           type: array
           items:
             type: object
