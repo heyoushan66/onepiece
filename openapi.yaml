@@ -3435,7 +3435,7 @@ components:
           format: double
           maxLength: 0
           description: Insurable total product value for the items.
-          example: 0
+          example: 10
       required:
         - currency
         - amount
@@ -3481,6 +3481,7 @@ components:
         units:
           description: The dimension units that are supported by GIGALOGISTICS.
           type: string
+          example: IN
           enum:
             - CM
             - IN
@@ -3639,20 +3640,23 @@ components:
       properties:
         code:
           type: string
+          example: RES
           description: >-
             The code for the accessorial service offered. [Click here to see
             more](https://platform.gigacloudlogistics.com/docs/guide/ltl-ship/accessorial-services.html).
         attributes:
-          type: object
+          type: array
           description: >-
             Some carriers require additional supplemental information about an
             accessorial service like name or phone. These requirements are
             outlined here.
-          properties:
-            key:
-              type: string
-            value:
-              type: string
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              value:
+                type: string
     request_spot_quote:
       type: object
       properties:
@@ -3910,9 +3914,9 @@ components:
       description: The address of the contact person.
       properties:
         countryCode:
-          description: 'Country abbreviations.<br/>Example: `USA`'
+          description: 'Country abbreviations.<br/>Example: `US`'
           type: string
-          example: USA
+          example: US
         stateOrProvinceCode:
           description: This is a placeholder for state or province code.
           type: string
@@ -3964,6 +3968,7 @@ components:
       properties:
         type:
           type: string
+          example: S
           description: |-
             The type of billing. Valid values include `C`, `S`, or `T`.
 
@@ -3974,6 +3979,7 @@ components:
              > **Note:** This item is required when the logistics company is RRTS or ESTES.
         terms:
           type: string
+          example: P
           description: |-
             The payment terms. Valid values include `P`, `C`.
 
@@ -3983,6 +3989,7 @@ components:
              > **Note:** This item is required when the logistics company is RRTS or ESTES.
         account:
           type: string
+          example: '123456'
           description: The account number to bill for this pickup.
         address:
           description: The address of the location.
@@ -4001,63 +4008,77 @@ components:
       properties:
         packageType:
           type: string
+          example: BOX
           enum:
             - PALLET
             - BOX
           description: The code for this package type.
         description:
           type: string
+          example: description
           description: The description of the item(s) in this container.
         sku:
           type: string
+          example: WH123456
           description: >-
             Put your product SKU if you are shipping a given product.If the SKU
             has multiple boxes append a unique identifier to them like:-2,-3,-4
         freightClass:
           type: string
-          description: >-
-            The [NMFC freight
-            class](https://biz.nmfta.org/documents/ccsb/ccsb%20guidelines.pdf)
-            for your freight.
+          example: '65'
+          description: The NMFC freight class for your freight.
         nmfcNumber:
           type: string
           description: The [NMFC commodity code](https://nmfta.org/) / item number.
         dimensions:
-          description: The dimensions of the container.
+          description: |-
+            The dimensions of the container.
+
+             > **Note** Either weight or dimensions is required.
           allOf:
             - $ref: '#/components/schemas/dimensions'
         weight:
-          description: The weight of the container.
+          description: |-
+            The weight of the container.
+
+             > **Note** Either weight or dimensions is required.
           allOf:
             - $ref: '#/components/schemas/weight'
         quantity:
           type: number
+          example: 1
           description: Number of individual pieces for the line item being described.
         declaredInfo:
           description: The declared value of the contained goods.
           allOf:
             - $ref: '#/components/schemas/ltl_balance'
       required:
+        - description
         - quantity
         - weight
-        - dimensions
+        - packageType
+        - freightClass
     ltl_shipment_item:
       type: object
       properties:
         packageType:
           type: string
+          example: BOX
           enum:
             - PALLET
             - BOX
           description: The code for this package type.
         description:
           type: string
+          example: BT2345*2
           description: The description of the item(s) in this container.
         sku:
           type: string
+          example: WH123456
           description: Put your product SKU if you are shipping a given product.
         freightClass:
           type: string
+          example: '65'
           description: >-
             The [NMFC freight
             class](https://biz.nmfta.org/documents/ccsb/ccsb%20guidelines.pdf)
@@ -4067,27 +4088,37 @@ components:
           description: The [NMFC commodity code](https://nmfta.org/) / item number.
         quantity:
           type: number
+          example: 1
           description: The number of packages of this type.
         stackable:
           type: boolean
           default: false
+          example: false
           description: Indicates whether or not this package can be safely stacked.
         declaredInfo:
           description: The declared value of the contained goods.
           allOf:
             - $ref: '#/components/schemas/ltl_balance'
         dimensions:
-          description: The dimensions of the handling unit.
+          description: |-
+            The dimensions of the handling unit.
+
+             > **Note:** Either weight or dimensions is required.
           allOf:
             - $ref: '#/components/schemas/dimensions'
         weight:
-          description: The weight of the handling unit.
+          description: |-
+            The weight of the handling unit.
+
+             > **Note:** Either weight or dimensions is required.
           allOf:
             - $ref: '#/components/schemas/weight'
         pieces:
           type: array
-          allOf:
-            - $ref: '#/components/schemas/ltl_shipment_itemLine'
+          description: The list of pieces contained in this handling unit.
+          items:
+            allOf:
+              - $ref: '#/components/schemas/ltl_shipment_itemLine'
         hazmat:
           type: boolean
           default: false
@@ -4101,19 +4132,33 @@ components:
             more.](https://platform.gigacloudlogistics.com/docs)
       required:
         - packageType
-        - description
-        - freightClass
         - quantity
-        - dimensions
-        - weight
+        - pieces
     reference_number:
       type: object
       properties:
         type:
           type: string
-          description: Indicates the name of the reference number being provided.
+          example: quoteID
+          description: |-
+            Indicates the name of the reference number being provided.
+
+             Valid values:
+
+             `pro`: Shipper's pre-assigned PRO number for carrier.If not provided, one will be auto assigned by carrier.
+
+             `quoteID`: Carrier Rate Quote ID.
+
+             `shipmentId`: Shipment Id (SID) number for the shipment.
+
+             `masterBol`: Master Bill of Lading number for the shipment.
+
+             `bol`: Bill of Lading number(s) for the shipment.
+
+             `po`: Purchase Number. 
         value:
           type: string
+          example: '98357607'
           description: >-
             Additional reference number that correlates to the additional
             reference name.
@@ -4126,6 +4171,7 @@ components:
         carrierId:
           type: string
           description: The carrier account that is billed for the shipping charges.
+          example: GCL-xxxxxxxxxxx
         pickupDate:
           type: string
           example: '2024-05-10'
@@ -4137,6 +4183,7 @@ components:
         serviceType:
           type: string
           description: The carrier service used to ship the package
+          example: ESTES_STANDAR
         shipper:
           type: object
           description: >-
@@ -4155,12 +4202,14 @@ components:
                 When the shipment is ready to be picked up at the Origin
                 (start). The time will be represented in a 24-hour format. 
                 <br/>Example: 09:00
+              example: '09:00'
             closeTime:
               type: string
               description: >-
                 The closing window of when the shipment can be picked up at the
                 Origin (end). The time will be represented in a 24-hour format.
                 <br/>Example: 17:00
+              example: '17:00'
           required:
             - contact
             - address
@@ -4216,12 +4265,14 @@ components:
                 enabled:
                   type: boolean
                   default: true
+                  example: true
                   description: >-
                     Indicates whether or not you want the image of the Bill Of
                     Lading PDF returned in the response.
                 imageType:
                   type: string
                   default: PDF
+                  example: PDF
                   description: Specify the image format used for a shipping document.
                   enum:
                     - PDF
@@ -4235,14 +4286,17 @@ components:
                     Indicates whether or not you want the image of the shipping
                     labels PDF returned in the response.
                   default: true
+                  example: true
                 imageType:
                   type: string
                   default: PDF
                   description: Specify the image format used for a shipping document.
+                  example: PDF
                   enum:
                     - PDF
                 format:
                   type: string
+                  example: Zebra
                   description: |-
                     Specifies the printer format type for the labels.
 
@@ -4261,12 +4315,14 @@ components:
                   type: number
                   minimum: 1
                   maximum: 100
+                  example: 1
                   description: |-
                     Specifies the quantity of labels desired.
 
                      Required when documentOptions.shippingLabel.enabled is true.
                 position:
                   type: number
+                  example: 1
                   description: |-
                     Conditionally Required.
 
@@ -4300,16 +4356,18 @@ components:
               - $ref: '#/components/schemas/reference_number'
         specialInstructions:
           type: array
-          example: Take care of parcels
           description: List any special instructions you wish to pass to the carrier.
           items:
             type: string
+            example: Take care of parcels
       required:
         - carrierId
+        - serviceType
         - pickupDate
         - serviceCode
         - recipient
         - shipper
+        - handlingUnits
     ltl_shipment_response:
       type: object
       properties:
