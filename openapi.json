@@ -5324,8 +5324,7 @@
         },
         "required": [
           "phoneNumber",
-          "personName",
-          "emailAddress"
+          "personName"
         ]
       },
       "ltl_shipment_address": {
@@ -5333,9 +5332,9 @@
         "description": "The address of the contact person.",
         "properties": {
           "countryCode": {
-            "description": "Country abbreviations.<br/>Example: `US`",
+            "description": "Country abbreviations.\n\n Valid values: \n\n `USA`: United States\n\n `CAN`: Canada\n\n `MEX`: Mexico",
             "type": "string",
-            "example": "US"
+            "example": "USA"
           },
           "stateOrProvinceCode": {
             "description": "This is a placeholder for state or province code.",
@@ -5997,26 +5996,88 @@
             "type": "object",
             "description": "The address and contact details for the location where freight will be picked up.",
             "properties": {
-              "shipperName": {
-                "type": "string",
-                "maxLength": 30
-              },
               "address": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ltl_address"
+                "type": "object",
+                "description": "The address of the contact person.",
+                "properties": {
+                  "countryCode": {
+                    "description": "This is the two-letter country code.<br/> Example: US",
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 2,
+                    "example": "US",
+                    "externalDocs": {
+                      "description": "Find more info here",
+                      "url": "https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
+                    }
+                  },
+                  "stateOrProvinceCode": {
+                    "description": "This is a placeholder for state or province code.",
+                    "type": "string",
+                    "maxLength": 2,
+                    "minLength": 2,
+                    "example": "NY"
+                  },
+                  "city": {
+                    "description": "The name of city, town of the recipient.Max length is 35.",
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 1,
+                    "example": "155 COLLECTION TOWN"
+                  },
+                  "zipCode": {
+                    "description": "This is the postal code.",
+                    "type": "string",
+                    "maxLength": 5,
+                    "minLength": 5,
+                    "example": "SL7 1TB"
+                  },
+                  "streetLine1": {
+                    "description": "The first line of the street address. For some addresses, this may be the only line. Other addresses may require 2 or 3 lines.",
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 1,
+                    "example": "155 COLLECTION STREET 1"
+                  },
+                  "streetLine2": {
+                    "description": "The second line of the street address. For some addresses, this line may not be needed.",
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 1,
+                    "example": "TEST"
+                  },
+                  "streetLine3": {
+                    "description": "The third line of the street address. For some addresses, this line may not be needed.",
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 1,
+                    "example": "TEST"
                   }
+                },
+                "required": [
+                  "countryCode",
+                  "stateOrProvinceCode",
+                  "city",
+                  "zipCode",
+                  "streetLine1"
                 ]
               },
               "contact": {
                 "type": "object",
+                "description": "The information for the contact person.",
                 "properties": {
+                  "companyName": {
+                    "description": "Specify contact company name.",
+                    "type": "string",
+                    "maxLength": 30,
+                    "minLength": 1
+                  },
                   "personName": {
                     "description": "The name of a contact person at this address.",
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 30,
-                    "example": "1 Collection Point Name (Test 1)"
+                    "example": "MICHAEL MAO"
                   },
                   "phoneNumber": {
                     "description": "The phone number of a contact person at this address. PhoneNumber consist of 10 digits,with a 3-digit area.",
@@ -6028,7 +6089,7 @@
                   "emailAddress": {
                     "description": "Specify contact email address. Maximum length is 40.Required when receiveNotifications is true.",
                     "type": "string",
-                    "maxLength": 52,
+                    "maxLength": 128,
                     "example": "TEST@TEST.COM"
                   },
                   "receiveNotifications": {
@@ -6038,13 +6099,13 @@
                 },
                 "required": [
                   "personName",
-                  "receiveNotifications"
+                  "companyName"
                 ]
               }
             },
             "required": [
-              "shipperName",
-              "address"
+              "address",
+              "contact"
             ]
           },
           "totalPieces": {
@@ -6088,23 +6149,39 @@
                     "ST"
                   ]
                 }
-              }
+              },
+              "required": [
+                "length",
+                "type"
+              ]
             }
           },
           "referenceNumbers": {
             "type": "array",
             "description": "List of reference numbers",
             "items": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/reference_number"
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "BOL",
+                  "description": "Type of the reference number\n\n Valid values:\n\n `AID`: Appointment ID\n\n `ARN`: Amazon Reference Number\n\n `AUT`: Authorization Number\n\n `BOL`: Shipper Bill of Lading Number\n\n `DOC`: Dock Door Number\n\n `DPT`: Consignee Department Number\n\n `EXL`: Estes Unique ID EUID# or CUID#\n\n `HO` : Homeowner Name\n\n `LDN`: Load Number ID\n\n `NUM`: Shipper Reference Numbers\n\n `PKG`: Sipper Package ID\n\n `PON`: Purchase Order Number\n\n `PRO`: Estes PRO#\n\n `PU#`: Pickup Number from the Customer\n\n `RAU`: Shipper Return Authorization\n\n `SID`: Ship ID#\n\n `SNO`: Shipper Numbers "
+                },
+                "value": {
+                  "type": "string",
+                  "example": "98357607",
+                  "description": "Value of the reference number"
                 }
+              },
+              "required": [
+                "type",
+                "value"
               ]
             }
           },
-          "commodities": {
+          "handlingUnits": {
             "type": "array",
-            "description": "commodities",
+            "description": "Array of handling units.",
             "items": {
               "type": "object",
               "properties": {

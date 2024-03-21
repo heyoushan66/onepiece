@@ -3908,15 +3908,23 @@ components:
       required:
         - phoneNumber
         - personName
-        - emailAddress
     ltl_shipment_address:
       type: object
       description: The address of the contact person.
       properties:
         countryCode:
-          description: 'Country abbreviations.<br/>Example: `US`'
+          description: |-
+            Country abbreviations.
+
+             Valid values: 
+
+             `USA`: United States
+
+             `CAN`: Canada
+
+             `MEX`: Mexico
           type: string
-          example: US
+          example: USA
         stateOrProvinceCode:
           description: This is a placeholder for state or province code.
           type: string
@@ -4517,21 +4525,84 @@ components:
             The address and contact details for the location where freight will
             be picked up.
           properties:
-            shipperName:
-              type: string
-              maxLength: 30
             address:
-              allOf:
-                - $ref: '#/components/schemas/ltl_address'
+              type: object
+              description: The address of the contact person.
+              properties:
+                countryCode:
+                  description: 'This is the two-letter country code.<br/> Example: US'
+                  type: string
+                  minLength: 2
+                  maxLength: 2
+                  example: US
+                  externalDocs:
+                    description: Find more info here
+                    url: >-
+                      https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html
+                stateOrProvinceCode:
+                  description: This is a placeholder for state or province code.
+                  type: string
+                  maxLength: 2
+                  minLength: 2
+                  example: NY
+                city:
+                  description: The name of city, town of the recipient.Max length is 35.
+                  type: string
+                  maxLength: 20
+                  minLength: 1
+                  example: 155 COLLECTION TOWN
+                zipCode:
+                  description: This is the postal code.
+                  type: string
+                  maxLength: 5
+                  minLength: 5
+                  example: SL7 1TB
+                streetLine1:
+                  description: >-
+                    The first line of the street address. For some addresses,
+                    this may be the only line. Other addresses may require 2 or
+                    3 lines.
+                  type: string
+                  maxLength: 30
+                  minLength: 1
+                  example: 155 COLLECTION STREET 1
+                streetLine2:
+                  description: >-
+                    The second line of the street address. For some addresses,
+                    this line may not be needed.
+                  type: string
+                  maxLength: 30
+                  minLength: 1
+                  example: TEST
+                streetLine3:
+                  description: >-
+                    The third line of the street address. For some addresses,
+                    this line may not be needed.
+                  type: string
+                  maxLength: 30
+                  minLength: 1
+                  example: TEST
+              required:
+                - countryCode
+                - stateOrProvinceCode
+                - city
+                - zipCode
+                - streetLine1
             contact:
               type: object
+              description: The information for the contact person.
               properties:
+                companyName:
+                  description: Specify contact company name.
+                  type: string
+                  maxLength: 30
+                  minLength: 1
                 personName:
                   description: The name of a contact person at this address.
                   type: string
                   minLength: 1
                   maxLength: 30
-                  example: 1 Collection Point Name (Test 1)
+                  example: MICHAEL MAO
                 phoneNumber:
                   description: >-
                     The phone number of a contact person at this address.
@@ -4545,17 +4616,17 @@ components:
                     Specify contact email address. Maximum length is 40.Required
                     when receiveNotifications is true.
                   type: string
-                  maxLength: 52
+                  maxLength: 128
                   example: TEST@TEST.COM
                 receiveNotifications:
                   type: boolean
                   description: Whether to receive notifications by email.
               required:
                 - personName
-                - receiveNotifications
+                - companyName
           required:
-            - shipperName
             - address
+            - contact
         totalPieces:
           type: number
           description: Total number of pieces
@@ -4601,15 +4672,66 @@ components:
                   - RD
                   - SD
                   - ST
+            required:
+              - length
+              - type
         referenceNumbers:
           type: array
           description: List of reference numbers
           items:
-            allOf:
-              - $ref: '#/components/schemas/reference_number'
-        commodities:
+            type: object
+            properties:
+              type:
+                type: string
+                example: BOL
+                description: |-
+                  Type of the reference number
+
+                   Valid values:
+
+                   `AID`: Appointment ID
+
+                   `ARN`: Amazon Reference Number
+
+                   `AUT`: Authorization Number
+
+                   `BOL`: Shipper Bill of Lading Number
+
+                   `DOC`: Dock Door Number
+
+                   `DPT`: Consignee Department Number
+
+                   `EXL`: Estes Unique ID EUID# or CUID#
+
+                   `HO` : Homeowner Name
+
+                   `LDN`: Load Number ID
+
+                   `NUM`: Shipper Reference Numbers
+
+                   `PKG`: Sipper Package ID
+
+                   `PON`: Purchase Order Number
+
+                   `PRO`: Estes PRO#
+
+                   `PU#`: Pickup Number from the Customer
+
+                   `RAU`: Shipper Return Authorization
+
+                   `SID`: Ship ID#
+
+                   `SNO`: Shipper Numbers 
+              value:
+                type: string
+                example: '98357607'
+                description: Value of the reference number
+            required:
+              - type
+              - value
+        handlingUnits:
           type: array
-          description: commodities
+          description: Array of handling units.
           items:
             type: object
             properties:
