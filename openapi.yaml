@@ -4494,16 +4494,14 @@ components:
             - SE
         paymentTerms:
           type: string
-          description: >-
-            These are the requested payment terms to apply to any resulting
-            shipments picked up.
+          description: |-
+            The payment terms. Valid values include `P`, `C`.
 
-             `COL`: Collect
-
-             `PPD`: Prepaid
+             - `P` : prepaid
+             - `C` : collect
           enum:
-            - COL
-            - PPD
+            - P
+            - C
         pickupDate:
           type: string
           description: 'Ready for pick up date (YYYY-MM-DD). <br/> Example: 2024-05-10'
@@ -4544,19 +4542,19 @@ components:
                   type: string
                   maxLength: 2
                   minLength: 2
-                  example: NY
+                  example: GA
                 city:
                   description: The name of city, town of the recipient.Max length is 35.
                   type: string
                   maxLength: 20
                   minLength: 1
-                  example: 155 COLLECTION TOWN
+                  example: LITHIA SPRINGS
                 zipCode:
                   description: This is the postal code.
                   type: string
                   maxLength: 5
                   minLength: 5
-                  example: SL7 1TB
+                  example: 30122
                 streetLine1:
                   description: >-
                     The first line of the street address. For some addresses,
@@ -4632,7 +4630,7 @@ components:
           description: Total number of pieces
         totalWeight:
           type: number
-          description: Total weight of shipment
+          description: Total weight of shipment.The weight is in pounds.
         totalHandlingUnits:
           type: number
           description: Total numbers of handling unit
@@ -4827,7 +4825,9 @@ components:
                 type: number
                 minimum: 0
                 maximum: 45000
-                description: The declared total weight of the shipment. The unit is pounds.
+                description: >-
+                  The declared total weight of the shipment. The weight is in
+                  pounds.
               nmfcNumber:
                 type: string
                 description: nmfcNumber
