@@ -5332,9 +5332,15 @@
         "description": "The address of the contact person.",
         "properties": {
           "countryCode": {
-            "description": "Country abbreviations.\n\n Valid values: \n\n `USA`: United States\n\n `CAN`: Canada\n\n `MEX`: Mexico",
+            "description": "This is the two-letter country code.",
             "type": "string",
-            "example": "USA"
+            "minLength": 2,
+            "maxLength": 2,
+            "example": "US",
+            "externalDocs": {
+              "description": "Find more info here",
+              "url": "https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
+            }
           },
           "stateOrProvinceCode": {
             "description": "This is a placeholder for state or province code.",
@@ -5627,7 +5633,11 @@
           },
           "serviceType": {
             "type": "string",
-            "description": "The carrier service used to ship the package",
+            "description": "The carrier service used to ship the package. <br/> Example: `ESTES_STANDAR`",
+            "externalDocs": {
+              "description": "Find more info here",
+              "url": "https://platform.gigacloudlogistics.com/docs/guide/guides/list-carrier-service.html"
+            },
             "example": "ESTES_STANDAR"
           },
           "shipper": {
@@ -5963,7 +5973,7 @@
           "requestAction": {
             "type": "string",
             "default": "LL",
-            "description": "This is the pickup action to perform. If the request is for Estes to pick up a full trailer, choose HE (to indicate empty) or HL (to indicate loaded). If you need Estes to drop off an empty trailer, choose SE. If the request is for a pickup of freight from your dock that is not a trailer-load, then pass LL (or don’t pass this element, and it will default to LL). If Estes must call to set up an appointment before arriving, then pass AP. Valid values are listed below: `AP`:Appointment required \n\n `HE`:LTL hook empty \n\n `HL`:LTL hook loaded \n\n `LL`:LTL live load \n\n `SE`:LTL spot/drop empty",
+            "description": "This is the pickup action to perform. If the request is for Estes to pick up a full trailer, choose HE (to indicate empty) or HL (to indicate loaded). If you need Estes to drop off an empty trailer, choose SE. If the request is for a pickup of freight from your dock that is not a trailer-load, then pass LL (or don’t pass this element, and it will default to LL). If Estes must call to set up an appointment before arriving, then pass AP. Valid values are listed below:\n\n `AP`:Appointment required \n\n `HE`:LTL hook empty \n\n `HL`:LTL hook loaded \n\n `LL`:LTL live load \n\n `SE`:LTL spot/drop empty",
             "enum": [
               "AP",
               "HE",
@@ -6094,6 +6104,7 @@
                   },
                   "receiveNotifications": {
                     "type": "boolean",
+                    "default": false,
                     "description": "Whether to receive notifications by email."
                   }
                 },

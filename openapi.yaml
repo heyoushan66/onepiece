@@ -3913,18 +3913,15 @@ components:
       description: The address of the contact person.
       properties:
         countryCode:
-          description: |-
-            Country abbreviations.
-
-             Valid values: 
-
-             `USA`: United States
-
-             `CAN`: Canada
-
-             `MEX`: Mexico
+          description: This is the two-letter country code.
           type: string
-          example: USA
+          minLength: 2
+          maxLength: 2
+          example: US
+          externalDocs:
+            description: Find more info here
+            url: >-
+              https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html
         stateOrProvinceCode:
           description: This is a placeholder for state or province code.
           type: string
@@ -4190,7 +4187,13 @@ components:
           description: 'Ready for delivery up date (YYYY-MM-DD). <br/> Example: 2022-05-10'
         serviceType:
           type: string
-          description: The carrier service used to ship the package
+          description: >-
+            The carrier service used to ship the package. <br/> Example:
+            `ESTES_STANDAR`
+          externalDocs:
+            description: Find more info here
+            url: >-
+              https://platform.gigacloudlogistics.com/docs/guide/guides/list-carrier-service.html
           example: ESTES_STANDAR
         shipper:
           type: object
@@ -4477,7 +4480,9 @@ components:
             that is not a trailer-load, then pass LL (or don’t pass this
             element, and it will default to LL). If Estes must call to set up an
             appointment before arriving, then pass AP. Valid values are listed
-            below: `AP`:Appointment required 
+            below:
+
+             `AP`:Appointment required 
 
              `HE`:LTL hook empty 
 
@@ -4618,6 +4623,7 @@ components:
                   example: TEST@TEST.COM
                 receiveNotifications:
                   type: boolean
+                  default: false
                   description: Whether to receive notifications by email.
               required:
                 - personName
