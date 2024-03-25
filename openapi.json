@@ -5737,7 +5737,7 @@
                 "properties": {
                   "enabled": {
                     "type": "boolean",
-                    "default": true,
+                    "default": false,
                     "example": true,
                     "description": "Indicates whether or not you want the image of the Bill Of Lading PDF returned in the response."
                   },
@@ -5759,7 +5759,7 @@
                   "enabled": {
                     "type": "boolean",
                     "description": "Indicates whether or not you want the image of the shipping labels PDF returned in the response.",
-                    "default": true,
+                    "default": false,
                     "example": true
                   },
                   "imageType": {
