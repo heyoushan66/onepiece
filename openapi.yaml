@@ -4007,6 +4007,7 @@ components:
       required:
         - type
         - terms
+        - address
         - contact
     ltl_shipment_itemLine:
       type: object
@@ -4105,17 +4106,13 @@ components:
           allOf:
             - $ref: '#/components/schemas/ltl_balance'
         dimensions:
-          description: |-
-            The dimensions of the handling unit.
-
-             > **Note:** Either weight or dimensions is required.
+          description: >-
+            The dimensions of the handling unit.The maximum of dimension is
+            (240L x 96W x 102H)
           allOf:
             - $ref: '#/components/schemas/dimensions'
         weight:
-          description: |-
-            The weight of the handling unit.
-
-             > **Note:** Either weight or dimensions is required.
+          description: The weight of the handling unit.
           allOf:
             - $ref: '#/components/schemas/weight'
         pieces:
@@ -4139,6 +4136,7 @@ components:
         - packageType
         - quantity
         - pieces
+        - weight
     reference_number:
       type: object
       properties:
@@ -4616,10 +4614,9 @@ components:
                   example: 6269128886
                 emailAddress:
                   description: >-
-                    Specify contact email address. Maximum length is 40.Required
-                    when receiveNotifications is true.
+                    Specify contact email address.Required when
+                    receiveNotifications is true.
                   type: string
-                  maxLength: 128
                   example: TEST@TEST.COM
                 receiveNotifications:
                   type: boolean
@@ -4635,8 +4632,8 @@ components:
           type: number
           description: Total number of pieces
         totalWeight:
-          type: number
-          description: Total weight of shipment.The weight is in pounds.
+          allOf:
+            - $ref: '#/components/schemas/weight'
         totalHandlingUnits:
           type: number
           description: Total numbers of handling unit
@@ -4828,12 +4825,8 @@ components:
                   The number of pieces of transport handling equipment (pallets,
                   boxes, cases, etc.) in this consignment.
               weight:
-                type: number
-                minimum: 0
-                maximum: 45000
-                description: >-
-                  The declared total weight of the shipment. The weight is in
-                  pounds.
+                allOf:
+                  - $ref: '#/components/schemas/weight'
               nmfcNumber:
                 type: string
                 description: nmfcNumber
