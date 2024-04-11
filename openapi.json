@@ -3,16 +3,16 @@
   "info": {
     "version": "1.0.20240315_Beta",
     "title": "GigaLogistics API",
-    "termsOfService": "https://platform.gigacloudlogistics.com/docs/",
+    "termsOfService": "https://platform-staging.gigacloudlogistics.com/docs/",
     "contact": {
       "name": "GigaLogistics Sales & Support",
       "email": "sa-support@gigacloudtech.com",
-      "url": "https://platform.gigacloudlogistics.com/docs/"
+      "url": "https://platform-staging.gigacloudlogistics.com/docs/"
     },
     "x-logo": {
       "url": "http://ar-logistics-hk-prod.oss-cn-hongkong.aliyuncs.com/logistics-parent/openapi/DJYClogo1.png"
     },
-    "description": "# Getting Started\r\n\r\nLearn how to [authenticate yourself to GIGALOGISTICS](https://platform.gigacloudlogistics.com/docs/guide/guides/oauth2.html), and then use our sandbox environment to kick the tires and get familiar with our API. If you run into any problems, then be sure to check the error handling guide for tips.\r\n\r\nHere are some step-by-step **tutorials** to get you started:\r\n\r\n- [Learn how to create your first shipping label](https://platform.gigacloudlogistics.com/docs/guide/shipping-labels/create-label.html)\r\n- [Learn how to list carriers](https://platform.gigacloudlogistics.com/docs/guide/guides/list-carriers.html)\r\n- [Learn how to list carrier services](https://platform.gigacloudlogistics.com/docs/guide/guides/list-carrier-service.html)",
+    "description": "# Getting Started\n\nLearn how to [authenticate yourself to GIGALOGISTICS](https://platform.gigacloudlogistics.com/docs/guide/guides/oauth2.html), and then use our sandbox environment to kick the tires and get familiar with our API. If you run into any problems, then be sure to check the error handling guide for tips.\n\nHere are some step-by-step **tutorials** to get you started:\n\n- [Learn how to create your first shipping label](https://platform.gigacloudlogistics.com/docs/guide/shipping-labels/create-label.html)\n- [Learn how to list carriers](https://platform.gigacloudlogistics.com/docs/guide/guides/list-carriers.html)\n- [Learn how to list carrier services](https://platform.gigacloudlogistics.com/docs/guide/guides/list-carrier-service.html)",
     "license": {
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
@@ -21,7 +21,7 @@
   "tags": [
     {
       "name": "Authentication",
-      "description": "To authenticate yourself to GIGALOGISTICS, you need to include an `Authorization` header in each API call. If you don't include a key when making an API request, or if you use an incorrect or expired key, then GIGALOGISTICS will respond with a `401 Unauthorized` error.<br> <br> Learn more about API keys in our [authentication guide](https://platform.gigacloudlogistics.com/docs/guide/guides/oauth2.html)."
+      "description": "To authenticate yourself to GIGALOGISTICS, you need to include an `Authorization` header in each API call. If you don't include a key when making an API request, or if you use an incorrect or expired key, then GIGALOGISTICS will respond with a `401 Unauthorized` error.<br> <br> Learn more about API keys in our [authentication guide](https://platform-staging.gigacloudlogistics.com/docs/guide/guides/oauth2.html)."
     },
     {
       "name": "Addresses",
@@ -65,7 +65,7 @@
     },
     {
       "name": "Version Change History",
-      "description": "This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.\r\n\r\n### Version: 1.0.20240315_Beta (current)\r\n\r\n#### Changes\r\n- Update Interface [Validate Address](#tag/Addresses/operation/AdvcStreetLevel)\r\n  - The interface structure has been adjusted from individual to batch, with the addition of the `clientReferenceId` field for matching responses in batch requests. \r\n  - A new rate limiting policy has been implemented for this interface, allowing a maximum of **2400** transactions per minute for each carrierID.\r\n---\r\n\r\n### Version: 1.0.20240122\r\n\r\n#### Changes\r\n- Update Interface [Manual push by Tracking Number](#tag/Tracking/operation/pushTracking)\r\n  - Add webhook callback signature verification functionality. [Click to view details](https://platform.gigacloudlogistics.com/docs/guide/track/create-webhook.html).\r\n- Add the address of the **Development Sandbox Server** environment, used for internal debugging and collaboration among developers. Please note that the tokens and carrierIds for each environment are distinct. Contact us to obtain them.\r\n---\r\n\r\n### Version: 1.0.20240111\r\n\r\n#### Changes\r\n\r\n- [Track Document](#tag/Tracking/operation/getTrackDocument) interface parameter adjustment\r\n  - Adjust the interface parameter request from batch to individual parameter requests.\r\n- Add the address for the US Production Server environment. Please be aware that when connecting to US nodes, a different token is required. Please reach out to us for obtaining the correct one.\r\n---\r\n\r\n### Version: 1.0.2023122801\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n  - Update field `shipper`, `returnAddress`\r\n  > shipper.contact.companyName, returnAddress.contact.companyName, added maxmum 35 character limit.\r\n- Add Interface [Restart Tracking](#tag/Tracking/operation/restartTrackNum)\r\n    - See the interface description for details\r\n- Add Interface [History Track by Tracking Number](#tag/Tracking/operation/getHistoryTrackInfo)\r\n    - See the interface description for details\r\n- Add Interface [Manual push by Tracking Number](#tag/Tracking/operation/pushTracking)\r\n    - See the interface description for details\r\n- \r\n\r\n---\r\n\r\n### Version: 1.0.2023091402\r\n\r\n#### Changes\r\n\r\n- Add the address of the development sandbox server environment, used for internal debugging and collaboration among developers. Please note that the tokens and carrierIds for each environment are distinct. Contact us to obtain them.\r\n- \r\n\r\n---\r\n\r\n### Version: 1.0.2023083101_Beta\r\n\r\n#### Changes\r\n\r\n- Add Interface [Start Tracking a Package](#tag/Tracking/operation/registerTrackNum)\r\n    - See the interface description for details\r\n\r\n---\r\n\r\n### Version: 1.0.2023082401\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Update field `shipper`, `recipient`\r\n    > shipper.address.city, shipper.contact.companyName, shipper.contact.personName, recipient.address.city, \r\n    recipient.contact.companyName, recipient.contact.personName added minimum 3 character limit.\r\n\r\n---\r\n\r\n### Version: 1.0.2023072701\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface adjustment\r\n    - Update field `phoneNumber`\r\n    > Adjust `recipient.contact.phoneNumber` for GEL to be conditional required\r\n    - config timeout\r\n    > config connect timeout with 60s\r\n\r\n---\r\n\r\n### Version: 1.0.2023070601\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Update field `emailAddress`\r\n    > Adjust `recipient.contact.emailAddress` for DPD_UK to be non-required\r\n\r\n---\r\n\r\n### Version: 1.0.2023062901\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Update field `shipper`\r\n    > This field is optional when the logistics company is **WHISTL**.\r\n    > Add a description of the restrictions on this field for each logistics company.\r\n    - Update field `recipient`\r\n    > Add a description of the restrictions on this field for each logistics company.\r\n    - Update field `itemTransactionId`\r\n    > Applicable to `itemLines` object Add description information of this field.\r\n    - Update field `dimensions`\r\n    > Applicable to `itemLines` objects Required when the logistics company is **FedEx**.\r\n    - Update field `payor`\r\n    > Applicable to the payor information of the `paymentOption` fields, Adjust the description.\r\n    - Update field `phoneNumber`\r\n    > Applicable to the contact information of the `paymentOption` fields, When the logistics company removes the required verification for **FedEx**.\r\n    - Update field `labelSpecification`\r\n    > Add external link documentation for each logistics company label.\r\n\r\n---\r\n\r\n### Version: 1.0.2023060701\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Update field `stateProvince`\r\n    > Applicable to the address information of the `paymentOption` fields, When the logistics company removes the required verification for **FedEx**.\r\n    - Update field `accountNumber`\r\n    > Applicable to the payor information of the `paymentOption` fields, When the logistics company is **UPS**, this field must be 6 digits.\r\n\r\n---\r\n\r\n### Version: 1.0.2023052501\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Add new field `instructions`\r\n    > Applicable to the address information of the `shipper.address`fields, only applicable to GLS. \r\n    - Add new field `instructions`\r\n    > Applicable to the address information of the `recipient.address` fields, only applicable to DPD_DE, DPD_UK, GLS. \r\n\r\n---\r\n\r\n### Version: 1.0.2023051901\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Update field `streetLine2`\r\n    > Adjust `shipper.streetLine2` and `recipient.streetLine2` for DPD_DE to be non-required\r\n\r\n---\r\n\r\n### Version: 1.0.2023051601\r\n\r\n#### Changes\r\n\r\n- Adjust version number information.\r\n- Modify the address of the `sandbox environment` and add the address of the `pre-release environment`.\r\n\r\n---\r\n\r\n### Version: 1.0.2023051101\r\n\r\n#### Changes\r\n\r\n- Add Interface [Create Shipments asynchronously](#tag/Shipments/operation/CreateShipmentsAsync)\r\n    - See the interface description for details\r\n- Add Interface [Retrieve Async Shipments Result](#tag/Shipments/operation/AsyncRetrieveShipmentsResult)\r\n    - See the interface description for details\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) Interface parameter verification description adjustment\r\n    - Update field `phoneNumber`\r\n    > Modify the description of this field. When the operator is `FedEx`, add a special case description. For details, please refer to the interface document. The main scope of change `shipper`, `recipient`, `payor` objects.\r\n    - Update field `customerReference`\r\n    > Modify the restrictions of each logistics company for ref1~ref5 in this field.\r\n\r\n---\r\n\r\n### Version: 1.0.2023040301\r\n\r\n#### Changes\r\n\r\n- Add Interface [Track Document](#tag/Tracking/operation/getTrackDocument)\r\n    - See the interface description for details\r\n\r\n---\r\n\r\n### Version: 1.0.2023032101\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) Interface parameter verification description adjustment\r\n    - Update field `paymentOption`\r\n    > Modify the verification information when using non-`SENDER` payment when the carrier is `FedEx` or `UPS`.\r\n    - Added the description information of the specific verification rules of each logistics company, supplemented additional auxiliary information about fields such as `serviceType`, `weight`, `dimensions`, `declaredInfo`, etc.\r\n\r\n---\r\n\r\n### Version: 1.0.2023031401\r\n\r\n#### Changes\r\n\r\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\r\n    - Add new field `streetLine3`\r\n    > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, only applicable to FedEx, UPS. \r\n    - Update field `stateProvince`\r\n    > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, Required when the carrier is FedEx, UPS, optional in other cases.\r\n\r\n- [Create Warehouse](#tag/Warehouses/operation/createWarehouse) interface parameter adjustment\r\n    - update field `stateProvince`\r\n    > Applicable to `originAddressre`, `returnAddress` field address information, only required when the country of the address is US."
+      "description": "This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.\n\n### Version: 1.0.20240315_Beta (current)\n\n#### Changes\n- Update Interface [Validate Address](#tag/Addresses/operation/AdvcStreetLevel)\n  - The interface structure has been adjusted from individual to batch, with the addition of the `clientReferenceId` field for matching responses in batch requests. \n  - A new rate limiting policy has been implemented for this interface, allowing a maximum of **2400** transactions per minute for each carrierID.\n---\n\n### Version: 1.0.20240122\n\n#### Changes\n- Update Interface [Manual push by Tracking Number](#tag/Tracking/operation/pushTracking)\n  - Add webhook callback signature verification functionality. [Click to view details](https://platform.gigacloudlogistics.com/docs/guide/track/create-webhook.html).\n- Add the address of the **Development Sandbox Server** environment, used for internal debugging and collaboration among developers. Please note that the tokens and carrierIds for each environment are distinct. Contact us to obtain them.\n---\n\n### Version: 1.0.20240111\n\n#### Changes\n\n- [Track Document](#tag/Tracking/operation/getTrackDocument) interface parameter adjustment\n  - Adjust the interface parameter request from batch to individual parameter requests.\n- Add the address for the US Production Server environment. Please be aware that when connecting to US nodes, a different token is required. Please reach out to us for obtaining the correct one.\n---\n\n### Version: 1.0.2023122801\n\n#### Changes\n\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\n  - Update field `shipper`, `returnAddress`\n  > shipper.contact.companyName, returnAddress.contact.companyName, added maxmum 35 character limit.\n- Add Interface [Restart Tracking](#tag/Tracking/operation/restartTrackNum)\n    - See the interface description for details\n- Add Interface [History Track by Tracking Number](#tag/Tracking/operation/getHistoryTrackInfo)\n    - See the interface description for details\n- Add Interface [Manual push by Tracking Number](#tag/Tracking/operation/pushTracking)\n    - See the interface description for details\n- \n\n---\n\n### Version: 1.0.2023091402\n\n#### Changes\n\n- Add the address of the development sandbox server environment, used for internal debugging and collaboration among developers. Please note that the tokens and carrierIds for each environment are distinct. Contact us to obtain them.\n- \n\n---\n\n### Version: 1.0.2023083101_Beta\n\n#### Changes\n\n- Add Interface [Start Tracking a Package](#tag/Tracking/operation/registerTrackNum)\n    - See the interface description for details\n\n---\n\n### Version: 1.0.2023082401\n\n#### Changes\n\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\n    - Update field `shipper`, `recipient`\n    > shipper.address.city, shipper.contact.companyName, shipper.contact.personName, recipient.address.city, \n    recipient.contact.companyName, recipient.contact.personName added minimum 3 character limit.\n\n---\n\n### Version: 1.0.2023072701\n\n#### Changes\n\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface adjustment\n    - Update field `phoneNumber`\n    > Adjust `recipient.contact.phoneNumber` for GEL to be conditional required\n    - config timeout\n    > config connect timeout with 60s\n\n---\n\n### Version: 1.0.2023070601\n\n#### Changes\n\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\n    - Update field `emailAddress`\n    > Adjust `recipient.contact.emailAddress` for DPD_UK to be non-required\n\n---\n\n### Version: 1.0.2023062901\n\n#### Changes\n\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\n    - Update field `shipper`\n    > This field is optional when the logistics company is **WHISTL**.\n    > Add a description of the restrictions on this field for each logistics company.\n    - Update field `recipient`\n    > Add a description of the restrictions on this field for each logistics company.\n    - Update field `itemTransactionId`\n    > Applicable to `itemLines` object Add description information of this field.\n    - Update field `dimensions`\n    > Applicable to `itemLines` objects Required when the logistics company is **FedEx**.\n    - Update field `payor`\n    > Applicable to the payor information of the `paymentOption` fields, Adjust the description.\n    - Update field `phoneNumber`\n    > Applicable to the contact information of the `paymentOption` fields, When the logistics company removes the required verification for **FedEx**.\n    - Update field `labelSpecification`\n    > Add external link documentation for each logistics company label.\n\n---\n\n### Version: 1.0.2023060701\n\n#### Changes\n\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\n    - Update field `stateProvince`\n    > Applicable to the address information of the `paymentOption` fields, When the logistics company removes the required verification for **FedEx**.\n    - Update field `accountNumber`\n    > Applicable to the payor information of the `paymentOption` fields, When the logistics company is **UPS**, this field must be 6 digits.\n\n---\n\n### Version: 1.0.2023052501\n\n#### Changes\n\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\n    - Add new field `instructions`\n    > Applicable to the address information of the `shipper.address`fields, only applicable to GLS. \n    - Add new field `instructions`\n    > Applicable to the address information of the `recipient.address` fields, only applicable to DPD_DE, DPD_UK, GLS. \n\n---\n\n### Version: 1.0.2023051901\n\n#### Changes\n\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\n    - Update field `streetLine2`\n    > Adjust `shipper.streetLine2` and `recipient.streetLine2` for DPD_DE to be non-required\n\n---\n\n### Version: 1.0.2023051601\n\n#### Changes\n\n- Adjust version number information.\n- Modify the address of the `sandbox environment` and add the address of the `pre-release environment`.\n\n---\n\n### Version: 1.0.2023051101\n\n#### Changes\n\n- Add Interface [Create Shipments asynchronously](#tag/Shipments/operation/CreateShipmentsAsync)\n    - See the interface description for details\n- Add Interface [Retrieve Async Shipments Result](#tag/Shipments/operation/AsyncRetrieveShipmentsResult)\n    - See the interface description for details\n\n- [Create Shipments](#tag/Shipments/operation/createShipment) Interface parameter verification description adjustment\n    - Update field `phoneNumber`\n    > Modify the description of this field. When the operator is `FedEx`, add a special case description. For details, please refer to the interface document. The main scope of change `shipper`, `recipient`, `payor` objects.\n    - Update field `customerReference`\n    > Modify the restrictions of each logistics company for ref1~ref5 in this field.\n\n---\n\n### Version: 1.0.2023040301\n\n#### Changes\n\n- Add Interface [Track Document](#tag/Tracking/operation/getTrackDocument)\n    - See the interface description for details\n\n---\n\n### Version: 1.0.2023032101\n\n#### Changes\n\n- [Create Shipments](#tag/Shipments/operation/createShipment) Interface parameter verification description adjustment\n    - Update field `paymentOption`\n    > Modify the verification information when using non-`SENDER` payment when the carrier is `FedEx` or `UPS`.\n    - Added the description information of the specific verification rules of each logistics company, supplemented additional auxiliary information about fields such as `serviceType`, `weight`, `dimensions`, `declaredInfo`, etc.\n\n---\n\n### Version: 1.0.2023031401\n\n#### Changes\n\n- [Create Shipments](#tag/Shipments/operation/createShipment) interface parameter adjustment\n    - Add new field `streetLine3`\n    > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, only applicable to FedEx, UPS. \n    - Update field `stateProvince`\n    > Applicable to the address information of the `shipper`, `recipient`, `paymentOption`, and `returnAddress` fields, Required when the carrier is FedEx, UPS, optional in other cases.\n\n- [Create Warehouse](#tag/Warehouses/operation/createWarehouse) interface parameter adjustment\n    - update field `stateProvince`\n    > Applicable to `originAddressre`, `returnAddress` field address information, only required when the country of the address is US."
     }
   ],
   "servers": [
@@ -165,7 +165,7 @@
           {
             "name": "countryCode",
             "in": "path",
-            "description": "This is the two-letter country code. [Find more info here](https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html)",
+            "description": "This is the two-letter country code. [Find more info here](https://platform-staging.gigacloudlogistics.com/docs/guide/api-reference/country-code.html)",
             "required": true,
             "schema": {
               "type": "string",
@@ -1084,109 +1084,6 @@
         }
       }
     },
-    "/cloud-ship-service/v1/ltl/shipment": {
-      "post": {
-        "tags": [
-          "LTL Shipping"
-        ],
-        "summary": "Create Shipment",
-        "description": "This API endpoint is used to book a shipment.",
-        "operationId": "ltlCreateShipment",
-        "security": [],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/Authorization"
-          },
-          {
-            "name": "transactionId",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "description": "This element allows you to assign a unique identifier to your transaction. This element is also returned in the reply and helps you match the request to the reply.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 50,
-              "example": "XXXX_XXX123XXXXX"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ltl_shipment_request"
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ltl_success_response"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/400ErrorResp"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/401ErrorResp"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/403ErrorResp"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/500ErrorResp"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Service Unavailable",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/503ErrorResp"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/cloud-ship-service/v1/ltl/shipment/async": {
       "post": {
         "tags": [
@@ -1296,7 +1193,7 @@
           "LTL Shipping"
         ],
         "summary": "Retrieve Async Shipments Result",
-        "description": "This endpoint helps you to process confirmed shipments asynchronously and produce results based on unique id. Cooperate `Create Shipments` interface used together.",
+        "description": "This endpoint helps you to process confirmed shipments asynchronously and produce results based on unique id. Cooperate `Create Shipments Async` interface used together.",
         "operationId": "LTLAsyncRetrieveShipmentsResult",
         "security": [],
         "parameters": [
@@ -1311,13 +1208,13 @@
                 "type": "array",
                 "items": {
                   "type": "string",
-                  "description": "The unique identifier generated by the `Create Shipments` interface.",
+                  "description": "The unique identifier generated by the `Create Shipments Async` interface.",
                   "example": 6887945876680704
                 }
               }
             }
           },
-          "description": "A collection of unique identifiers generated by the `Create Shipments` interface. The maximum acceptable upper line is a group of 40."
+          "description": "A collection of unique identifiers generated by the `Create Shipments Async` interface. The maximum acceptable upper line is a group of 40."
         },
         "responses": {
           "200": {
@@ -1325,7 +1222,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ltl_success_response"
+                  "$ref": "#/components/schemas/ltl_shipment_async_result_response"
                 }
               }
             }
@@ -2636,9 +2533,9 @@
           "Tracking"
         ],
         "summary": "Start Tracking",
-        "description": "Allows you to subscribe to tracking updates for a package. You specify the carrier_code and tracking_number of the package, and receive notifications via [webhooks](https://platform.gigacloudlogistics.com/docs/guide/track/create-webhook.html) whenever the shipping status changes. The maximum number of subscriptions for a group is 600.",
+        "description": "Allows you to subscribe to tracking updates for a package. You specify the carrier_code and tracking_number of the package, and receive notifications via [webhooks](https://platform-staging.gigacloudlogistics.com/docs/guide/track/create-webhook.html) whenever the shipping status changes. The maximum number of subscriptions for a group is 600.",
         "externalDocs": {
-          "url": "https://platform.gigacloudlogistics.com/docs/guide/track/track-package.html#considerations",
+          "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/track/track-package.html#considerations",
           "description": "Find more info here"
         },
         "operationId": "registerTrackNum",
@@ -2921,7 +2818,7 @@
           "Tracking"
         ],
         "summary": "Manual push by Tracking Number",
-        "description": "After successfully submitting the interface, the corresponding tracking number will enter the task queue, and the push to your [webhook](https://platform.gigacloudlogistics.com/docs/guide/track/create-webhook.html) interface will be initiated by the global scheduler.",
+        "description": "After successfully submitting the interface, the corresponding tracking number will enter the task queue, and the push to your [webhook](https://platform-staging.gigacloudlogistics.com/docs/guide/track/create-webhook.html) interface will be initiated by the global scheduler.",
         "operationId": "pushTracking",
         "security": [],
         "parameters": [
@@ -3080,7 +2977,7 @@
             "example": "US",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
             }
           },
           "stateOrProvinceCode": {
@@ -3171,7 +3068,7 @@
                   "example": "GIGA"
                 },
                 "code": {
-                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
+                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform-staging.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
                   "type": "string",
                   "example": "VALIDATION_ERROR"
                 },
@@ -3219,7 +3116,7 @@
                   "example": "GIGA"
                 },
                 "code": {
-                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
+                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform-staging.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
                   "type": "string",
                   "example": "INVALID_TOKEN"
                 },
@@ -3267,7 +3164,7 @@
                   "example": "GIGA"
                 },
                 "code": {
-                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
+                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform-staging.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
                   "type": "string",
                   "example": "ACCESS_FAILURE"
                 },
@@ -3315,7 +3212,7 @@
                   "example": "GIGA"
                 },
                 "code": {
-                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
+                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform-staging.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
                   "type": "string",
                   "example": "SYS_ERROR"
                 },
@@ -3363,7 +3260,7 @@
                   "example": "GIGA"
                 },
                 "code": {
-                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
+                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform-staging.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
                   "type": "string",
                   "example": "SERVICE_UNAVAILABLE"
                 },
@@ -3420,7 +3317,7 @@
             "example": "US",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
             }
           },
           "stateOrProvinceCode": {
@@ -3457,7 +3354,7 @@
             "example": "US",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
             }
           },
           "stateOrProvinceCode": {
@@ -3567,7 +3464,7 @@
                   "example": "US",
                   "externalDocs": {
                     "description": "Find more info here",
-                    "url": "https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
+                    "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
                   }
                 },
                 "stateOrProvinceCode": {
@@ -3856,7 +3753,7 @@
           "serviceCode": {
             "description": "service code",
             "externalDocs": {
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/specify-carrier-service.html",
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/shipping/specify-carrier-service.html",
               "description": "Find more info here"
             },
             "type": "string",
@@ -4217,7 +4114,7 @@
             "example": "US",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
             }
           },
           "stateOrProvinceCode": {
@@ -4355,7 +4252,7 @@
             "description": "The package type, such as `THICK_ENVELOPE`, `SMALL_FLAT_RATE_BOX`, `LARGE_PACKAGE`, etc. The code `CUSTOM_PACKAGE` indicates a custom or unknown package type.",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html"
             }
           },
           "weight": {
@@ -4413,7 +4310,7 @@
             "description": "The carrier service used to ship the package, such as `FEDEX_GROUND`, etc. If not filled in, the quotation information of all services will be returned.\n > **Note:** If this value is not passed, the quotation information of all logistics services will be returned.",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/guides/list-carrier-service.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/guides/list-carrier-service.html"
             },
             "type": "string"
           },
@@ -4441,7 +4338,7 @@
                 "$ref": "#/components/schemas/gg_id"
               }
             ],
-            "description": "The [warehouse](https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html) that the shipment is being shipped from. "
+            "description": "The [warehouse](https://platform-staging.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html) that the shipment is being shipped from. "
           },
           "rateRequestType": {
             "description": "Indicate the type of rates to be returned.Following are values:\n - LIST - Returns FedEx published list rates in addition to account-specific rates (if applicable).\n - PREFERRED - Returns rates in the preferred currency specified in the element preferredCurrency.\n - ACCOUNT - Returns account specific rates.\n - INCENTIVE - This is one-time discount for incentivising the customer. For more information, contact your FedEx representative.",
@@ -4536,7 +4433,7 @@
                   "example": "GIGA"
                 },
                 "code": {
-                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
+                  "description": "The error code specified for the failed API Call.[Click here to see more](https://platform-staging.gigacloudlogistics.com/docs/guide/overview/error-codes.html);",
                   "type": "string",
                   "example": "DUPLICATE_REQUEST"
                 },
@@ -4600,7 +4497,7 @@
             "example": "GB",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
             }
           },
           "stateOrProvinceCode": {
@@ -4951,7 +4848,7 @@
           },
           "hazmatClass": {
             "type": "string",
-            "description": "Class of the hazardous material.[Click here to see more.](https://platform.gigacloudlogistics.com/docs)"
+            "description": "Class of the hazardous material.[Click here to see more.](https://platform-staging.gigacloudlogistics.com/docs)"
           }
         },
         "required": [
@@ -4969,7 +4866,7 @@
           "code": {
             "type": "string",
             "example": "RES",
-            "description": "The code for the accessorial service offered. [Click here to see more](https://platform.gigacloudlogistics.com/docs/guide/ltl-ship/accessorial-services.html)."
+            "description": "The code for the accessorial service offered. [Click here to see more](https://platform-staging.gigacloudlogistics.com/docs/guide/ltl-ship/accessorial-services.html)."
           },
           "attributes": {
             "type": "array",
@@ -5338,7 +5235,7 @@
             "example": "US",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
             }
           },
           "stateOrProvinceCode": {
@@ -5543,7 +5440,7 @@
           },
           "hazmatClass": {
             "type": "string",
-            "description": "Class of the hazardous material.[Click here to see more.](https://platform.gigacloudlogistics.com/docs)"
+            "description": "Class of the hazardous material.[Click here to see more.](https://platform-staging.gigacloudlogistics.com/docs)"
           }
         },
         "required": [
@@ -5595,7 +5492,7 @@
             "description": "The carrier service used to ship the package. <br/> Example: `ESTES_STANDAR`",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/guides/list-carrier-service.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/guides/list-carrier-service.html"
             },
             "example": "ESTES_STANDAR"
           },
@@ -5608,18 +5505,28 @@
                   {
                     "$ref": "#/components/schemas/ltl_shipment_contact"
                   }
-                ]
+                ],
+                "description": "Indicate the contact details for this shipment. The requirements for mandatory fields and field length limitations may vary across different carriers.",
+                "externalDocs": {
+                  "description": "Find more info here",
+                  "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/ltl-ship/validation/bol/shipper-contact.html"
+                }
               },
               "address": {
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/ltl_shipment_address"
                   }
-                ]
+                ],
+                "description": "This is detailed information on physical location. The requirements for mandatory fields and field length limitations may vary across different carriers.",
+                "externalDocs": {
+                  "description": "Find more info here",
+                  "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/ltl-ship/validation/bol/shipper-address.html"
+                }
               },
               "readyTime": {
                 "type": "string",
-                "description": "When the shipment is ready to be picked up at the Origin (start). The time will be represented in a 24-hour format.  <br/>Example: 09:00",
+                "description": "When the shipment is ready to be picked up at the Origin (start). The time will be represented in a 24-hour format.  <br/>Example: 09:00\n\n > **Note:** readyTime is required when the carrier is ESTES.",
                 "example": "09:00"
               },
               "closeTime": {
@@ -5642,14 +5549,24 @@
                   {
                     "$ref": "#/components/schemas/ltl_shipment_contact"
                   }
-                ]
+                ],
+                "description": "Indicate the contact details for this shipment. The requirements for mandatory fields and field length limitations may vary across different carriers.",
+                "externalDocs": {
+                  "description": "Find more info here",
+                  "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/ltl-ship/validation/bol/recipient-contact.html"
+                }
               },
               "address": {
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/ltl_shipment_address"
                   }
-                ]
+                ],
+                "description": "This is detailed information on physical location. The requirements for mandatory fields and field length limitations may vary across different carriers.",
+                "externalDocs": {
+                  "description": "Find more info here",
+                  "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/ltl-ship/validation/bol/recipient-address.html"
+                }
               },
               "readyTime": {
                 "type": "string",
@@ -5686,7 +5603,11 @@
                 "description": "The account number to bill for this pickup."
               },
               "address": {
-                "description": "The address of the location.",
+                "description": "Payer's address information. The requirements for mandatory fields and field length limitations may vary across different carriers.",
+                "externalDocs": {
+                  "description": "Find more info here",
+                  "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/ltl-ship/validation/bol/payor-address.html"
+                },
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/ltl_shipment_address"
@@ -5694,7 +5615,11 @@
                 ]
               },
               "contact": {
-                "description": "The information for the contact person.",
+                "description": "Payer's contact information. The requirements for mandatory fields and field length limitations may vary across different carriers.",
+                "externalDocs": {
+                  "description": "Find more info here",
+                  "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/ltl-ship/validation/bol/recipient-contact.html"
+                },
                 "allOf": [
                   {
                     "$ref": "#/components/schemas/ltl_shipment_contact"
@@ -5710,7 +5635,11 @@
             ]
           },
           "handlingUnits": {
-            "description": "Array of handling units to be included on a shipment.For example,pallets,boxes.",
+            "description": "Array of handling units to be included on a shipment.For example,pallets,boxes.The requirements for mandatory fields and field length limitations may vary across different carriers.",
+            "externalDocs": {
+              "description": "Find more info here",
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/ltl-ship/validation/bol/handlingUnits.html"
+            },
             "type": "array",
             "items": {
               "allOf": [
@@ -5819,7 +5748,11 @@
           },
           "referenceNumbers": {
             "type": "array",
-            "description": "List of reference numbers",
+            "description": "List of reference numbers.The requirements for mandatory fields and field length limitations may vary across different carriers.",
+            "externalDocs": {
+              "description": "Find more info here",
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/ltl-ship/validation/bol/referenceNumbers.html"
+            },
             "items": {
               "allOf": [
                 {
@@ -5845,6 +5778,25 @@
           "recipient",
           "shipper",
           "handlingUnits"
+        ]
+      },
+      "ltl_shipment_success_async": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "description": "Used to judge whether it is successful.",
+            "type": "boolean",
+            "example": true,
+            "default": true
+          },
+          "data": {
+            "description": "A unique identifier for subsequent asynchronously fetched results.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "success",
+          "data"
         ]
       },
       "ltl_shipment_response": {
@@ -5936,7 +5888,7 @@
           "data"
         ]
       },
-      "ltl_shipment_success_async": {
+      "ltl_shipment_async_result_response": {
         "type": "object",
         "properties": {
           "success": {
@@ -5947,7 +5899,28 @@
           },
           "data": {
             "description": "A unique identifier for subsequent asynchronously fetched results.",
-            "type": "string"
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "response": {
+                  "description": "Response body for asynchronous requests.",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ltl_success_response"
+                    }
+                  ]
+                },
+                "httpCode": {
+                  "type": "string",
+                  "description": "Http status code"
+                },
+                "requestId": {
+                  "type": "string",
+                  "description": "The unique identifier generated by the `Create Shipments Async` interface."
+                }
+              }
+            }
           }
         },
         "required": [
@@ -6011,7 +5984,7 @@
                     "example": "US",
                     "externalDocs": {
                       "description": "Find more info here",
-                      "url": "https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
+                      "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
                     }
                   },
                   "stateOrProvinceCode": {
@@ -6326,7 +6299,7 @@
             "example": "GB",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
             }
           },
           "stateOrProvinceCode": {
@@ -6383,7 +6356,7 @@
             "description": "Indicate the contact details for this shipment. The requirements for mandatory fields and field length limitations may vary across different carriers.",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/shipper/shipper-contact.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/shipping/shipper/shipper-contact.html"
             },
             "allOf": [
               {
@@ -6400,7 +6373,7 @@
             ],
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/shipper/shipper-address.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/shipping/shipper/shipper-address.html"
             }
           }
         },
@@ -6448,7 +6421,7 @@
             "example": "GB",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
             }
           },
           "stateOrProvinceCode": {
@@ -6510,7 +6483,7 @@
             ],
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/recipent/recipent-contact.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/shipping/recipent/recipent-contact.html"
             }
           },
           "address": {
@@ -6522,7 +6495,7 @@
             ],
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/recipent/recipent-address.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/shipping/recipent/recipent-address.html"
             }
           }
         },
@@ -6577,7 +6550,7 @@
             "example": "GB",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
             }
           },
           "stateOrProvinceCode": {
@@ -6732,7 +6705,7 @@
             "example": "GB",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/api-reference/country-code.html"
             }
           },
           "stateOrProvinceCode": {
@@ -7399,7 +7372,7 @@
             "description": "Indicate the types of special services requested for the shipment.",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/dangerous.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/shipping/dangerous.html"
             },
             "type": "array",
             "items": {
@@ -7423,7 +7396,7 @@
                   "description": "click here to see Package Special Service Types",
                   "externalDocs": {
                     "description": "Find more info here",
-                    "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/dangerous.html"
+                    "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/shipping/dangerous.html"
                   },
                   "type": "string",
                   "example": "age"
@@ -7432,7 +7405,7 @@
                   "description": "click here to see Package Special Service Types",
                   "externalDocs": {
                     "description": "Find more info here",
-                    "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/dangerous.html"
+                    "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/shipping/dangerous.html"
                   },
                   "type": "string",
                   "example": "17"
@@ -7500,7 +7473,7 @@
             "description": "The package type, such as `THICK_ENVELOPE`, `SMALL_FLAT_RATE_BOX`, `LARGE_PACKAGE`, etc. The code `CUSTOM_PACKAGE` indicates a custom or unknown package type. current version is not used.",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html"
             }
           },
           "itemCode": {
@@ -7518,7 +7491,7 @@
             "description": "These are the package weight details.",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/size-and-weight.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/shipping/size-and-weight.html"
             }
           },
           "dimensions": {
@@ -7530,7 +7503,7 @@
             "description": "Indicate the dimensions of the package.\n\n - Dimensions are optional but when added, then all three dimensions must be indicated.\n \n\n > **Note:** Required if current carrier is WHISTL, FedEx.",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/size-and-weight.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/shipping/size-and-weight.html"
             }
           },
           "declaredInfo": {
@@ -7555,7 +7528,7 @@
             },
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/declared-Info.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/shipping/declared-Info.html"
             }
           },
           "specialService": {
@@ -7573,7 +7546,7 @@
             ],
             "description": "This is a customer reference type. The value specified here for the element is printed on the Commercial Invoice only for tracking and label information.",
             "externalDocs": {
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping-labels/custom-label-messages.html",
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/shipping-labels/custom-label-messages.html",
               "description": "Click to view customer reference limit"
             }
           }
@@ -7615,7 +7588,7 @@
           },
           "issuingAuthority": {
             "type": "string",
-            "description": "The authority that issued this tax. This must be a valid 2 character [country code](https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html)."
+            "description": "The authority that issued this tax. This must be a valid 2 character [country code](https://platform-staging.gigacloudlogistics.com/docs/guide/api-reference/country-code.html)."
           },
           "value": {
             "type": "string",
@@ -7761,7 +7734,7 @@
             "description": "The carrier service used to ship the package, such as `FEDEX_GROUND`, etc.",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/guides/list-carrier-service.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/guides/list-carrier-service.html"
             },
             "type": "string"
           },
@@ -7797,7 +7770,7 @@
                 "$ref": "#/components/schemas/gg_id"
               }
             ],
-            "description": "The [warehouse](https://platform.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html) that the shipment is being shipped from. "
+            "description": "The [warehouse](https://platform-staging.gigacloudlogistics.com/docs/guide/other/guide-to-reading.html) that the shipment is being shipped from. "
           },
           "returnAddress": {
             "type": "object",
@@ -7852,7 +7825,7 @@
               }
             ],
             "externalDocs": {
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping-labels/label-description.html",
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/shipping-labels/label-description.html",
               "description": "Find more info here"
             }
           },
@@ -8007,8 +7980,8 @@
             ],
             "description": "This is a customer reference type. The value specified here for the element is printed on the Commercial Invoice only for tracking and label information.",
             "externalDocs": {
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping-labels/custom-label-messages.html",
-              "description": "[Click to view customer reference limit](https://platform.gigacloudlogistics.com/docs/guide/shipping-labels/custom-label-messages.html)"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/shipping-labels/custom-label-messages.html",
+              "description": "[Click to view customer reference limit](https://platform-staging.gigacloudlogistics.com/docs/guide/shipping-labels/custom-label-messages.html)"
             }
           },
           "packageDocuments": {
@@ -8062,7 +8035,7 @@
             "description": "The carrier service used to ship the package, such as `FEDEX_GROUND`, etc.",
             "externalDocs": {
               "description": "Find more info here",
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/shipping/specify-carrier-service.html"
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/shipping/specify-carrier-service.html"
             },
             "type": "string"
           },
@@ -8425,7 +8398,7 @@
             "type": "string",
             "minLength": 2,
             "maxLength": 2,
-            "description": "The two-letter [country code](https://platform.gigacloudlogistics.com/docs/guide/api-reference/country-code.html)",
+            "description": "The two-letter [country code](https://platform-staging.gigacloudlogistics.com/docs/guide/api-reference/country-code.html)",
             "example": "US"
           },
           "addressResidentialIndicator": {
@@ -8671,7 +8644,7 @@
             "maxLength": 10,
             "description": "Additional tracking parameters for the logistics tracking number (some carriers with specific requirements might need postal code or order date to query package information).",
             "externalDocs": {
-              "url": "https://platform.gigacloudlogistics.com/docs/guide/track/track-package.html#considerations",
+              "url": "https://platform-staging.gigacloudlogistics.com/docs/guide/track/track-package.html#considerations",
               "description": "Click to view rules"
             }
           },
