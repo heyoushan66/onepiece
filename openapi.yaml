@@ -3819,17 +3819,11 @@ components:
           type: string
           description: The [NMFC commodity code](https://nmfta.org/) / item number.
         dimensions:
-          description: |-
-            The dimensions of the container.
-
-             > **Note** Either weight or dimensions is required.
+          description: The dimensions of the container.
           allOf:
             - $ref: '#/components/schemas/dimensions'
         weight:
-          description: |-
-            The weight of the container.
-
-             > **Note** Either weight or dimensions is required.
+          description: The weight of the container.
           allOf:
             - $ref: '#/components/schemas/weight'
         quantity:
