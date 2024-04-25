@@ -4018,6 +4018,10 @@ components:
             - address
         payor:
           type: object
+          description: |-
+            Specifies the payment details specifying the method and means of payment to carrier for providing shipping services. The difference between each carrier is as follows.
+
+             > - **ESTES** : Required
           properties:
             type:
               type: string
@@ -4061,8 +4065,6 @@ components:
           required:
             - type
             - terms
-            - address
-            - contact
         handlingUnits:
           description: Array of handling units to be included on a shipment.For example,pallets,boxes.The requirements for mandatory fields and field length limitations may vary across different carriers.
           externalDocs:

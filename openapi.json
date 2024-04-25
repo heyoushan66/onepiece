@@ -5586,6 +5586,7 @@
           },
           "payor": {
             "type": "object",
+            "description": "Specifies the payment details specifying the method and means of payment to carrier for providing shipping services. The difference between each carrier is as follows.\n\n > - **ESTES** : Required",
             "properties": {
               "type": {
                 "type": "string",
@@ -5629,9 +5630,7 @@
             },
             "required": [
               "type",
-              "terms",
-              "address",
-              "contact"
+              "terms"
             ]
           },
           "handlingUnits": {
