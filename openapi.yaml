@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 1.0.20240315_Beta
+  version: 1.0.20240507
   title: GigaLogistics API
   termsOfService: https://platform-staging.gigacloudlogistics.com/docs/
   contact:
@@ -64,7 +64,18 @@ tags:
     description: |-
       This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.
 
-      ### Version: 1.0.20240315_Beta (current)
+      ### Version: 1.0.20240507 (current)
+
+      ### Changes
+      - Add Interface  [Create Shipment Async](#tag/LTL-Shipping/operation/createShipmentAsync)
+        - See the interface description for details
+      - Add Interface  [Retrieve Async Shipments Result](#tag/LTL-Shipping/operation/LTLAsyncRetrieveShipmentsResult)
+        - See the interface description for details
+      - Add Interface  [Pickup Request](#tag/LTL-Shipping/operation/pickup)
+        - See the interface description for details
+      ---
+
+      ### Version: 1.0.20240315_Beta
 
       #### Changes
       - Update Interface [Validate Address](#tag/Addresses/operation/AdvcStreetLevel)
@@ -3302,7 +3313,6 @@ components:
         amount:
           type: number
           format: double
-          maxLength: 0
           description: Insurable total product value for the items.
           example: 10
       required:
