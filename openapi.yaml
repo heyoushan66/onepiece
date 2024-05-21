@@ -3914,6 +3914,23 @@ components:
         - quantity
         - pieces
         - weight
+    accessorials_bol:
+      type: object
+      properties:
+        code:
+          type: string
+          example: RES
+          description: The code for the accessorial service offered. [Click here to see more](https://platform-staging.gigacloudlogistics.com/docs/guide/ltl-ship/accessorial-services-bol.html).
+        attributes:
+          type: array
+          description: Some carriers require additional supplemental information about an accessorial service like name or phone. These requirements are outlined here.
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              value:
+                type: string
     reference_number:
       type: object
       properties:
@@ -4173,7 +4190,7 @@ components:
           description: The accessorial services.
           items:
             allOf:
-              - $ref: '#/components/schemas/accessorials'
+              - $ref: '#/components/schemas/accessorials_bol'
         referenceNumbers:
           type: array
           description: List of reference numbers.The requirements for mandatory fields and field length limitations may vary across different carriers.
