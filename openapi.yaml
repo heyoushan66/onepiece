@@ -22,6 +22,17 @@ info:
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: http://sit.gateway.orsd.tech/gw
+    description: Development Sandbox Server
+  - url: http://uat.gateway.orsd.tech/gw
+    description: Sandbox Server
+  - url: http://outer.pre-release.hk.gateway.orsd.tech/gw
+    description: Pre-Release Server
+  - url: https://apis.gigacloudlogistics.com
+    description: Production Server
+  - url: http://outer.us.gateway.orsd.tech/gw
+    description: US Production Server
 tags:
   - name: Authentication
     description: To authenticate yourself to GIGALOGISTICS, you need to include an `Authorization` header in each API call. If you don't include a key when making an API request, or if you use an incorrect or expired key, then GIGALOGISTICS will respond with a `401 Unauthorized` error.<br> <br> Learn more about API keys in our [authentication guide](https://platform-staging.gigacloudlogistics.com/docs/guide/guides/oauth2.html).
@@ -64,7 +75,18 @@ tags:
     description: |-
       This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.
 
-      ### Version: 1.0.20240507 (current)
+      ### Version: 1.0.20240705 (current)
+
+      ### Changes
+      - Update Interface  [Create Shipments](#tag/Shipments/operation/createShipment)
+        - The interface added support for the currency CAD.
+        - The interface req field recipient.address.stateOrProvinceCode required for CA now.
+      - Update Interface  [Get Shipping Rates](#tag/Rates/operation/getShippingRates)
+        - The interface added support for the currency CAD.
+      ---
+
+
+      ### Version: 1.0.20240507
 
       ### Changes
       - Add Interface  [Create Shipment Async](#tag/LTL-Shipping/operation/createShipmentAsync)
@@ -284,17 +306,6 @@ tags:
       - [Create Warehouse](#tag/Warehouses/operation/createWarehouse) interface parameter adjustment
           - update field `stateProvince`
           > Applicable to `originAddressre`, `returnAddress` field address information, only required when the country of the address is US.
-servers:
-  - url: http://sit.gateway.orsd.tech/gw
-    description: Development Sandbox Server
-  - url: http://uat.gateway.orsd.tech/gw
-    description: Sandbox Server
-  - url: http://outer.pre-release.hk.gateway.orsd.tech/gw
-    description: Pre-Release Server
-  - url: https://apis.gigacloudlogistics.com
-    description: Production Server
-  - url: http://outer.us.gateway.orsd.tech/gw
-    description: US Production Server
 paths:
   /oauth/token:
     post:
@@ -3069,6 +3080,7 @@ components:
                 - EUR
                 - JPY
                 - GBP
+                - CAD
               description: The currencies that are supported by GIGALOGISTICS.
             amount:
               type: number
@@ -3952,7 +3964,7 @@ components:
 
              `bol`: Bill of Lading number(s) for the shipment.
 
-             `po`: Purchase Number. 
+             `po`: Purchase Number.
         value:
           type: string
           example: '98357607'
@@ -4557,7 +4569,7 @@ components:
 
                    `SID`: Ship ID#
 
-                   `SNO`: Shipper Numbers 
+                   `SNO`: Shipper Numbers
               value:
                 type: string
                 example: '98357607'
@@ -4621,8 +4633,8 @@ components:
                    `TL`:Truckload
 
                    `TO`:Totes
+                
 
-                   
                 enum:
                   - BD
                   - BG
@@ -4816,7 +4828,7 @@ components:
             description: Find more info here
             url: https://platform-staging.gigacloudlogistics.com/docs/guide/api-reference/country-code.html
         stateOrProvinceCode:
-          description: This is a placeholder for state or province code. Required when used for US.
+          description: This is a placeholder for state or province code. Required when used for US, CA.
           type: string
           example: TEST
         city:
@@ -5656,8 +5668,8 @@ components:
             Indicate the dimensions of the package.
 
              - Dimensions are optional but when added, then all three dimensions must be indicated.
-             
-
+            
+            
              > **Note:** Required if current carrier is WHISTL, FedEx.
           externalDocs:
             description: Find more info here
@@ -5673,6 +5685,7 @@ components:
                 - EUR
                 - JPY
                 - GBP
+                - CAD
               description: The currencies that are supported by GIGALOGISTICS.
             amount:
               type: number
@@ -5924,7 +5937,7 @@ components:
           description: |-
             The difference between each carrier is as follows.
 
-             > - **DPD_UK**: Required, Required combination: EORI(SHIPPER) + IOSS(SHIPPER). 
+             > - **DPD_UK**: Required, Required combination: EORI(SHIPPER) + IOSS(SHIPPER).
           items:
             allOf:
               - $ref: '#/components/schemas/tax_indentifiers'
@@ -6718,7 +6731,7 @@ components:
                        |`3`        |PICKED UP 
                        |`4`        |IN TRANSIT
                        |`5`        |DELIVERED  
-                       |`6`        |EXCEPTION 
+                       |`6`        |EXCEPTION
                     type: number
                     example: 4
                   lastNodeStatusDescription:
@@ -6775,7 +6788,7 @@ components:
                              |`3`        |PICKED UP 
                              |`4`        |IN TRANSIT
                              |`5`        |DELIVERED  
-                             |`6`        |EXCEPTION 
+                             |`6`        |EXCEPTION
                           type: number
                           example: 4
                         logisticsStatusDescription:
