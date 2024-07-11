@@ -75,7 +75,17 @@ tags:
     description: |-
       This is the list of changelogs of GIGALOGISTICS new release. You can get the detail information of each version's new features and bug solutions.
 
-      ### Version: 1.0.20240705 (current)
+      ### Version: 1.0.20240709 (current)
+
+      ### Changes
+      - Update Interface  [Create Shipments](#tag/Shipments/operation/createShipment)
+        - Update field `instructions`,`streetLine2`
+          > Switch mapping meanings between `instructions` and `streetLine2` in `shipper.address` and `recipient.address`
+        - Add field `houseNumber`
+          > Applicable to the address information of the `recipient.address` fields, only applicable to DPD_DE
+
+      ---
+      ### Version: 1.0.20240705
 
       ### Changes
       - Update Interface  [Create Shipments](#tag/Shipments/operation/createShipment)
@@ -4763,9 +4773,9 @@ components:
           type: string
           example: TEST3
         instructions:
-          description: This is the address remarks, such as fill in house number.
+          description: This is the address remarks.
           type: string
-          example: Haseneggstrasse 29
+          example: comment
         addressType:
           description: Indicate this address type, Only `RESIDENTIAL` means residential (private).
           type: string
@@ -4852,9 +4862,13 @@ components:
           type: string
           example: TEST3
         instructions:
-          description: This is the address remarks, such as fill in house number.
+          description: This is the address remarks.
           type: string
-          example: Haseneggstrasse 29
+          example: comment
+        houseNumber:
+          description: This is the street number or house number.
+          type: string
+          example: 12
         addressType:
           description: Indicate this address type, Only `RESIDENTIAL` means residential (private).
           type: string
